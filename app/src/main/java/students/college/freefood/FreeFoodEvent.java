@@ -3,6 +3,7 @@ package students.college.freefood;
 import android.location.Location;
 import android.util.StringBuilderPrinter;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,9 +15,9 @@ import java.util.StringTokenizer;
  * Events are made here, and should be found from Json
  */
 
-public class FreeFoodEvent {
+public class FreeFoodEvent implements Serializable{
     private String m_name;
-    private Location m_location;
+    private String m_location;
     private String m_description;
     private String m_startTime;
     private String m_endTime;
@@ -26,12 +27,12 @@ public class FreeFoodEvent {
         m_description = "We made an app";
         m_startTime = "10/07/2017 10:00";
         m_endTime =m_startTime;
-        m_location = new Location("");
+        m_location = "";
     }
 
-    FreeFoodEvent(String name, String descritpion, Location location, String startTime, String endTime) {
+    FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime) {
         m_name = name;
-        m_location = location;
+        m_lat = "";
         m_description = descritpion;
         m_endTime = endTime;
         m_startTime = startTime;
@@ -48,7 +49,7 @@ public class FreeFoodEvent {
         m_description = des;
     }
 
-    public void setLocation(Location loc) {
+    public void setLocation(String loc) {
         m_location = loc;
     }
 
@@ -69,7 +70,7 @@ public class FreeFoodEvent {
         return m_description;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return m_location;
     }
 

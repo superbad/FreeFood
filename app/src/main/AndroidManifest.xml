@@ -39,6 +39,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".eventListThing"/>
+        <activity android:name=".EventDetails"/>
     </application>
 
 </manifest>

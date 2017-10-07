@@ -4,12 +4,4 @@
     android:layout_height="match_parent"
     android:id="@+id/eventListLayout">
 
-<<<<<<< HEAD
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-=======
->>>>>>> f69f8130be7808a5cb963bf634129d086cdc7d1e
 </LinearLayout>
