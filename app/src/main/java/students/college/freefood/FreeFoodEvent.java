@@ -10,6 +10,8 @@ import java.util.StringTokenizer;
 
 /**
  * Created by Robert Bradshaw on 10/7/2017.
+ *
+ * Events are made here, and should be found from Json
  */
 
 public class FreeFoodEvent {
@@ -34,6 +36,8 @@ public class FreeFoodEvent {
         m_endTime = endTime;
         m_startTime = startTime;
     }
+
+    //FreeFoodEvent() //Make this one work with json data
 
     //setters
     public void setName(String name) {
@@ -77,7 +81,9 @@ public class FreeFoodEvent {
         return m_endTime;
     }
 
-    public String sQLToJava(String date)
+
+/*
+    public String jSonTimeToJava(String date)
     {
         String formattedDate = "";
         try {
@@ -96,7 +102,7 @@ public class FreeFoodEvent {
         return formattedDate;
     }
 
-    public String javaToSQL(String date)
+    public String javaTimeToJson(String date)
     {
         String formattedDate = "";
         try
@@ -113,5 +119,5 @@ public class FreeFoodEvent {
         }
         return formattedDate;
     }
-
+*/
 }

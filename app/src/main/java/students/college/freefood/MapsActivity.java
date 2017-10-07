@@ -270,6 +270,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      */
     public void keyPrivateVariablesToLayout()
     {
+        Intent i = new Intent(getApplicationContext(),eventListThing.class);
+        startActivity(i);
     }
 
 
