@@ -1,28 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
     android:weightSum="1">
-
-    <TextView
-        android:id="@+id/eventTextViewName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"
-        android:text="Event 1"
-        android:textSize="30sp" />
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="275dp" />
+        android:layout_height="323dp"
+        android:background="@drawable/common_google_signin_btn_icon_light_normal" />
+
+
+    <!--<TextView
+        android:id="@+id/eventTextViewName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Event 1"
+        android:gravity="center_vertical"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/eventTextViewDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.05"
-        android:text="Description Stuff\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Cras purus nisi, efficitur ac iaculis at, tempor vitae tellus. Ut vel efficitur nisi. Cras elementum elit vitae semper molestie. Nullam commodo ipsum eget turpis accumsan ultrices. Aenean laoreet nec risus ac dapibus. Mauris quis aliquet lorem. Curabitur suscipit odio ac turpis vestibulum bibendum. Praesent dignissim, odio eget ullamcorper porttitor, turpis ex vestibulum elit, eget consequat orci dui ornare tellus. Donec venenatis in nibh hendrerit maximus."
-        android:textSize="1dp" />
+        android:fontFamily="sans-serif-condensed"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras purus nisi, efficitur ac iaculis at, tempor vitae tellus. Ut vel efficitur nisi. Cras elementum elit vitae semper molestie. Nullam commodo ipsum eget turpis accumsan ultrices. Aenean laoreet nec risus ac dapibus. Mauris quis aliquet lorem. Curabitur suscipit odio ac turpis vestibulum bibendum. Praesent dignissim, odio eget ullamcorper porttitor, turpis ex vestibulum elit, eget consequat orci dui ornare tellus. Donec venenatis in nibh hendrerit maximus."
+        android:textSize="15dp" />-->
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:padding="6dip" >
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="6dip"
+            android:contentDescription="TODO"
+            android:src="@mipmap/ic_launcher"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/eventLocation"
+            android:layout_width="fill_parent"
+            android:layout_height="26dip"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/icon"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            android:text="Location"
+            android:textSize="12sp"
+            android:layout_alignParentTop="true" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:padding="6dip" >
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="6dip"
+            android:contentDescription="TODO"
+            android:src="@mipmap/ic_launcher"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/eventLocation"
+            android:layout_width="fill_parent"
+            android:layout_height="26dip"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/icon"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            android:text="Location"
+            android:textSize="12sp"
+            android:layout_alignParentTop="true" />
+
+    </RelativeLayout>
+
+
 
 
 

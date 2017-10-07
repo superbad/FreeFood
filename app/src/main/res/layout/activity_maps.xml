@@ -64,12 +64,12 @@
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="100px"
-            android:layout_height="100px"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text="" />
+            android:text=">" />
 
     </RelativeLayout>
 
