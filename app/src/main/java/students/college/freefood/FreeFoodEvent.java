@@ -17,7 +17,8 @@ import java.util.StringTokenizer;
 
 public class FreeFoodEvent implements Serializable{
     private String m_name;
-    private String m_location;
+    private String m_lat;
+    private String m_lon;
     private String m_description;
     private String m_startTime;
     private String m_endTime;
@@ -27,12 +28,14 @@ public class FreeFoodEvent implements Serializable{
         m_description = "We made an app";
         m_startTime = "10/07/2017 10:00";
         m_endTime =m_startTime;
-        m_location = "";
+        m_lon = "";
+        m_lat = "";
     }
 
     FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime) {
         m_name = name;
-        m_lat = "";
+        m_lat = lat;
+        m_lon = lon;
         m_description = descritpion;
         m_endTime = endTime;
         m_startTime = startTime;
@@ -49,9 +52,9 @@ public class FreeFoodEvent implements Serializable{
         m_description = des;
     }
 
-    public void setLocation(String loc) {
-        m_location = loc;
-    }
+    public void setLat(String lat){m_lat = lat;}
+
+    public void setLon(String lon){m_lon = lon;}
 
     public void setStartTime(String startTime) {
         m_startTime = startTime;
@@ -70,9 +73,9 @@ public class FreeFoodEvent implements Serializable{
         return m_description;
     }
 
-    public String getLocation() {
-        return m_location;
-    }
+    public String getLat(){return m_lat;}
+
+    public String getLon(){return m_lon;}
 
     public String getStartTime() {
         return m_startTime;
