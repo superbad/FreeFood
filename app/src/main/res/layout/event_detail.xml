@@ -5,7 +5,7 @@
     android:weightSum="1">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/eventTextViewName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.05"
@@ -17,12 +17,12 @@
         android:layout_height="275dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/eventTextViewDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.05"
         android:text="Description Stuff\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Cras purus nisi, efficitur ac iaculis at, tempor vitae tellus. Ut vel efficitur nisi. Cras elementum elit vitae semper molestie. Nullam commodo ipsum eget turpis accumsan ultrices. Aenean laoreet nec risus ac dapibus. Mauris quis aliquet lorem. Curabitur suscipit odio ac turpis vestibulum bibendum. Praesent dignissim, odio eget ullamcorper porttitor, turpis ex vestibulum elit, eget consequat orci dui ornare tellus. Donec venenatis in nibh hendrerit maximus."
-        android:textSize="sp" />
+        android:textSize="1dp" />
 
 
 
