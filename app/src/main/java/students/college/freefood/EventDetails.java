@@ -34,7 +34,7 @@ public class EventDetails extends Activity
 
         eventName.setText(ffe.getName());
         eventDesc.setText(ffe.getDescription());
-        eventLoc.setText(ffe.getLat()+" , "+ffe.getLon());
+        eventLoc.setText(ffe.getAddress());
         eventTime.setText(ffe.getStartTime()+" - "+ffe.getEndTime());
     }
 }
