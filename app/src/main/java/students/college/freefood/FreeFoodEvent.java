@@ -3,6 +3,8 @@ package students.college.freefood;
 import android.location.Location;
 import android.util.StringBuilderPrinter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.StringTokenizer;
 
@@ -14,18 +16,18 @@ public class FreeFoodEvent {
     private String m_name;
     private Location m_location;
     private String m_description;
-    private Date m_startTime;
-    private Date m_endTime;
+    private String m_startTime;
+    private String m_endTime;
 
     FreeFoodEvent() {
         m_name = "HackUMBC";
         m_description = "We made an app";
-        m_startTime = new Date(System.currentTimeMillis());
+        m_startTime = "10/07/2017 10:00";
         m_endTime =m_startTime;
         m_location = new Location("");
     }
 
-    FreeFoodEvent(String name, String descritpion, Location location, Date startTime, Date endTime) {
+    FreeFoodEvent(String name, String descritpion, Location location, String startTime, String endTime) {
         m_name = name;
         m_location = location;
         m_description = descritpion;
@@ -46,11 +48,11 @@ public class FreeFoodEvent {
         m_location = loc;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         m_startTime = startTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         m_endTime = endTime;
     }
 
@@ -67,45 +69,49 @@ public class FreeFoodEvent {
         return m_location;
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return m_startTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return m_endTime;
     }
 
-    public String getStartTimeString()
+    public String sQLToJava(String date)
     {
-        return dateStringFixer(m_startTime.toString());
-    }
-    public String getEndTimeString()
-    {
-        return dateStringFixer(m_endTime.toString());
+        String formattedDate = "";
+        try {
+            SimpleDateFormat readFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:SS", java.util.Locale.getDefault());
+            SimpleDateFormat writeFormat = new SimpleDateFormat( "HH:mm MMM/dd/yyyy", java.util.Locale.getDefault());
+
+            java.util.Date convertedDate = readFormat.parse( date );
+
+            formattedDate = writeFormat.format( convertedDate );
+
+        }
+        catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        return formattedDate;
     }
 
-    private String dateStringFixer(String date)
+    public String javaToSQL(String date)
     {
-        String ret = "";
-        StringTokenizer tok = new StringTokenizer(date," :");
-        int i = 0;
-        while(tok.hasMoreElements())
+        String formattedDate = "";
+        try
         {
-            if(i < 5) {
-                ret += tok.nextToken().toString();
-                if (i == 3) {
-                    ret += ":";
-                } else {
-                    ret += " ";
-                }
-            }
-            else
-            {
-                tok.nextToken();
-            }
-            i++;
+            SimpleDateFormat readFormat = new SimpleDateFormat( "HH:mm MMM/dd/yyyy", java.util.Locale.getDefault());
+            SimpleDateFormat writeFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:SS", java.util.Locale.getDefault());
+
+            java.util.Date convertedDate = readFormat.parse( date );
+            formattedDate = writeFormat.format( convertedDate );
         }
-        System.out.println("The date is: "+ret);
-        return ret;
+        catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        return formattedDate;
     }
+
 }
