@@ -1,6 +1,7 @@
 package students.college.freefood;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -10,6 +11,8 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -43,28 +46,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private LocationRequest mLocationRequest;
 
 
-    //    private void setUpMap() {
-//        mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//    }
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        //setContentView(R.layout.neviano_maps);
-//
-//        try {
-//            // Loading map
-//            initilizeMap();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     /**
-     * When this view is loaded
-     * @param savedInstanceState
+     * When this view is loaded (when a user clicks on our app for the first time, and it wasnt already open)
+     * @param savedInstanceState - if there is some cache for the app this is it.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +61,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        keyPrivateVariablesToLayout();
     }
 
+    /**
+     * When the app is ready to display the map (immediately after onCreate)
+     * @param googleMap some variable for the map.
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -101,6 +91,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             mMap.setMyLocationEnabled(true);
         }
     }
+
+    /**
+     * This is part of letting google know we are allowed to use their map
+     */
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -111,6 +105,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     }
 
 
+    /**
+     * What to do when the app is connected to the internet. (connects them to gooogle maps)
+     * @param bundle - Im not sure what this is.
+     */
     @Override
     public void onConnected(Bundle bundle) {
 
@@ -126,11 +124,19 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
     }
 
+    /**
+     * What to do if the user suspends the app (if we want to do anything?
+     * @param i
+     */
     @Override
     public void onConnectionSuspended(int i) {
 
     }
 
+    /**
+     * What to do when the user's location is updated
+     * @param location - the user's current location
+     */
     @Override
     public void onLocationChanged(Location location) {
 
@@ -158,11 +164,18 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
     }
 
+    /**
+     * What to do if the user has no internect connection?
+     * @param connectionResult - the result of checking their connection status
+     */
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
 
+    /*
+        Asks the user if we can use their current location.
+     */
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
     public boolean checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(this,
@@ -195,6 +208,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         }
     }
 
+    /**
+     * Gets the results from asking the user for permission to use their current location
+     * @param requestCode - what type of request was asked (in this case it will be a request for location permission)
+     * @param permissions - what permissions were given
+     * @param grantResults - the results from the user. 1 is allow, -1 is don't allow.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -231,17 +250,27 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
     /**
      * handle marker click event
+     * This function should show the user some information about the event going down at
+     * the clicked location.
      */
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        //if(marker.equals(marker_1)){
-        //Intent i = new Intent(this, informazioni.class);
-        //i.putExtra("str1", db.getCulturaName(arg0.getTitle()).getDescription());
-        //startActivity(i);
+        //Intent intnet;//Should link to a layout that gives info about the event
+        //getIntent().putExtra();//grab the party info from the database based on the location clicked
+        //startActivity(intent);
         Log.w("Click", "test");
         return false;
-        //}
-        //return false;
+
     }
+
+    /**
+     * This is a quick function for initializing the variables of this class to the
+     * IDs of different views on the layout.
+     */
+    public void keyPrivateVariablesToLayout()
+    {
+    }
+
+
 }
