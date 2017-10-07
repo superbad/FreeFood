@@ -28,8 +28,8 @@ public class FreeFoodEvent implements Serializable{
         m_description = "We made an app";
         m_startTime = "10/07/2017 10:00";
         m_endTime =m_startTime;
-        m_lon = "";
-        m_lat = "";
+        m_lon = "SOME";
+        m_lat = "WHERE";
     }
 
     FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime) {
