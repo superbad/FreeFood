@@ -22,6 +22,7 @@ public class FreeFoodEvent implements Serializable{
     private String m_description;
     private String m_startTime;
     private String m_endTime;
+    private String m_address;
 
     FreeFoodEvent() {
         m_name = "HackUMBC";
@@ -30,15 +31,17 @@ public class FreeFoodEvent implements Serializable{
         m_endTime =m_startTime;
         m_lon = "SOME";
         m_lat = "WHERE";
+        m_address = "1000 Hilltop Circle - ITE";
     }
 
-    FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime) {
+    FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime, String address) {
         m_name = name;
         m_lat = lat;
         m_lon = lon;
         m_description = descritpion;
         m_endTime = endTime;
         m_startTime = startTime;
+        m_address = address;
     }
 
     //FreeFoodEvent() //Make this one work with json data
@@ -64,6 +67,8 @@ public class FreeFoodEvent implements Serializable{
         m_endTime = endTime;
     }
 
+    public void setAddress(String address){m_address = address;}
+
     //getters
     public String getName() {
         return m_name;
@@ -84,6 +89,8 @@ public class FreeFoodEvent implements Serializable{
     public String getEndTime() {
         return m_endTime;
     }
+
+    public String getAddress(){return m_address;}
 
 
 /*
