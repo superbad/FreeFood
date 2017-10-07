@@ -61,6 +61,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //            e.printStackTrace();
 //        }
 //    }
+
+    /**
+     * When this view is loaded
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,73 +78,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-//
-//    /**
-//     * function to load map. If map is not created it will create it for you
-//     * */
-//    private void initilizeMap() {
-//        if (mMap == null) {
-//            mMap = ((MapFragment) getFragmentManager().findFragmentById(
-//                    R.id.map)).getMap();
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        mMap = googleMap;
-//        mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
-//
-//        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//
-//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 123);
-//        }
-//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            mMap.setMyLocationEnabled(true);
-//            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-//            Criteria criteria = new Criteria();
-//            provider = locationManager.getBestProvider(criteria, true);
-//            Location location = locationManager.getLastKnownLocation(provider);
-//            if (location != null) {
-//                onLocationChanged(location);
-//
-//            }
-//        }
-
-//        mMap.setOnMarkerClickListener(new OnMarkerClickListener() {
-//            @Override
-//            public boolean onMarkerClick(Marker marker) {
-//                return false;
-//            }
-//        });
-    //private static final LatLng MELBOURNE = new LatLng(-37.813, 144.962);
-    //private Marker melbourne = mMap.addMarker(new MarkerOptions()
-    //        .position(MELBOURNE)
-    //        .title("Melbourne")
-    //        .snippet("Population: 4,137,400")
-    //        .icon(BitmapDescriptorFactory.fromResource(R.drawable.arrow)));
-//    }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
