@@ -213,7 +213,15 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mlatLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+
+        if(mdistance > 15)
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        else if(mdistance > 10)
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
+        else if(mdistance > 5)
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(12));
+        else
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
 
         //stop location updates
         if (mGoogleApiClient != null) {
