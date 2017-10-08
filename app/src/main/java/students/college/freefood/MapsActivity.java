@@ -380,8 +380,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             markerOptions.title(ffeArray.get(i).getName());
 //        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
             mCurrLocationMarker = mMap.addMarker(markerOptions);
-            new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
-                    mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance);
             //add this layout to the full layout
             layoutSpace.addView(a);
         }
