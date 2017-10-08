@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -30,6 +31,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener,
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -41,7 +55,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
     private LocationRequest mLocationRequest;
-    private FreeFoodEvent[] ffeArray;
+    private ArrayList<FreeFoodEvent> ffeArray = new ArrayList<FreeFoodEvent>();
+    private int mdistance = 20;
+    private LatLng mlatLng = new LatLng(38.9783, -76.4925);
 
 
     /**
@@ -54,27 +70,29 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         setContentView(R.layout.activity_maps);
 
         Intent intent = getIntent();
-        int r = (int)intent.getIntExtra("radius",1);
+        int r = (int)intent.getIntExtra("radius",20);
         System.out.println("THE RADIUS IS: "+r);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             checkLocationPermission();
         }
         //There needs to be a dynamic way to set this array later
-        ffeArray = new FreeFoodEvent[5];
+        //ffeArray = new FreeFoodEvent[5];
 
         //set up array here:
-        for(int i = 0 ; i < 5; i++)
-        {
-            ffeArray[i] = new FreeFoodEvent();
-            ffeArray[i].setName("Rick and Morty Season "+i);
-        }
+        //for(int i = 0 ; i < 5; i++)
+        //{
+        //    ffeArray[i] = new FreeFoodEvent();
+        //    ffeArray[i].setName("Rick and Morty Season "+i);
+        //}
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         keyPrivateVariablesToLayout();
-        generateEventList();
+        //generateEventList();
+        new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
+                mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance);
     }
 
     /**
@@ -85,9 +103,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 //        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        LatLng latLng = new LatLng(38.9783, -76.4925);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mlatLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+
 
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -158,15 +176,17 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         }
 
         //Place current location marker
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        mlatLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
+        markerOptions.position(mlatLng);
         markerOptions.title("New Marker!");
 //        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
+        new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
+                mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance);
 
         //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mlatLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
 
         //stop location updates
@@ -301,7 +321,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     {
         LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
 
-        for(int i = 0; i < ffeArray.length; i++)
+        for(int i = 0; i < ffeArray.size(); i++)
         {
             LinearLayout a = new LinearLayout(this);
             a.setOrientation(LinearLayout.HORIZONTAL);
@@ -317,7 +337,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
             // the name of the event (as a text view)
             TextView tv = new TextView(this);
-            tv.setText(ffeArray[i].getName());
+            tv.setText(ffeArray.get(i).getName());
+            Log.d("i: "+ i, " array: "+ ffeArray.get(i).toString());
             tv.setWidth(600);
             tv.setHeight(50);
             a.addView(tv);
@@ -333,8 +354,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 //This should be changed in the future to link to the event with description
                 public void onClick(View view) {
                     Intent i = new Intent(getApplicationContext(), EventDetails.class);
-                    System.out.println(ffeArray[Integer.parseInt(eventButton.getText().toString())].getName());
-                    FreeFoodEvent ffe = ffeArray[Integer.parseInt(eventButton.getText().toString())];
+                    System.out.println(ffeArray.get(Integer.parseInt(eventButton.getText().toString())).getName());
+                    FreeFoodEvent ffe = ffeArray.get(Integer.parseInt(eventButton.getText().toString()));
                     i.putExtra("event", ffe);
                     startActivity(i);
                 }
@@ -343,6 +364,73 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
             //add this layout to the full layout
             layoutSpace.addView(a);
+        }
+    }
+
+    private class getEvents extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+
+            try {
+                URL url = new URL(params[0]);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+
+
+                InputStream stream = connection.getInputStream();
+
+                reader = new BufferedReader(new InputStreamReader(stream));
+
+                StringBuffer buffer = new StringBuffer();
+                String line = "";
+
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line + "\n");
+                    Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
+
+                }
+
+                return buffer.toString();
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String jsonStr)
+        {
+            try {
+                JSONArray jsonarray = new JSONArray(jsonStr);
+                for (int i = 0; i < jsonarray.length(); i++) {
+                    JSONObject jsonobject = jsonarray.getJSONObject(i);
+                    //"Lon":"-76.7131987","StartTime":"2017-10-07 11:00:00","EndTime":"2017-10-07 23:59:00","Category":"registration","Image":null,"Address":""
+                    ffeArray.add(new FreeFoodEvent(jsonobject.getString("EventName"), jsonobject.getString("Description"), jsonobject.getString("Lat"), jsonobject.getString("Lon"), jsonobject.getString("StartTime"), jsonobject.getString("EndTime"), jsonobject.getString("Address")));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.d("freeFoodEvents: ", "> " + ffeArray.toString());
+            generateEventList();
         }
     }
 

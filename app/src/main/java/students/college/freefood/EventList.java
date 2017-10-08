@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.EventListener;
 
 /**
@@ -24,7 +25,7 @@ import java.util.EventListener;
  */
 public class EventList extends Activity
 {
-    private FreeFoodEvent[] eventList;
+    private ArrayList<FreeFoodEvent> eventList;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +37,9 @@ public class EventList extends Activity
        // Uncomment this part when you are passing the array from MapsActivity
 
         Intent intent = getIntent();
-        eventList = (FreeFoodEvent[])intent.getExtras().getSerializable("event");
+        eventList = (ArrayList<FreeFoodEvent>)intent.getExtras().getSerializable("event");
 
-        for(int i = 0; i < eventList.length; i++ ) {
+        for(int i = 0; i < eventList.size(); i++ ) {
             LinearLayout a = new LinearLayout(this);
             a.setOrientation(LinearLayout.HORIZONTAL);
             a.setMinimumHeight(150);
@@ -54,7 +55,7 @@ public class EventList extends Activity
 
             // the name of the event (as a text view)
             TextView tv = new TextView(this);
-            tv.setText(eventList[i].getName());
+            tv.setText(eventList.get(i).getName());
             tv.setWidth(600);
             tv.setHeight(50);
             a.addView(tv);
@@ -70,8 +71,8 @@ public class EventList extends Activity
                 //This should be changed in the future to link to the event with description
                 public void onClick(View view) {
                     Intent i = new Intent(getApplicationContext(), EventDetails.class);
-                    System.out.println(eventList[Integer.parseInt(eventButton.getText().toString())].getName());
-                    FreeFoodEvent ffe = eventList[Integer.parseInt(eventButton.getText().toString())];
+                    System.out.println(eventList.get(Integer.parseInt(eventButton.getText().toString())).getName());
+                    FreeFoodEvent ffe = eventList.get(Integer.parseInt(eventButton.getText().toString()));
                     i.putExtra("event", ffe);
                     startActivity(i);
                 }
