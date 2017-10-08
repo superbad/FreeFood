@@ -14,7 +14,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
-        android:text="Add Event" />
+        android:text="ADD EVENT" />
 
     <EditText
         android:layout_width="match_parent"
@@ -88,6 +88,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="Start Date" />
 
 
@@ -98,6 +99,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="Start Time" />
 
     </LinearLayout>
@@ -114,6 +116,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="End Date" />
 
 
@@ -125,9 +128,17 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="End Time" />
 
     </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dip"
+        android:background="#000"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -140,6 +151,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="End Date" />
 
 
@@ -150,9 +162,12 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="End Time" />
 
     </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -166,6 +181,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="End Date" />
 
 
@@ -177,6 +193,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="End Time" />
 
 
@@ -191,7 +208,9 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
+        android:textSize="20dp"
         android:text="Add"
+        android:fontFamily="sans-serif-condensed"
         android:onClick="addThisEvent"/>
 
 </LinearLayout>

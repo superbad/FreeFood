@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -18,7 +19,7 @@ import android.widget.TextView;
 
 public class NavigationMenu extends Activity
 {
-    private ImageButton saveButton;
+    private ImageView saveButton;
     private Button addEventButton;
     private TextView numMilesText;
     private SeekBar numMilesBar;
@@ -37,7 +38,7 @@ public class NavigationMenu extends Activity
 
     public void findTheViews()
     {
-        saveButton = (ImageButton)findViewById(R.id.bSave);
+        saveButton = (ImageView)findViewById(R.id.bSave);
         addEventButton = (Button)findViewById(R.id.bAddEvent);
         numMilesText = (TextView)findViewById(R.id.tvNumMiles);
         numMilesBar = (SeekBar) findViewById(R.id.sbNumMiles);
