@@ -399,12 +399,27 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             a.setOrientation(LinearLayout.HORIZONTAL);
             a.setMinimumHeight(200);
 
+            mlatLng = new LatLng(Double.parseDouble(ffeArray.get(i).getLat()), Double.parseDouble(ffeArray.get(i).getLon()));
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(mlatLng);
+            markerOptions.title(ffeArray.get(i).getName());
+//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+            mCurrLocationMarker = mMap.addMarker(markerOptions);
+
             //create an image for each event
             ImageView imv = new ImageView(this);
             imv.setMinimumWidth(50);
             imv.setMinimumHeight(50);
             imv.setMaxHeight(50);
             imv.setImageResource(ffeArray.get(i).getCategoryInt());
+            imv.setId(i);
+            imv.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+//                    mCurrLocationMarker.showInfoWindow();
+                    LatLng latLng = new LatLng(Double.parseDouble(ffeArray.get(v.getId()).getLat()), Double.parseDouble(ffeArray.get(v.getId()).getLon()));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng), 250, null);
+                }
+            });
             a.addView(imv);
 
             // the name of the event (as a text view)
@@ -413,6 +428,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             Log.d("i: "+ i, " array: "+ ffeArray.get(i).toString());
             tv.setWidth(600);
             tv.setHeight(50);
+            tv.setId(i);
+            tv.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+//                    mCurrLocationMarker.showInfoWindow();
+                    LatLng latLng = new LatLng(Double.parseDouble(ffeArray.get(v.getId()).getLat()), Double.parseDouble(ffeArray.get(v.getId()).getLon()));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng), 250, null);
+                }
+            });
             a.addView(tv);
 
 
@@ -434,12 +457,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             });
          a.addView(eventButton);
 
-            mlatLng = new LatLng(Double.parseDouble(ffeArray.get(i).getLat()), Double.parseDouble(ffeArray.get(i).getLon()));
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(mlatLng);
-            markerOptions.title(ffeArray.get(i).getName());
-//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-            mCurrLocationMarker = mMap.addMarker(markerOptions);
             //add this layout to the full layout
             a.setTag(mCurrLocationMarker);
             layoutSpace.addView(a);
