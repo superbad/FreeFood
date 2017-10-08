@@ -321,6 +321,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     {
         LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
 
+        layoutSpace.removeAllViews();
         for(int i = 0; i < ffeArray.size(); i++)
         {
             LinearLayout a = new LinearLayout(this);
