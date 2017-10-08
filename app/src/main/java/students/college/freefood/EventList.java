@@ -38,8 +38,7 @@ public class EventList extends Activity
         Intent intent = getIntent();
         eventList = (FreeFoodEvent[])intent.getExtras().getSerializable("event");
 
-        for(int i = 0; i < eventList.length; i++ )
-        {
+        for(int i = 0; i < eventList.length; i++ ) {
             LinearLayout a = new LinearLayout(this);
             a.setOrientation(LinearLayout.HORIZONTAL);
             a.setMinimumHeight(150);
@@ -66,16 +65,14 @@ public class EventList extends Activity
             eventButton.setTextSize(0);
             eventButton.setHeight(100);
             eventButton.setWidth(100);
-            eventButton.setOnClickListener(new View.OnClickListener()
-            {
+            eventButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 //This should be changed in the future to link to the event with description
-                public void onClick(View view)
-                {
-                    Intent i = new Intent(getApplicationContext(),EventDetails.class);
+                public void onClick(View view) {
+                    Intent i = new Intent(getApplicationContext(), EventDetails.class);
                     System.out.println(eventList[Integer.parseInt(eventButton.getText().toString())].getName());
                     FreeFoodEvent ffe = eventList[Integer.parseInt(eventButton.getText().toString())];
-                    i.putExtra("event",ffe);
+                    i.putExtra("event", ffe);
                     startActivity(i);
                 }
             });
@@ -84,5 +81,10 @@ public class EventList extends Activity
             //add this layout to the full layout
             layoutSpace.addView(a);
         }
+    }
+    public void BackToMap(View view)
+    {
+        Intent i = new Intent(getApplicationContext(),MapsActivity.class);
+        startActivity(i);
     }
 }
