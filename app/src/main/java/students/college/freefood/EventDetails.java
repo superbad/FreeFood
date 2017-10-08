@@ -44,8 +44,6 @@ public class EventDetails extends Activity
 
     public void returnToLast(View view)
     {
-        System.out.println("Hello World");
         finish();
-        System.out.println("Lol fuck you.");
     }
 }

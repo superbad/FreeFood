@@ -397,7 +397,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         {
             LinearLayout a = new LinearLayout(this);
             a.setOrientation(LinearLayout.HORIZONTAL);
-            a.setMinimumHeight(100);
+            a.setMinimumHeight(200);
 
             //create an image for each event
             ImageView imv = new ImageView(this);
