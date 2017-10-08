@@ -3,13 +3,14 @@ package students.college.freefood;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.sax.StartElementListener;
 import android.support.annotation.Nullable;
 
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -31,42 +32,47 @@ import java.net.URL;
 public class AddEvent extends Activity
 {
     private FreeFoodEvent ffe;
-    TextView tv1,tv2;
+    TextView tvStartDate,tvEndDate;
     Calendar mCurrentDate1,mCurrentDate2;
     int day1,month1,year1,day2,month2,year2;
 
-    TextView tv3,tv4;
+    TextView tvStartTime, tvEndTime;
     Calendar mCurrentTime1,mCurrentTime2;
     int hour1,min1,hour2,min2;
+
+    private String name;
+    private String description;
+    private String location;
+    private String category;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_event);
-        tv1 = (TextView) findViewById(R.id.buttonDate1);
+        tvStartDate = (TextView) findViewById(R.id.buttonDate1);
         mCurrentDate1 = Calendar.getInstance();
         day1 = mCurrentDate1.get(Calendar.DAY_OF_MONTH);
         month1 = mCurrentDate1.get(Calendar.MONTH);
         year1 = mCurrentDate1.get(Calendar.YEAR);
         System.out.println(day1+"/"+month1+"/"+year1);
 
-        tv1.setText(day1+"/"+month1+"/"+year1);
-        tv1.setOnClickListener(new View.OnClickListener() {
+        tvStartDate.setText(day1+"/"+month1+"/"+year1);
+        tvStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v1) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(AddEvent.this,new DatePickerDialog.OnDateSetListener(){
                     @Override
                     public void onDateSet(DatePicker view1, int year1, int monthOfYear1, int dayOfMonth1) {
                         monthOfYear1 = monthOfYear1 + 1;
-                        tv1.setText(dayOfMonth1+"/"+monthOfYear1+"/"+year1);
+                        tvStartDate.setText(dayOfMonth1+"/"+monthOfYear1+"/"+year1);
                     }
                 }, year1, month1, day1);
                 datePickerDialog.show();
             }
         });
 
-        tv2 = (TextView) findViewById(R.id.buttonDate2);
+        tvEndDate = (TextView) findViewById(R.id.buttonDate2);
         mCurrentDate2 = Calendar.getInstance();
         day2 = mCurrentDate2.get(Calendar.DAY_OF_MONTH);
         month2 = mCurrentDate2.get(Calendar.MONTH);
@@ -74,33 +80,33 @@ public class AddEvent extends Activity
         System.out.println(day2+"/"+month2+"/"+year2);
 
 
-        tv3 = (TextView) findViewById(R.id.buttonTime1);
+        tvStartTime = (TextView) findViewById(R.id.buttonTime1);
         mCurrentTime1 = Calendar.getInstance();
         hour1 = mCurrentTime1.get(Calendar.HOUR_OF_DAY);
         min1 = mCurrentTime1.get(Calendar.MINUTE);
-        tv3.setText(hour1+":"+min1);
-        tv3.setOnClickListener(new View.OnClickListener() {
+        tvStartTime.setText(hour1+":"+min1);
+        tvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v3) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(AddEvent.this,new TimePickerDialog.OnTimeSetListener(){
                     @Override
                     public void onTimeSet(TimePicker view1, int hour1, int min1) {
-                        tv3.setText(hour1+":"+min1);
+                        tvStartTime.setText(hour1+":"+min1);
                     }
                 }, hour1, min1, true);
                 timePickerDialog.show();
             }
         });
 
-        tv2.setText(day2+"/"+month2+"/"+year2);
-        tv2.setOnClickListener(new View.OnClickListener() {
+        tvEndDate.setText(day2+"/"+month2+"/"+year2);
+        tvEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v2) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(AddEvent.this,new DatePickerDialog.OnDateSetListener(){
                     @Override
                     public void onDateSet(DatePicker view2, int year2, int monthOfYear2, int dayOfMonth2) {
                         monthOfYear2 = monthOfYear2 + 1;
-                        tv2.setText(dayOfMonth2+"/"+monthOfYear2+"/"+year2);
+                        tvEndDate.setText(dayOfMonth2+"/"+monthOfYear2+"/"+year2);
                     }
                 }, year2, month2, day2);
                 datePickerDialog.show();
@@ -108,18 +114,18 @@ public class AddEvent extends Activity
         });
 
 
-        tv4 = (TextView) findViewById(R.id.buttonTime2);
+        tvEndTime = (TextView) findViewById(R.id.buttonTime2);
         mCurrentTime2 = Calendar.getInstance();
         hour2 = mCurrentTime2.get(Calendar.HOUR_OF_DAY);
         min2 = mCurrentTime2.get(Calendar.MINUTE);
-        tv4.setText(hour2+":"+min2);
-        tv4.setOnClickListener(new View.OnClickListener() {
+        tvEndTime.setText(hour2+":"+min2);
+        tvEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v4) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(AddEvent.this,new TimePickerDialog.OnTimeSetListener(){
                     @Override
                     public void onTimeSet(TimePicker view2, int hour2, int min2) {
-                        tv4.setText(hour2+":"+min2);
+                        tvEndTime.setText(hour2+":"+min2);
                     }
                 }, hour2, min2, true);
                 timePickerDialog.show();
@@ -127,6 +133,20 @@ public class AddEvent extends Activity
         });
     }
 
+    public void addThisEvent(View view)
+    {
+
+        name = ((EditText)findViewById(R.id.etName)).getText().toString();
+        description = ((EditText)findViewById(R.id.etDescription)).getText().toString();
+        location =  ((EditText)findViewById(R.id.etLocation)).getText().toString();
+        String startTime = year1+"-"+month1+"-"+day1+"%20"+hour1+":"+min1+":00";
+        String endTime = year2+"-"+month2+"-"+day2+"%20"+hour2+":"+min2+":00";
+
+        new addEvent().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
+                "add.php?name=%22" + name + "%22&lat=" + 39.25 + "&long=" + -76.69 + "&description=%22" + description +
+                "%22&" + "start=%22" +startTime+ "%22&end=%22" + endTime+ "%22&category=%22%22&" +
+                "image=%22%22&address=%22" + location + "%22");
+    }
     private class addEvent extends AsyncTask<String, String, String> {
 
         @Override
@@ -138,6 +158,8 @@ public class AddEvent extends Activity
 
             try {
                 URL url = new URL(params[0]);
+                System.out.println("LOOK BELOW!");
+                System.out.println(params[0]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
 

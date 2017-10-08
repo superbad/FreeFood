@@ -27,10 +27,10 @@ public class FreeFoodEvent implements Serializable{
     FreeFoodEvent() {
         m_name = "HackUMBC";
         m_description = "We made an app";
-        m_startTime = "10/07/2017 10:00";
+        m_startTime = "2017-10-08 10:00:00";
         m_endTime =m_startTime;
-        m_lon = "SOME";
-        m_lat = "WHERE";
+        m_lon = "-76.7";
+        m_lat = "39.2";
         m_address = "1000 Hilltop Circle - ITE";
     }
 
