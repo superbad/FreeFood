@@ -7,17 +7,25 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="65dp"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
         android:textSize="40dp"
-        android:text="Add Events" />
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:text="Add Event" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
         android:hint="Name"/>
 
     <EditText
@@ -25,6 +33,10 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
         android:hint="Description"/>
 
     <EditText
@@ -32,6 +44,10 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
         android:hint="Location"/>
 
     <EditText
@@ -39,6 +55,10 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
         android:hint="Event Type"/>
 
     <!--<EditText
@@ -55,22 +75,120 @@
         android:fontFamily="sans-serif-condensed"
         android:hint="End Time (MM/DD/YYYY HH:MM)"/>-->
 
-    <TextView
-        android:id="@+id/buttonDate1"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:text="Date" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/buttonDate2"
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="Start Date" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="Start Time" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="62dp"
-        android:text="Date" />
+        android:layout_height="65dp">
+
+        <TextView
+            android:id="@+id/buttonDate1"
+            android:layout_width="200dp"
+            android:layout_height="62dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="Start Date" />
+
+
+        <TextView
+            android:id="@+id/buttonTime1"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="Start Time" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="Start Date" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="Start Time" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="62dp">
+
+        <TextView
+            android:id="@+id/buttonDate2"
+            android:layout_width="200dp"
+            android:layout_height="62dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="End Date" />
+
+
+        <TextView
+            android:id="@+id/buttonTime2"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="End Time" />
+
+
+
+    </LinearLayout>
 
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="62dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
         android:text="Add" />
 
 </LinearLayout>
