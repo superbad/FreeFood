@@ -3,6 +3,7 @@ package students.college.freefood;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Icon;
 import android.location.Criteria;
 import android.location.Location;
 import android.os.Build;
@@ -14,7 +15,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -60,23 +64,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         Intent intent = getIntent();
         int r = (int)intent.getIntExtra("radius",1);
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        System.out.println("THE RADIUS IS: "+r);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
             checkLocationPermission();
         }
-
-        Button LocationPageButton = (Button) findViewById(R.id.maximizeButton);
-        LocationPageButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            //This should be changed in the future to link to the event with description
-            public void onClick(View view)
-            {
-                Intent i = new Intent(getApplicationContext(),eventListThing.class);
-                i.putExtra("event",ffeArray);
-                startActivity(i);
-            }
-        });
-
         //There needs to be a dynamic way to set this array later
         ffeArray = new FreeFoodEvent[5];
 
@@ -91,6 +83,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         mapFragment.getMapAsync(this);
 
         keyPrivateVariablesToLayout();
+        generateEventList();
     }
 
     /**
@@ -300,5 +293,66 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     {
     }
 
+    public void onEventsClick(View view)
+    {
+        Intent i = new Intent(getApplicationContext(),eventListThing.class);
+        i.putExtra("event",ffeArray);
+        startActivity(i);
+    }
+
+    public void goToOptions(View view)
+    {
+        Intent i = new Intent(getApplicationContext(),NavigationMenu.class);
+        startActivity(i);
+    }
+
+    public void generateEventList()
+    {
+        LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
+
+        for(int i = 0; i < ffeArray.length; i++)
+        {
+            LinearLayout a = new LinearLayout(this);
+            a.setOrientation(LinearLayout.HORIZONTAL);
+            //a.setMinimumHeight(100);
+
+            //create an image for each event
+            ImageView imv = new ImageView(this);
+            imv.setMinimumWidth(50);
+            imv.setMinimumHeight(50);
+            imv.setMaxHeight(50);
+            imv.setImageResource(R.mipmap.ic_launcher);
+            a.addView(imv);
+
+            // the name of the event (as a text view)
+            TextView tv = new TextView(this);
+            tv.setText(ffeArray[i].getName());
+            tv.setWidth(600);
+            tv.setHeight(50);
+            a.addView(tv);
+
+            //add a button here to get more details
+            final Button eventButton = new Button(this);
+            eventButton.setText(Integer.toString(i));
+            eventButton.setTextSize(0);
+            eventButton.setHeight(100);
+            eventButton.setWidth(100);
+            eventButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                //This should be changed in the future to link to the event with description
+                public void onClick(View view) {
+                    Intent i = new Intent(getApplicationContext(), EventDetails.class);
+                    System.out.println(ffeArray[Integer.parseInt(eventButton.getText().toString())].getName());
+                    FreeFoodEvent ffe = ffeArray[Integer.parseInt(eventButton.getText().toString())];
+                    i.putExtra("event", ffe);
+                    startActivity(i);
+                }
+            });
+            a.addView(eventButton);
+
+            //add this layout to the full layout
+            layoutSpace.addView(a);
+        }
+    }
 
 }

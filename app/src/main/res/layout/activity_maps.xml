@@ -5,78 +5,46 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:weightSum="1">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="247dp"
-        android:layout_weight="0.31">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/ic_menu_edit"
+            android:onClick="goToOptions" />
+    </LinearLayout>
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:map="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="400dp"
             tools:context="students.college.freefood.MapsActivity" />
 
 
-    </FrameLayout>
-
     <Button
         android:id="@+id/maximizeButton"
-        android:layout_width="match_parent"
-        android:layout_height="24dp"
-        android:background="@android:drawable/ic_menu_upload_you_tube" />
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:background="@android:drawable/ic_menu_upload_you_tube"
+        android:onClick="onEventsClick"/>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="?android:attr/listPreferredItemHeight"
-        android:padding="6dip" >
+        android:layout_height="wrap_content"
+        android:padding="6dip"
+        android:orientation="vertical"
+        android:id="@+id/mainEventListLayout">
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="6dip"
-            android:contentDescription="TODO"
-            android:src="@mipmap/ic_launcher"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
 
-        <TextView
-            android:id="@+id/secondLine"
-            android:layout_width="fill_parent"
-            android:layout_height="26dip"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@id/icon"
-            android:ellipsize="marquee"
-            android:maxLines="1"
-            android:text="Description"
-            android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/firstLine"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/secondLine"
-            android:layout_alignParentTop="true"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_toRightOf="@id/icon"
-            android:gravity="center_vertical"
-            android:text="Example application"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:text=">" />
-
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

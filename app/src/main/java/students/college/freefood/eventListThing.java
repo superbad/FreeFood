@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -44,11 +45,18 @@ public class eventListThing extends Activity
             a.setMinimumHeight(150);
 
             //create an image for each event
+            //create an image for each event
+            ImageView imv = new ImageView(this);
+            imv.setMinimumWidth(50);
+            imv.setMinimumHeight(50);
+            imv.setMaxHeight(50);
+            imv.setImageResource(R.mipmap.ic_launcher);
+            a.addView(imv);
 
             // the name of the event (as a text view)
             TextView tv = new TextView(this);
             tv.setText(eventList[i].getName());
-            tv.setWidth(900);
+            tv.setWidth(600);
             tv.setHeight(50);
             a.addView(tv);
 
