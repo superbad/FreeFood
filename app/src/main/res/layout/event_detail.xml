@@ -18,31 +18,30 @@
             android:layout_height="30dp"
             android:background="@android:drawable/ic_menu_revert"
             android:onClick="returnToLast" />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="323dp"
-            android:background="@drawable/common_google_signin_btn_icon_light_normal" />
-
 
         <TextView
+            android:layout_marginTop="10dp"
             android:id="@+id/eventTextViewName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Event 1"
             android:gravity="center_vertical"
             android:fontFamily="sans-serif-condensed"
-            android:textSize="20sp" />
+            android:textSize="40sp" />
 
         <TextView
+            android:layout_marginTop="10dp"
             android:id="@+id/eventTextViewDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.05"
             android:fontFamily="sans-serif-condensed"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras purus nisi, efficitur ac iaculis at, tempor vitae tellus. Ut vel efficitur nisi. Cras elementum elit vitae semper molestie. Nullam commodo ipsum eget turpis accumsan ultrices. Aenean laoreet nec risus ac dapibus. Mauris quis aliquet lorem. Curabitur suscipit odio ac turpis vestibulum bibendum. Praesent dignissim, odio eget ullamcorper porttitor, turpis ex vestibulum elit, eget consequat orci dui ornare tellus. Donec venenatis in nibh hendrerit maximus."
-            android:textSize="15dp" />
+            android:textSize="20dp" />
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="?android:attr/listPreferredItemHeight"
             android:padding="6dip"
@@ -52,32 +51,28 @@
                 android:id="@+id/locationIcon"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_alignParentTop="true"
                 android:gravity="center_vertical"
                 android:contentDescription="TODO"
-                android:src="@mipmap/loc"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:src="@mipmap/loc"/>
 
             <TextView
                 android:id="@+id/eventLocation"
                 android:layout_width="fill_parent"
                 android:layout_height="26dip"
-                android:layout_alignParentBottom="true"
                 android:layout_toRightOf="@id/locationIcon"
-                android:ellipsize="marquee"
-                android:maxLines="1"
+                android:layout_gravity="top"
+                android:gravity="center"
                 android:text="Location"
-                android:textSize="12sp"
-                android:layout_alignParentTop="true" />
+                android:textSize="20sp"/>
 
         </LinearLayout>
 
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
-            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:layout_height="wrap_content"
             android:padding="6dip"
             android:orientation="horizontal">
 
@@ -85,26 +80,19 @@
                 android:id="@+id/timeIcon"
                 android:layout_width="30dp"
                 android:layout_height="20dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="6dip"
                 android:contentDescription="TODO"
-                android:gravity="center_vertical"
                 android:src="@mipmap/time" />
 
             <TextView
                 android:id="@+id/eventTime"
                 android:layout_width="fill_parent"
-                android:layout_height="26dip"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@id/timeIcon"
-                android:ellipsize="marquee"
-                android:maxLines="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:text="Timings"
-                android:textSize="12sp"
-                android:layout_alignParentTop="true" />
+                android:textSize="20sp" />
 
         </LinearLayout>
 

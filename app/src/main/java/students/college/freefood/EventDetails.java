@@ -39,7 +39,7 @@ public class EventDetails extends Activity
         eventName.setText(ffe.getName());
         eventDesc.setText(ffe.getDescription());
         eventLoc.setText(ffe.getAddress());
-        eventTime.setText(ffe.getStartTime()+" - "+ffe.getEndTime());
+        eventTime.setText(ffe.getStartTime()+"\nto\n "+ffe.getEndTime());
     }
 
     public void returnToLast(View view)
