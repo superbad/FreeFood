@@ -32,6 +32,11 @@ public class eventListThing extends Activity
 
         LinearLayout layoutSpace = (LinearLayout) findViewById(R.id.eventListLayout);
 
+        /*Uncomment this part when you are passing the array from MapsActivity
+        Intent i = getIntent();
+        FreeFoodEvent[] eventList = (FreeFoodEvent[]) intent.getExtras().getSerializable("event");
+
+        */
          eventList = new FreeFoodEvent[5];
         for(int i = 0; i < eventList.length; i++ )
         {
