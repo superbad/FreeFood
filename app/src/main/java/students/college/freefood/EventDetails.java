@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 public class EventDetails extends Activity
 {
+    private int returnCode;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -20,6 +22,7 @@ public class EventDetails extends Activity
         setContentView(R.layout.event_detail);
         Intent intent = getIntent();
         FreeFoodEvent ffe = (FreeFoodEvent) intent.getExtras().getSerializable("event");
+        returnCode = intent.getIntExtra("return",0);
         System.out.println(ffe.getName());
 
         updateLayout(ffe);
@@ -36,5 +39,10 @@ public class EventDetails extends Activity
         eventDesc.setText(ffe.getDescription());
         eventLoc.setText(ffe.getAddress());
         eventTime.setText(ffe.getStartTime()+" - "+ffe.getEndTime());
+    }
+
+    public void returnToLast(View view)
+    {
+        finishActivity(0);
     }
 }

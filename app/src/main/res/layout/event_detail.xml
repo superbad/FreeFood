@@ -13,6 +13,11 @@
         android:paddingTop="10dp"
         android:weightSum="1">
 
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@android:drawable/ic_menu_revert"
+            android:onClick="returnToLast" />
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="323dp"
