@@ -4,4 +4,12 @@
     <string name="failed">Network Failure</string>
     <string name="tryAgain">Lol keep going anyways</string>
     <string name="cancel">Cancel</string>
+    <string-array name="category_array">
+        <item>None</item>
+        <item>Registration Required</item>
+        <item>Campus Event</item>
+        <item>Happy Hour</item>
+        <item>Greek Lyfe</item>
+        <item>Pizza</item>
+    </string-array>
 </resources>

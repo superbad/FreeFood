@@ -150,9 +150,8 @@
             android:paddingRight="30dp"
             android:gravity="center"
             android:fontFamily="sans-serif-condensed"
-            android:text="Save" />
-
-
+            android:text="Save"
+            android:onClick="SaveClick"/>
 
     </LinearLayout>
 
