@@ -6,6 +6,7 @@ import android.app.usage.UsageEvents;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -56,6 +57,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnInfoWindowClickListener,
+        GoogleMap.OnInfoWindowCloseListener,
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -133,6 +136,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mlatLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+        mMap.setOnInfoWindowClickListener(this);
+        mMap.setOnInfoWindowCloseListener(this);
 
 
         //Initialize Google Play Services
@@ -205,11 +210,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         //Place current location marker
         mlatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(mlatLng);
-        markerOptions.title("You are here!");
+        //MarkerOptions markerOptions = new MarkerOptions();
+        //markerOptions.position(mlatLng);
+        //markerOptions.title("You are here!");
 //        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-        mCurrLocationMarker = mMap.addMarker(markerOptions);
+        //mCurrLocationMarker = mMap.addMarker(markerOptions);
         new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
                 mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance);
 
@@ -324,13 +329,42 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-        //Intent intnet;//Should link to a layout that gives info about the event
+        //Intent intent;//Should link to a layout that gives info about the event
         //getIntent().putExtra();//grab the party info from the database based on the location clicked
         //startActivity(intent);
-        Log.w("Click", "test");
+        //Log.w("Click", "test");
+        LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
+        LinearLayout a = layoutSpace.findViewWithTag(marker);
+        layoutSpace.removeView(a);
+        a.setBackgroundColor(Color.GRAY);
+        layoutSpace.addView(a, 0);
         return false;
 
     }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+//        Toast.makeText(this, "Click Info Window", Toast.LENGTH_SHORT).show();
+        LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
+        LinearLayout a = layoutSpace.findViewWithTag(marker);
+        layoutSpace.removeView(a);
+        a.setBackgroundColor(Color.GRAY);
+        layoutSpace.addView(a, 0);
+//        a.findViewsWithText("Details").click();
+//        for(Datapoint d : dataPointList){
+//            if(d.getName() != null && d.getName().contains(search))
+//            //something here
+//        }
+    }
+
+    @Override
+    public void onInfoWindowClose(Marker marker) {
+//        Toast.makeText(this, "Close Info Window", Toast.LENGTH_SHORT).show();
+        LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
+        LinearLayout a = layoutSpace.findViewWithTag(marker);
+        a.setBackgroundColor(Color.WHITE);
+    }
+
 
     /**
      * This is a quick function for initializing the variables of this class to the
@@ -407,6 +441,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
             mCurrLocationMarker = mMap.addMarker(markerOptions);
             //add this layout to the full layout
+            a.setTag(mCurrLocationMarker);
             layoutSpace.addView(a);
         }
     }
