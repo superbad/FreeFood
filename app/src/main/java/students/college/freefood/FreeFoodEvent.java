@@ -116,42 +116,4 @@ public class FreeFoodEvent implements Serializable{
                 return R.mipmap.free;
         }
     }
-/*
-    public String jSonTimeToJava(String date)
-    {
-        String formattedDate = "";
-        try {
-            SimpleDateFormat readFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:SS", java.util.Locale.getDefault());
-            SimpleDateFormat writeFormat = new SimpleDateFormat( "HH:mm MMM/dd/yyyy", java.util.Locale.getDefault());
-
-            java.util.Date convertedDate = readFormat.parse( date );
-
-            formattedDate = writeFormat.format( convertedDate );
-
-        }
-        catch (ParseException e) {
-
-            e.printStackTrace();
-        }
-        return formattedDate;
-    }
-
-    public String javaTimeToJson(String date)
-    {
-        String formattedDate = "";
-        try
-        {
-            SimpleDateFormat readFormat = new SimpleDateFormat( "HH:mm MMM/dd/yyyy", java.util.Locale.getDefault());
-            SimpleDateFormat writeFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:SS", java.util.Locale.getDefault());
-
-            java.util.Date convertedDate = readFormat.parse( date );
-            formattedDate = writeFormat.format( convertedDate );
-        }
-        catch (ParseException e) {
-
-            e.printStackTrace();
-        }
-        return formattedDate;
-    }
-*/
 }

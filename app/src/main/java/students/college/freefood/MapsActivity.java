@@ -126,23 +126,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         {
             checkLocationPermission();
         }
-        //There needs to be a dynamic way to set this array later
-        //ffeArray = new FreeFoodEvent[5];
 
-        //set up array here:
-        //for(int i = 0 ; i < 5; i++)
-        //{
-        //    ffeArray[i] = new FreeFoodEvent();
-        //    ffeArray[i].setName("Rick and Morty Season "+i);
-        //}
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         keyPrivateVariablesToLayout();
-        //generateEventList();
-//        new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
-//                mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance);
     }
 
     /**
@@ -229,11 +218,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         //Place current location marker
         mlatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        //MarkerOptions markerOptions = new MarkerOptions();
-        //markerOptions.position(mlatLng);
-        //markerOptions.title("You are here!");
-//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-        //mCurrLocationMarker = mMap.addMarker(markerOptions);
 
         String filter = "";
         if (cbNone + cbRR + cbCE +cbHH + cbGL  + cbP > 0) {
@@ -496,7 +480,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(getApplicationContext(), EventDetails.class);
-                    System.out.println(ffeArray.get(eventButton.getId()).getName());
+                    //System.out.println(ffeArray.get(eventButton.getId()).getName());
                     FreeFoodEvent ffe = ffeArray.get(eventButton.getId());
                     i.putExtra("event", ffe);
                     startActivity(i);
@@ -536,7 +520,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
                 while ((line = reader.readLine()) != null) {
                     buffer.append(line + "\n");
-                    Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
+                    //Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
 
                 }
 
@@ -557,7 +541,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                     String line = "";
                     while ((line = reader.readLine()) != null) {
                         buffer.append(line + "\n");
-                        Log.d("Response2: ", "> " + line);   //here youll get whole response
+                        //Log.d("Response2: ", "> " + line);   //here youll get whole response
                     }
                 }
                 catch (java.net.SocketTimeoutException | UnknownHostException e2) {
@@ -602,7 +586,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         {
             if(newtworkIssues == 1)
             {
-                System.out.println("The Internet Failed!");
+                //System.out.println("The Internet Failed!");
                 AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
                 builder.setMessage(R.string.failed)
                         .setPositiveButton(R.string.tryAgain, new DialogInterface.OnClickListener() {
@@ -616,7 +600,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
             }
             else {
-                System.out.println("NETWORK SUCCESS");
+                //System.out.println("NETWORK SUCCESS");
                 try {
                     JSONArray jsonarray = new JSONArray(jsonStr);
                     ffeArray.clear();
@@ -628,7 +612,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.d("freeFoodEvents: ", "> " + ffeArray.toString());
+                //Log.d("freeFoodEvents: ", "> " + ffeArray.toString());
                 generateEventList();
             }
         }
@@ -636,7 +620,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
     public void AddClick(View view)
     {
-        System.out.println("I totally made a new event!");
+        //System.out.println("I totally made a new event!");
         Intent i = new Intent(getApplicationContext(),AddEvent.class);
         startActivity(i);
     }
