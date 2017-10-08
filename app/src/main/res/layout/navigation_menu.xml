@@ -18,11 +18,6 @@
             android:textSize="45dp" />
 
 
-
-    <!-- This just buffers the views -->
-
-
-    <!-- buffer -->
     <TextView
         android:id="@+id/textView"
         android:layout_marginLeft="5dp"
