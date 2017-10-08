@@ -23,6 +23,7 @@ public class FreeFoodEvent implements Serializable{
     private String m_startTime;
     private String m_endTime;
     private String m_address;
+    private String m_category;
 
     FreeFoodEvent() {
         m_name = "HackUMBC";
@@ -32,9 +33,10 @@ public class FreeFoodEvent implements Serializable{
         m_lon = "-76.7";
         m_lat = "39.2";
         m_address = "1000 Hilltop Circle - ITE";
+        String m_category = "coolio";
     }
 
-    FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime, String address) {
+    FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime, String address, String category) {
         m_name = name;
         m_lat = lat;
         m_lon = lon;
@@ -42,6 +44,7 @@ public class FreeFoodEvent implements Serializable{
         m_endTime = endTime;
         m_startTime = startTime;
         m_address = address;
+        m_category = category;
     }
 
     //FreeFoodEvent() //Make this one work with json data
@@ -69,6 +72,7 @@ public class FreeFoodEvent implements Serializable{
 
     public void setAddress(String address){m_address = address;}
 
+    public void setCategory(String cat){m_category = cat;}
     //getters
     public String getName() {
         return m_name;
@@ -92,7 +96,26 @@ public class FreeFoodEvent implements Serializable{
 
     public String getAddress(){return m_address;}
 
+    public String getCategory(){return m_category;}
 
+    public int getCategoryInt()
+    {
+        switch (m_category)
+        {
+            case("Registration Required"):
+                return R.mipmap.registration;
+            case("Campus Event"):
+                return R.mipmap.campus;
+            case("Happy Hour"):
+                return R.mipmap.happyhour;
+            case("Greek Lyfe"):
+                return R.mipmap.greek;
+            case("Pizza"):
+                return R.mipmap.pizza;
+            default:
+                return R.mipmap.free;
+        }
+    }
 /*
     public String jSonTimeToJava(String date)
     {

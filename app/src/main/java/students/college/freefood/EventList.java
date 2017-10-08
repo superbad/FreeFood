@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.EventListener;
 
@@ -34,6 +36,7 @@ public class EventList extends Activity
 
         LinearLayout layoutSpace = (LinearLayout) findViewById(R.id.eventListLayout);
 
+        layoutSpace.setDividerPadding(5);
        // Uncomment this part when you are passing the array from MapsActivity
 
         Intent intent = getIntent();
@@ -50,7 +53,7 @@ public class EventList extends Activity
             imv.setMinimumWidth(50);
             imv.setMinimumHeight(50);
             imv.setMaxHeight(50);
-            imv.setImageResource(R.mipmap.ic_launcher);
+            imv.setImageResource(eventList.get(i).getCategoryInt());
             a.addView(imv);
 
             // the name of the event (as a text view)
@@ -77,8 +80,13 @@ public class EventList extends Activity
             });
             a.addView(eventButton);
 
+
             //add this layout to the full layout
             layoutSpace.addView(a);
+
+            TextView tv2 = new TextView(this);
+            tv2.setHeight(50);
+            layoutSpace.addView(tv2);
         }
     }
     public void BackToMap(View view)
