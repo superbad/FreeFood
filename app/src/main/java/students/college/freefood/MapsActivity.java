@@ -1,6 +1,8 @@
 package students.college.freefood;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Fragment;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -42,6 +45,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener,
@@ -57,7 +61,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private LocationRequest mLocationRequest;
     private ArrayList<FreeFoodEvent> ffeArray = new ArrayList<FreeFoodEvent>();
     private int mdistance = 20;
-    private LatLng mlatLng = new LatLng(38.9783, -76.4925);
+    private LatLng mlatLng = new LatLng(35.265956, -36.862455);
+    private int newtworkIssues = 0; //0 if no network issues, 1 if network issues
 
 
     /**
@@ -91,8 +96,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         keyPrivateVariablesToLayout();
         //generateEventList();
-        new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
-                mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance);
+//        new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
+//                mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance);
     }
 
     /**
@@ -375,11 +380,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
 
             HttpURLConnection connection = null;
+            HttpURLConnection connection2 = null;
             BufferedReader reader = null;
 
             try {
                 URL url = new URL(params[0]);
                 connection = (HttpURLConnection) url.openConnection();
+                connection.setConnectTimeout(3000); //set timeout to 3 seconds
                 connection.connect();
 
 
@@ -399,6 +406,42 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 return buffer.toString();
 
 
+            } catch (java.net.SocketTimeoutException | UnknownHostException e) {
+                connection.disconnect();
+                try {
+                    URL url = new URL(params[0]);
+                    connection2 = (HttpURLConnection) url.openConnection();
+                    connection2.setConnectTimeout(3000); //set timeout to 3 seconds
+                    connection2.connect();
+
+                    InputStream stream = connection.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line + "\n");
+                        Log.d("Response2: ", "> " + line);   //here youll get whole response
+                    }
+                }
+                catch (java.net.SocketTimeoutException | UnknownHostException e2) {
+                    e2.printStackTrace();
+                    newtworkIssues=1;
+                } catch (MalformedURLException e2) {
+                    e2.printStackTrace();
+                }catch (IOException e2) {
+                    e.printStackTrace();
+                } finally {
+                    if (connection2 != null) {
+                        connection.disconnect();
+                    }
+                    try {
+                        if (reader != null) {
+                            reader.close();
+                        }
+                    } catch (IOException e2) {
+                        e.printStackTrace();
+                    }
+                }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -420,19 +463,37 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         protected void onPostExecute(String jsonStr)
         {
-            try {
-                JSONArray jsonarray = new JSONArray(jsonStr);
-                ffeArray.clear();
-                for (int i = 0; i < jsonarray.length(); i++) {
-                    JSONObject jsonobject = jsonarray.getJSONObject(i);
-                    //"Lon":"-76.7131987","StartTime":"2017-10-07 11:00:00","EndTime":"2017-10-07 23:59:00","Category":"registration","Image":null,"Address":""
-                    ffeArray.add(new FreeFoodEvent(jsonobject.getString("EventName"), jsonobject.getString("Description"), jsonobject.getString("Lat"), jsonobject.getString("Lon"), jsonobject.getString("StartTime"), jsonobject.getString("EndTime"), jsonobject.getString("Address")));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if(newtworkIssues == 1)
+            {
+                System.out.println("The Internet Failed!");
+                AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+                builder.setMessage(R.string.failed)
+                        .setPositiveButton(R.string.tryAgain, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // FIRE ZE MISSILES!
+                            }
+                        });
+                // Create the AlertDialog object and return it
+                builder.create();
+                builder.show();
+
             }
-            Log.d("freeFoodEvents: ", "> " + ffeArray.toString());
-            generateEventList();
+            else {
+                System.out.println("NETWORK SUCCESS");
+                try {
+                    JSONArray jsonarray = new JSONArray(jsonStr);
+                    ffeArray.clear();
+                    for (int i = 0; i < jsonarray.length(); i++) {
+                        JSONObject jsonobject = jsonarray.getJSONObject(i);
+                        //"Lon":"-76.7131987","StartTime":"2017-10-07 11:00:00","EndTime":"2017-10-07 23:59:00","Category":"registration","Image":null,"Address":""
+                        ffeArray.add(new FreeFoodEvent(jsonobject.getString("EventName"), jsonobject.getString("Description"), jsonobject.getString("Lat"), jsonobject.getString("Lon"), jsonobject.getString("StartTime"), jsonobject.getString("EndTime"), jsonobject.getString("Address")));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d("freeFoodEvents: ", "> " + ffeArray.toString());
+                generateEventList();
+            }
         }
     }
 

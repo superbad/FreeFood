@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">FreeFood</string>
     <string name="title_activity_maps">Map</string>
+    <string name="failed">Network Failure</string>
+    <string name="tryAgain">Lol keep going anyways</string>
+    <string name="cancel">Cancel</string>
 </resources>
