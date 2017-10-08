@@ -38,7 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".eventListThing"/>
+        <activity android:name=".EventList"/>
         <activity android:name=".EventDetails"/>
         <activity android:name=".NavigationMenu"/>
     </application>

@@ -22,7 +22,7 @@ import java.util.EventListener;
  * This class will be deleted and moved later, but for now it is where I will play with
  * EventList and populate it.
  */
-public class eventListThing extends Activity
+public class EventList extends Activity
 {
     private FreeFoodEvent[] eventList;
     @Override
