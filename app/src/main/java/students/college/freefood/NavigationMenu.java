@@ -1,6 +1,7 @@
 package students.college.freefood;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.ButtonBarLayout;
@@ -68,10 +69,15 @@ public class NavigationMenu extends Activity
 
     public void SaveClick(View view)
     {
-        System.out.println("I totally saved.");
+        //System.out.println("I totally saved.");
+        Intent i = new Intent(getApplicationContext(),MapsActivity.class);
+        i.putExtra("radius",radius);
+        startActivity(i);
     }
     public void AddClick(View view)
     {
         System.out.println("I totally made a new event!");
+        Intent i = new Intent(getApplicationContext(),AddEvent.class);
+        startActivity(i);
     }
 }

@@ -58,6 +58,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        Intent intent = getIntent();
+        int r = (int)intent.getIntExtra("radius",1);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
@@ -75,6 +77,15 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             }
         });
 
+        //There needs to be a dynamic way to set this array later
+        ffeArray = new FreeFoodEvent[5];
+
+        //set up array here:
+        for(int i = 0 ; i < 5; i++)
+        {
+            ffeArray[i] = new FreeFoodEvent();
+            ffeArray[i].setName("Rick and Morty Season "+i);
+        }
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -287,8 +298,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      */
     public void keyPrivateVariablesToLayout()
     {
-        Intent i = new Intent(getApplicationContext(),eventListThing.class);
-        startActivity(i);
     }
 
 

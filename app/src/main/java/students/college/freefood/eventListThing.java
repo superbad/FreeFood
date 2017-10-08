@@ -34,16 +34,11 @@ public class eventListThing extends Activity
 
        // Uncomment this part when you are passing the array from MapsActivity
 
-        Intent i = getIntent();
-        FreeFoodEvent[] eventList = (FreeFoodEvent[])i.getExtras().getSerializable("event");
+        Intent intent = getIntent();
+        eventList = (FreeFoodEvent[])intent.getExtras().getSerializable("event");
 
-
-         eventList = new FreeFoodEvent[5];
         for(int i = 0; i < eventList.length; i++ )
         {
-            eventList[i] = new FreeFoodEvent();
-            eventList[i].setName("HackUmbc, but its " + i + " times better!");
-
             LinearLayout a = new LinearLayout(this);
             a.setOrientation(LinearLayout.HORIZONTAL);
             a.setMinimumHeight(150);
