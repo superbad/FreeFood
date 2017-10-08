@@ -232,9 +232,31 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //markerOptions.title("You are here!");
 //        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         //mCurrLocationMarker = mMap.addMarker(markerOptions);
-        new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
-                mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance);
 
+        String filter = "";
+        if (cbNone + cbRR + cbCE +cbHH + cbGL  + cbP > 0) {
+            if (cbNone == 1){
+                filter = filter + "&cbNone=1";
+            }
+            if (cbRR == 1){
+                filter = filter + "&cbRR=1";
+            }
+            if (cbCE == 1){
+                filter = filter + "&cbCE=1";
+            }
+            if (cbHH == 1){
+                filter = filter + "&cbHH=1";
+            }
+            if (cbGL == 1){
+                filter = filter + "&cbGL=1";
+            }
+            if (cbP == 1){
+                filter = filter + "&cbP=1";
+            }
+
+        }
+        new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
+                mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance + filter);
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mlatLng));
 

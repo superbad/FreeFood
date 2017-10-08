@@ -122,8 +122,8 @@ public class NavigationMenu extends Activity
         try
         {
             cbNone = (CheckBox)findViewById(R.id.cbNone);
-            cbCE = (CheckBox)findViewById(R.id.cbCampus);
             cbRR = (CheckBox)findViewById(R.id.cbRR);
+            cbCE = (CheckBox)findViewById(R.id.cbCampus);
             cbGL = (CheckBox)findViewById(R.id.cbGreek);
             cbHH = (CheckBox)findViewById(R.id.cbHappy);
             cbP = (CheckBox)findViewById(R.id.cbPizza);
@@ -147,13 +147,13 @@ public class NavigationMenu extends Activity
             else{
                 string = string + "\n0";
             }
-            if(cbGL.isChecked()){
+            if(cbHH.isChecked()){
                 string = string + "\n1";
             }
             else{
                 string = string + "\n0";
             }
-            if(cbHH.isChecked()){
+            if(cbGL.isChecked()){
                 string = string + "\n1";
             }
             else{
