@@ -13,10 +13,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -361,7 +363,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         {
             LinearLayout a = new LinearLayout(this);
             a.setOrientation(LinearLayout.HORIZONTAL);
-            //a.setMinimumHeight(100);
+            a.setMinimumHeight(100);
 
             //create an image for each event
             ImageView imv = new ImageView(this);
@@ -379,12 +381,15 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             tv.setHeight(50);
             a.addView(tv);
 
+
             //add a button here to get more details
             final Button eventButton = new Button(this);
             eventButton.setText(Integer.toString(i));
             eventButton.setTextSize(0);
-            eventButton.setHeight(100);
+            eventButton.setHeight(50);
             eventButton.setWidth(100);
+            //eventButton.setBackgroundResource(R.drawable.arrow);
+
             eventButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -395,7 +400,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                     startActivity(i);
                 }
             });
-            a.addView(eventButton);
+         a.addView(eventButton);
 
             mlatLng = new LatLng(Double.parseDouble(ffeArray.get(i).getLat()), Double.parseDouble(ffeArray.get(i).getLon()));
             MarkerOptions markerOptions = new MarkerOptions();
