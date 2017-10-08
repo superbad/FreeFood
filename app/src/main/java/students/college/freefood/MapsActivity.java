@@ -384,18 +384,16 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
             //add a button here to get more details
             final Button eventButton = new Button(this);
-            eventButton.setText(Integer.toString(i));
-            eventButton.setTextSize(0);
-            eventButton.setHeight(50);
-            eventButton.setWidth(100);
+            eventButton.setId(i);
+            eventButton.setText("Details");
             //eventButton.setBackgroundResource(R.drawable.arrow);
 
             eventButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(getApplicationContext(), EventDetails.class);
-                    System.out.println(ffeArray.get(Integer.parseInt(eventButton.getText().toString())).getName());
-                    FreeFoodEvent ffe = ffeArray.get(Integer.parseInt(eventButton.getText().toString()));
+                    System.out.println(ffeArray.get(eventButton.getId()).getName());
+                    FreeFoodEvent ffe = ffeArray.get(eventButton.getId());
                     i.putExtra("event", ffe);
                     startActivity(i);
                 }

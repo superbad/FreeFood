@@ -62,17 +62,15 @@ public class EventList extends Activity
 
             //add a button here to get more details
             final Button eventButton = new Button(this);
-            eventButton.setText(Integer.toString(i));
-            eventButton.setTextSize(0);
-            eventButton.setHeight(100);
-            eventButton.setWidth(100);
+            eventButton.setId(i);
+            eventButton.setText("Details");
             eventButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 //This should be changed in the future to link to the event with description
                 public void onClick(View view) {
                     Intent i = new Intent(getApplicationContext(), EventDetails.class);
-                    System.out.println(eventList.get(Integer.parseInt(eventButton.getText().toString())).getName());
-                    FreeFoodEvent ffe = eventList.get(Integer.parseInt(eventButton.getText().toString()));
+                    System.out.println(eventList.get(eventButton.getId()).getName());
+                    FreeFoodEvent ffe = eventList.get(eventButton.getId());
                     i.putExtra("event", ffe);
                     startActivity(i);
                 }
