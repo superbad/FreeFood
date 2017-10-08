@@ -48,8 +48,27 @@ public class NavigationMenu extends Activity
         setContentView(R.layout.navigation_menu);
         Intent i = getIntent();
         radius = i.getIntExtra("radius",1);
-        System.out.println("Im a stupid fuckw who thinks the radius is: "+radius);
         findTheViews();
+        if(i.getIntExtra("cbNone", 0) == 1){
+            cbNone.setChecked(true);
+        }
+        if(i.getIntExtra("cbRR", 0) == 1){
+            cbRR.setChecked(true);
+        }
+        if(i.getIntExtra("cbCE", 0) == 1){
+            cbCE.setChecked(true);
+        }
+        if(i.getIntExtra("cbHH", 0) == 1){
+            cbHH.setChecked(true);
+        }
+        if(i.getIntExtra("cbGL", 0) == 1){
+            cbGL.setChecked(true);
+        }
+        if(i.getIntExtra("cbP", 0) == 1){
+            cbP.setChecked(true);
+        }
+        System.out.println("Im a stupid fuckw who thinks the radius is: "+radius);
+
     }
 
     public void findTheViews()
@@ -98,7 +117,51 @@ public class NavigationMenu extends Activity
         Intent i = new Intent(getApplicationContext(),MapsActivity.class);
         try
         {
+            cbNone = (CheckBox)findViewById(R.id.cbNone);
+            cbCE = (CheckBox)findViewById(R.id.cbCampus);
+            cbRR = (CheckBox)findViewById(R.id.cbRR);
+            cbGL = (CheckBox)findViewById(R.id.cbGreek);
+            cbHH = (CheckBox)findViewById(R.id.cbHappy);
+            cbP = (CheckBox)findViewById(R.id.cbPizza);
+
             String string = Integer.toString(radius);
+            if(cbNone.isChecked()){
+                string = string + "\n1";
+            }
+            else{
+                string = string + "\n0";
+            }
+            if(cbRR.isChecked()){
+                string = string + "\n1";
+            }
+            else{
+                string = string + "\n0";
+            }
+            if(cbCE.isChecked()){
+                string = string + "\n1";
+            }
+            else{
+                string = string + "\n0";
+            }
+            if(cbGL.isChecked()){
+                string = string + "\n1";
+            }
+            else{
+                string = string + "\n0";
+            }
+            if(cbHH.isChecked()){
+                string = string + "\n1";
+            }
+            else{
+                string = string + "\n0";
+            }
+            if(cbP.isChecked()){
+                string = string + "\n1";
+            }
+            else{
+                string = string + "\n0";
+            }
+
             FileOutputStream outputStream = openFileOutput("Radius.txt", Context.MODE_PRIVATE);
             outputStream.write(string.getBytes());
             outputStream.close();

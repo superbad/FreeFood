@@ -71,6 +71,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private LocationRequest mLocationRequest;
     private ArrayList<FreeFoodEvent> ffeArray = new ArrayList<FreeFoodEvent>();
     private int mdistance = 20;
+    int cbNone = 0;
+    int cbRR = 0;
+    int cbCE = 0;
+    int cbHH = 0;
+    int cbGL = 0;
+    int cbP = 0;
     private LatLng mlatLng = new LatLng(35.265956, -36.862455);
     private int newtworkIssues = 0; //0 if no network issues, 1 if network issues
 
@@ -94,9 +100,20 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             FileReader fr = new FileReader(getFilesDir()+"/Radius.txt");
             BufferedReader reader = new BufferedReader(fr);
             String line  = reader.readLine();
+            mdistance = Integer.parseInt(line);
+            line  = reader.readLine();
+            cbNone = Integer.parseInt(line);
+            line  = reader.readLine();
+            cbRR = Integer.parseInt(line);
+            line  = reader.readLine();
+            cbCE = Integer.parseInt(line);
+            line  = reader.readLine();
+            cbHH = Integer.parseInt(line);
+            line  = reader.readLine();
+            cbGL = Integer.parseInt(line);
+            line  = reader.readLine();
+            cbP = Integer.parseInt(line);
             reader.close();
-
-           mdistance = Integer.parseInt(line);
         }
         catch(Exception e)
         {
@@ -385,6 +402,12 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     {
         Intent i = new Intent(getApplicationContext(),NavigationMenu.class);
         i.putExtra("radius",mdistance);
+        i.putExtra("cbNone", cbNone);
+        i.putExtra("cbRR", cbRR);
+        i.putExtra("cbCE", cbCE);
+        i.putExtra("cbHH", cbHH);
+        i.putExtra("cbGL", cbGL);
+        i.putExtra("cbP", cbP);
         startActivity(i);
     }
 
