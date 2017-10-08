@@ -7,14 +7,10 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:textSize="30dp"
+        android:layout_height="40dp"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
+        android:textSize="40dp"
         android:text="Add Events" />
 
     <EditText
@@ -22,21 +18,13 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:hint="Title"/>
+        android:hint="Name"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
         android:hint="Description"/>
 
     <EditText
@@ -44,10 +32,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
         android:hint="Location"/>
 
     <EditText
@@ -55,32 +39,38 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:hint="Event Start Time (MM/DD/YYYY HH:MM)"/>
+        android:hint="Event Type"/>
+
+    <!--<EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:fontFamily="sans-serif-condensed"
+        android:hint="Start Time (MM/DD/YYYY HH:MM)"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
-        android:hint="Event End Time (MM/DD/YYYY HH:MM)"/>
+        android:hint="End Time (MM/DD/YYYY HH:MM)"/>-->
+
+    <TextView
+        android:id="@+id/buttonDate1"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:text="Date" />
+
+    <TextView
+        android:id="@+id/buttonDate2"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:text="Date" />
+
 
     <Button
-        android:id="@+id/button2"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
         android:text="Add" />
 
 </LinearLayout>

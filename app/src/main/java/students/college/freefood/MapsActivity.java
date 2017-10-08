@@ -1,6 +1,7 @@
 package students.college.freefood;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -13,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,6 +45,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener,
         OnMapReadyCallback,
@@ -60,6 +63,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private LatLng mlatLng = new LatLng(38.9783, -76.4925);
 
 
+
+
     /**
      * When this view is loaded (when a user clicks on our app for the first time, and it wasnt already open)
      * @param savedInstanceState - if there is some cache for the app this is it.
@@ -68,6 +73,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+
 
         Intent intent = getIntent();
         int r = (int)intent.getIntExtra("radius",20);
@@ -350,17 +357,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             eventButton.setTextSize(0);
             eventButton.setHeight(100);
             eventButton.setWidth(100);
-            eventButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                //This should be changed in the future to link to the event with description
-                public void onClick(View view) {
-                    Intent i = new Intent(getApplicationContext(), EventDetails.class);
-                    System.out.println(ffeArray.get(Integer.parseInt(eventButton.getText().toString())).getName());
-                    FreeFoodEvent ffe = ffeArray.get(Integer.parseInt(eventButton.getText().toString()));
-                    i.putExtra("event", ffe);
-                    startActivity(i);
-                }
-            });
+
             a.addView(eventButton);
 
             //add this layout to the full layout
