@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.ButtonBarLayout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,6 +31,13 @@ public class NavigationMenu extends Activity
     private Button addEventButton;
     private TextView numMilesText;
     private SeekBar numMilesBar;
+
+    private CheckBox cbNone;
+    private CheckBox cbRR;
+    private CheckBox cbCE;
+    private CheckBox cbHH;
+    private CheckBox cbGL;
+    private CheckBox cbP;
 
     private int radius;
     private final int MAX_MILES = 20;
@@ -75,6 +83,13 @@ public class NavigationMenu extends Activity
                 radius = seekBar.getProgress();
             }
         });
+
+        cbNone = (CheckBox)findViewById(R.id.cbNone);
+        cbCE = (CheckBox)findViewById(R.id.cbCampus);
+        cbRR = (CheckBox)findViewById(R.id.cbRR);
+        cbGL = (CheckBox)findViewById(R.id.cbGreek);
+        cbHH = (CheckBox)findViewById(R.id.cbHappy);
+        cbP = (CheckBox)findViewById(R.id.cbPizza);
     }
 
     public void SaveClick(View view)
@@ -93,6 +108,10 @@ public class NavigationMenu extends Activity
             e.printStackTrace();
         }
         startActivity(i);
+    }
+    public void onCheckboxClicked(View view)
+    {
+
     }
 
 }
