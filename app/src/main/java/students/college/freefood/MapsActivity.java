@@ -421,6 +421,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         {
             try {
                 JSONArray jsonarray = new JSONArray(jsonStr);
+                ffeArray.clear();
                 for (int i = 0; i < jsonarray.length(); i++) {
                     JSONObject jsonobject = jsonarray.getJSONObject(i);
                     //"Lon":"-76.7131987","StartTime":"2017-10-07 11:00:00","EndTime":"2017-10-07 23:59:00","Category":"registration","Image":null,"Address":""
