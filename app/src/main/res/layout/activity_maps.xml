@@ -7,13 +7,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:orientation="horizontal"
         >
 
         <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@android:drawable/ic_menu_edit"
             android:onClick="goToOptions" />
         <TextView
@@ -22,7 +22,7 @@
         <Button
             android:id="@+id/bAddEvent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:text="Add an Event"
             android:onClick="AddClick"/>
@@ -34,7 +34,7 @@
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="390dp"
             tools:context="students.college.freefood.MapsActivity" />
 
 
