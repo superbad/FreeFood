@@ -16,6 +16,16 @@
             android:layout_height="wrap_content"
             android:background="@android:drawable/ic_menu_edit"
             android:onClick="goToOptions" />
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/bAddEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Add an Event"
+            android:onClick="AddClick"/>
     </LinearLayout>
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
