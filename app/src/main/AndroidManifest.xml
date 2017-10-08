@@ -41,6 +41,7 @@
         <activity android:name=".EventList"/>
         <activity android:name=".EventDetails"/>
         <activity android:name=".NavigationMenu"/>
+        <activity android:name=".AddEvent"/>
     </application>
 
 </manifest>
