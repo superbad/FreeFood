@@ -21,6 +21,7 @@ public class EventDetails extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_detail);
         Intent intent = getIntent();
+        returnCode = intent.getIntExtra("returnCode",0);
         FreeFoodEvent ffe = (FreeFoodEvent) intent.getExtras().getSerializable("event");
         returnCode = intent.getIntExtra("return",0);
         System.out.println(ffe.getName());
@@ -43,6 +44,8 @@ public class EventDetails extends Activity
 
     public void returnToLast(View view)
     {
-        finishActivity(0);
+        System.out.println("Hello World");
+        finish();
+        System.out.println("Lol fuck you.");
     }
 }
