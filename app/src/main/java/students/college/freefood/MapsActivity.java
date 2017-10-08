@@ -41,6 +41,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -69,7 +71,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
 
 
-
     /**
      * When this view is loaded (when a user clicks on our app for the first time, and it wasnt already open)
      * @param savedInstanceState - if there is some cache for the app this is it.
@@ -82,8 +83,21 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
 
         Intent intent = getIntent();
-        int r = (int)intent.getIntExtra("radius",20);
-        System.out.println("THE RADIUS IS: "+r);
+        mdistance = 1;
+        try
+        {
+            FileReader fr = new FileReader(getFilesDir()+"/Radius.txt");
+            BufferedReader reader = new BufferedReader(fr);
+            String line  = reader.readLine();
+            reader.close();
+
+           mdistance = Integer.parseInt(line);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        System.out.println("THE RADIUS IS: "+mdistance);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             checkLocationPermission();
@@ -326,6 +340,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     public void goToOptions(View view)
     {
         Intent i = new Intent(getApplicationContext(),NavigationMenu.class);
+        i.putExtra("radius",mdistance);
         startActivity(i);
     }
 

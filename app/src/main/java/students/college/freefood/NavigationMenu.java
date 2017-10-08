@@ -1,6 +1,7 @@
 package students.college.freefood;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.nio.Buffer;
 
 /**
  * Created by Robert Bradshaw on 10/7/2017.
@@ -31,8 +38,9 @@ public class NavigationMenu extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_menu);
-
-        radius = 1;
+        Intent i = getIntent();
+        radius = i.getIntExtra("radius",1);
+        System.out.println("Im a stupid fuckw who thinks the radius is: "+radius);
         findTheViews();
     }
 
@@ -41,6 +49,7 @@ public class NavigationMenu extends Activity
         saveButton = (ImageView)findViewById(R.id.bSave);
         addEventButton = (Button)findViewById(R.id.bAddEvent);
         numMilesText = (TextView)findViewById(R.id.tvNumMiles);
+        numMilesText.setText(""+radius+" miles");
         numMilesBar = (SeekBar) findViewById(R.id.sbNumMiles);
         numMilesBar.setProgress(radius);
         numMilesBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -72,7 +81,17 @@ public class NavigationMenu extends Activity
     {
         //System.out.println("I totally saved.");
         Intent i = new Intent(getApplicationContext(),MapsActivity.class);
-        i.putExtra("radius",radius);
+        try
+        {
+            String string = Integer.toString(radius);
+            FileOutputStream outputStream = openFileOutput("Radius.txt", Context.MODE_PRIVATE);
+            outputStream.write(string.getBytes());
+            outputStream.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         startActivity(i);
     }
 
