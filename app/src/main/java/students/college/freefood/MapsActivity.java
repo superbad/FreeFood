@@ -11,7 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -44,6 +46,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private Location mLastLocation;
     private Marker mCurrLocationMarker;
     private LocationRequest mLocationRequest;
+    private FreeFoodEvent[] ffeArray;
 
 
     /**
@@ -58,6 +61,20 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
+
+        Button LocationPageButton = (Button) findViewById(R.id.maximizeButton);
+        LocationPageButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            //This should be changed in the future to link to the event with description
+            public void onClick(View view)
+            {
+                Intent i = new Intent(getApplicationContext(),eventListThing.class);
+                i.putExtra("event",ffeArray);
+                startActivity(i);
+            }
+        });
+
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);

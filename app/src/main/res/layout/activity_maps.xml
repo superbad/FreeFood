@@ -1,11 +1,14 @@
-<LinearLayout android:orientation="vertical"
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:weightSum="1">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="247dp">
+        android:layout_height="247dp"
+        android:layout_weight="0.31">
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -16,11 +19,14 @@
             android:layout_height="300dp"
             tools:context="students.college.freefood.MapsActivity" />
 
+
     </FrameLayout>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/maximizeButton"
         android:layout_width="match_parent"
-        android:layout_height="20dp"></LinearLayout>
+        android:layout_height="24dp"
+        android:background="@android:drawable/ic_menu_upload_you_tube" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
