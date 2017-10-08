@@ -3,4 +3,61 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="SETTINGS"
+            android:textSize="45dp"/>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/bSave"
+            android:layout_width="75dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:text="Save"
+            android:textSize="15dp"
+            android:onClick="SaveClick"/>
+
+    </LinearLayout>
+
+    <!-- This just buffers the views -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search Radius (in miles)"/>
+
+    <SeekBar
+        android:id="@+id/sbNumMiles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1 mile"
+        android:id="@+id/tvNumMiles"/>
+
+    <!-- buffer -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+    <Button
+        android:id="@+id/bAddEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Add an Event"
+        android:onClick="AddClick"/>
+
 </LinearLayout>
