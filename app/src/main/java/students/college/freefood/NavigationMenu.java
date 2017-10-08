@@ -74,10 +74,5 @@ public class NavigationMenu extends Activity
         i.putExtra("radius",radius);
         startActivity(i);
     }
-    public void AddClick(View view)
-    {
-        System.out.println("I totally made a new event!");
-        Intent i = new Intent(getApplicationContext(),AddEvent.class);
-        startActivity(i);
-    }
+
 }

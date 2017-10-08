@@ -2,6 +2,7 @@ package students.college.freefood;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.usage.UsageEvents;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -190,7 +191,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         mlatLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(mlatLng);
-        markerOptions.title("New Marker!");
+        markerOptions.title("You are here!");
 //        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
         new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
@@ -361,9 +362,26 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             eventButton.setTextSize(0);
             eventButton.setHeight(100);
             eventButton.setWidth(100);
-
+            eventButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getApplicationContext(), EventDetails.class);
+                    System.out.println(ffeArray.get(Integer.parseInt(eventButton.getText().toString())).getName());
+                    FreeFoodEvent ffe = ffeArray.get(Integer.parseInt(eventButton.getText().toString()));
+                    i.putExtra("event", ffe);
+                    startActivity(i);
+                }
+            });
             a.addView(eventButton);
 
+            mlatLng = new LatLng(Double.parseDouble(ffeArray.get(i).getLat()), Double.parseDouble(ffeArray.get(i).getLon()));
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(mlatLng);
+            markerOptions.title(ffeArray.get(i).getName());
+//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+            mCurrLocationMarker = mMap.addMarker(markerOptions);
+            new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
+                    mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance);
             //add this layout to the full layout
             layoutSpace.addView(a);
         }
@@ -491,6 +509,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                 generateEventList();
             }
         }
+    }
+
+    public void AddClick(View view)
+    {
+        System.out.println("I totally made a new event!");
+        Intent i = new Intent(getApplicationContext(),AddEvent.class);
+        startActivity(i);
     }
 
 }
