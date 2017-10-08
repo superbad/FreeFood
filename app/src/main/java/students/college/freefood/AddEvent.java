@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,6 +30,10 @@ import java.util.Calendar;
 import android.util.Log;
 import android.widget.TimePicker;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,6 +41,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Robert Bradshaw on 10/7/2017.
@@ -178,8 +186,28 @@ public class AddEvent extends Activity
         String endTime = endYear +"-"+ endMonth +"-"+endDay+"%20"+ endHour +":"+ endMin +":00";
         category = ((Spinner)findViewById(R.id.spCategory)).getSelectedItem().toString();
 
+        String response = "";
+        double lat = 39.25;
+        double lng = -76.69;
+        Geocoder geocoder = new Geocoder(AddEvent.this, Locale.getDefault());
+        try {
+            List<Address> geoResults = geocoder.getFromLocationName(location, 1);
+            int counter = 0;
+            while (geoResults.size()==0 && counter< 10) {
+                geoResults = geocoder.getFromLocationName(location, 1);
+                counter++;
+            }
+            if (geoResults.size()>0) {
+                Address addr = geoResults.get(0);
+                lat = addr.getLatitude();
+                lng = addr.getLongitude();
+            }
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+
         new addEvent().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
-                "add.php?name=%22" + name + "%22&lat=" + 39.25 + "&long=" + -76.69 + "&description=%22" + description +
+                "add.php?name=%22" + name + "%22&lat=" + lat + "&long=" + lng + "&description=%22" + description +
                 "%22&" + "start=%22" +startTime+ "%22&end=%22" + endTime+ "%22&category=%22%22&" +
                 "image=%22%22&address=%22" + location + "%22");
 
