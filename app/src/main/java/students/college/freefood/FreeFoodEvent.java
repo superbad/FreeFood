@@ -102,6 +102,16 @@ public class FreeFoodEvent implements Serializable{
     {
         switch (m_category)
         {
+            case("Registration Required"):
+                return R.mipmap.registration;
+            case("Campus Event"):
+                return R.mipmap.campus;
+            case("Happy Hour"):
+                return R.mipmap.happyhour;
+            case("Greek Lyfe"):
+                return R.mipmap.greek;
+            case("Pizza"):
+                return R.mipmap.pizza;
             default:
                 return R.mipmap.ic_launcher;
         }

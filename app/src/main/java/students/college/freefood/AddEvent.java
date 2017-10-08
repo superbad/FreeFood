@@ -189,6 +189,7 @@ public class AddEvent extends Activity
         String response = "";
         double lat = 39.25;
         double lng = -76.69;
+
         Geocoder geocoder = new Geocoder(AddEvent.this, Locale.getDefault());
         try {
             List<Address> geoResults = geocoder.getFromLocationName(location, 1);
@@ -208,7 +209,7 @@ public class AddEvent extends Activity
 
         new addEvent().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
                 "add.php?name=%22" + name + "%22&lat=" + lat + "&long=" + lng + "&description=%22" + description +
-                "%22&" + "start=%22" +startTime+ "%22&end=%22" + endTime+ "%22&category=%22%22&" +
+                "%22&" + "start=%22" +startTime+ "%22&end=%22" + endTime+ "%22&category=%22"+category+"%22&" +
                 "image=%22%22&address=%22" + location + "%22");
 
         Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
