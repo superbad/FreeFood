@@ -1,23 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textSize="30dp"
+        android:gravity="center_vertical"
+        android:fontFamily="sans-serif-condensed"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:text="Add Events" />
 
     <EditText
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="Name"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:fontFamily="sans-serif-condensed"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:hint="Title"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:fontFamily="sans-serif-condensed"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
         android:hint="Description"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Start Time (MM/DD/YYYY HH:MM)"/>
+        android:gravity="center_vertical"
+        android:fontFamily="sans-serif-condensed"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:hint="Location"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="End Time (MM/DD/YYYY HH:MM)"/>
+        android:gravity="center_vertical"
+        android:fontFamily="sans-serif-condensed"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:hint="Event Start Time (MM/DD/YYYY HH:MM)"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:fontFamily="sans-serif-condensed"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:hint="Event End Time (MM/DD/YYYY HH:MM)"/>
+
+    <Button
+        android:id="@+id/button2"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:text="Add" />
 
 </LinearLayout>
