@@ -14,8 +14,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.graphics.drawable.DrawableWrapper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -375,7 +377,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
         LinearLayout a = layoutSpace.findViewWithTag(marker);
         layoutSpace.removeView(a);
-        a.setBackgroundColor(Color.GRAY);
+        a.setBackgroundColor(Color.LTGRAY);
         layoutSpace.addView(a, 0);
         return false;
 
@@ -387,7 +389,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
         LinearLayout a = layoutSpace.findViewWithTag(marker);
         layoutSpace.removeView(a);
-        a.setBackgroundColor(Color.GRAY);
+        a.setBackgroundColor(Color.LTGRAY);
         layoutSpace.addView(a, 0);
 //        a.findViewsWithText("Details").click();
 //        for(Datapoint d : dataPointList){
@@ -443,7 +445,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             LinearLayout a = new LinearLayout(this);
             a.setOrientation(LinearLayout.HORIZONTAL);
             a.setMinimumHeight(200);
-
+            a.setGravity(Gravity.CENTER);
             mlatLng = new LatLng(Double.parseDouble(ffeArray.get(i).getLat()), Double.parseDouble(ffeArray.get(i).getLon()));
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mlatLng);
