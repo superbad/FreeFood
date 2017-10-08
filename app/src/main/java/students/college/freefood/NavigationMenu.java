@@ -100,6 +100,10 @@ public class NavigationMenu extends Activity
             public void onStopTrackingTouch(SeekBar seekBar)
             {
                 radius = seekBar.getProgress();
+                if(radius < 1)
+                {
+                    radius = 1;
+                }
             }
         });
 
