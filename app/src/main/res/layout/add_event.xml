@@ -52,16 +52,24 @@
         android:hint="Location"
         android:id="@+id/etLocation"/>
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:text="Event Type:"/>
+    <Spinner
+        android:id="@+id/spCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
         android:fontFamily="sans-serif-condensed"
+        android:gravity="center_vertical"
+        android:hint="Event Type"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
-        android:hint="Event Type"/>
+        android:spinnerMode="dropdown" />
 
     <!--<EditText
         android:layout_width="match_parent"

@@ -3,16 +3,27 @@ package students.college.freefood;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Calendar;
 import android.util.Log;
 import android.widget.TimePicker;
@@ -51,7 +62,19 @@ public class AddEvent extends Activity
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.add_event);
+
+        Spinner spinner = (Spinner) findViewById(R.id.spCategory);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.category_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
         tvStartDate = (TextView) findViewById(R.id.buttonDate1);
         mCurrentDate1 = Calendar.getInstance();
         startDay = mCurrentDate1.get(Calendar.DAY_OF_MONTH);
@@ -153,6 +176,7 @@ public class AddEvent extends Activity
         location =  ((EditText)findViewById(R.id.etLocation)).getText().toString();
         String startTime = startYear+"-"+startMonth+"-"+ startDay +"%20"+ startHour +":"+ startMin +":00";
         String endTime = endYear +"-"+ endMonth +"-"+endDay+"%20"+ endHour +":"+ endMin +":00";
+        category = ((Spinner)findViewById(R.id.spCategory)).getSelectedItem().toString();
 
         new addEvent().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
                 "add.php?name=%22" + name + "%22&lat=" + 39.25 + "&long=" + -76.69 + "&description=%22" + description +
