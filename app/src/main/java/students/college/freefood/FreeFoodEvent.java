@@ -113,7 +113,7 @@ public class FreeFoodEvent implements Serializable{
             case("Pizza"):
                 return R.mipmap.pizza;
             default:
-                return R.mipmap.ic_launcher;
+                return R.mipmap.free;
         }
     }
 /*
