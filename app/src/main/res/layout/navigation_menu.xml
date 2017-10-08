@@ -3,59 +3,120 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:paddingRight="10dp"
+    android:weightSum="1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:id="@+id/textView3"
+            android:layout_marginLeft="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="SETTINGS"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="45dp"/>
-        <TextView
-            android:layout_width="50dp"
-            android:fontFamily="sans-serif-condensed"
-            android:layout_height="wrap_content" />
+            android:textSize="45dp" />
 
 
-    </LinearLayout>
 
     <!-- This just buffers the views -->
+
+
+    <!-- buffer -->
     <TextView
+        android:id="@+id/textView"
+        android:layout_marginLeft="5dp"
         android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
-        android:layout_height="50dp" />
-
+        android:text="Filter by Distance"
+        android:textSize="20dp"
+        android:layout_weight="0.06" />
 
     <TextView
+        android:id="@+id/textView2"
+        android:layout_marginLeft="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:text="Search Radius (in miles)"/>
+        android:text="Search Radius (in miles)" />
 
     <SeekBar
         android:id="@+id/sbNumMiles"
+        android:layout_marginLeft="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
-        android:min="1"
-        android:max="20"/>
+        android:max="20"
+        android:min="1" />
+
     <TextView
+        android:id="@+id/tvNumMiles"
+        android:layout_marginLeft="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed"
         android:text="1 mile"
-        android:id="@+id/tvNumMiles"/>
+        android:layout_weight="0.04" />
 
-    <!-- buffer -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dip"
+        android:background="#000"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        />
+
     <TextView
+        android:id="@+id/textViewType"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_gravity="center_vertical"
         android:fontFamily="sans-serif-condensed"
-        android:layout_height="100dp" />
+        android:text="Filter by Type"
+        android:textSize="20dp"
+        android:layout_weight="0.11" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="None"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registration Required"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Campus Event"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Happy Hour"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Greek Lyfe"
+            android:onClick="onCheckboxClicked"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pizza"
+            android:onClick="onCheckboxClicked"/>
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:id="@+id/bSearch2"
@@ -64,6 +125,7 @@
         android:background="@android:drawable/btn_default"
         android:clickable="true"
         android:padding="16dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal" >
 
         <ImageView
@@ -82,13 +144,16 @@
 
             android:id="@+id/tvSearchCaption"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:textSize="20dp"
             android:paddingRight="30dp"
             android:gravity="center"
             android:fontFamily="sans-serif-condensed"
             android:text="Save" />
+
+
+
     </LinearLayout>
 
     <!--<Button
