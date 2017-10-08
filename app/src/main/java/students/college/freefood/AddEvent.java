@@ -87,10 +87,10 @@ public class AddEvent extends Activity
         mCurrentDate1 = Calendar.getInstance();
         startDay = mCurrentDate1.get(Calendar.DAY_OF_MONTH);
         startMonth = mCurrentDate1.get(Calendar.MONTH);
+        startMonth = startMonth;
         startYear = mCurrentDate1.get(Calendar.YEAR);
-        System.out.println(startDay +"/"+startMonth+"/"+startYear);
-
-        tvStartDate.setText(startDay +"/"+startMonth+"/"+startYear);
+        System.out.println((startMonth+1)+"/"+startDay +"/"+startYear);
+        tvStartDate.setText((startMonth+1)+"/"+startDay +"/"+startYear);
         tvStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v1) {
@@ -98,7 +98,7 @@ public class AddEvent extends Activity
                     @Override
                     public void onDateSet(DatePicker view1, int year1, int monthOfYear1, int dayOfMonth1) {
                         monthOfYear1 = monthOfYear1 + 1;
-                        tvStartDate.setText(dayOfMonth1+"/"+monthOfYear1+"/"+year1);
+                        tvStartDate.setText(monthOfYear1+"/"+dayOfMonth1+"/"+year1);
                         startDay = dayOfMonth1;
                         startMonth = monthOfYear1;
                         startYear = year1;
@@ -135,8 +135,8 @@ public class AddEvent extends Activity
         endDay = mCurrentDate2.get(Calendar.DAY_OF_MONTH);
         endMonth = mCurrentDate2.get(Calendar.MONTH);
         endYear = mCurrentDate2.get(Calendar.YEAR);
-        System.out.println(endDay+"/"+ endMonth +"/"+ endYear);
-        tvEndDate.setText(endDay+"/"+ endMonth +"/"+ endYear);
+        System.out.println((endMonth+1) +"/" + endDay+"/"+ endYear);
+        tvEndDate.setText((endMonth+1) +"/" + endDay+"/"+ endYear);
         tvEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v2) {
@@ -144,7 +144,7 @@ public class AddEvent extends Activity
                     @Override
                     public void onDateSet(DatePicker view2, int year2, int monthOfYear2, int dayOfMonth2) {
                         monthOfYear2 = monthOfYear2 + 1;
-                        tvEndDate.setText(dayOfMonth2+"/"+monthOfYear2+"/"+year2);
+                        tvEndDate.setText(monthOfYear2+"/"+dayOfMonth2+"/"+year2);
                         endDay = dayOfMonth2;
                         endMonth = monthOfYear2;
                         endYear = year2;
