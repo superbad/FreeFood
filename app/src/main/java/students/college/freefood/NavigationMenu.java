@@ -7,6 +7,7 @@ import android.support.v7.widget.ButtonBarLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -16,7 +17,7 @@ import android.widget.TextView;
 
 public class NavigationMenu extends Activity
 {
-    private Button saveButton;
+    private ImageButton saveButton;
     private Button addEventButton;
     private TextView numMilesText;
     private SeekBar numMilesBar;
@@ -27,13 +28,15 @@ public class NavigationMenu extends Activity
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.navigation_menu);
+
         radius = 1;
         findTheViews();
     }
 
     public void findTheViews()
     {
-        saveButton = (Button)findViewById(R.id.bSave);
+        saveButton = (ImageButton)findViewById(R.id.bSave);
         addEventButton = (Button)findViewById(R.id.bAddEvent);
         numMilesText = (TextView)findViewById(R.id.tvNumMiles);
         numMilesBar = (SeekBar) findViewById(R.id.sbNumMiles);
@@ -42,7 +45,11 @@ public class NavigationMenu extends Activity
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b)
             {
-                numMilesText.setText(i+" miles");
+                if(i < 1)
+                    radius = 1;
+                else
+                    radius = i;
+                numMilesText.setText(radius+" miles");
             }
 
             @Override

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,16 +16,18 @@
             android:text="SETTINGS"
             android:textSize="45dp"/>
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content" />
-        <Button
+
+        <ImageButton
             android:id="@+id/bSave"
-            android:layout_width="75dp"
+            android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="right"
+            android:background="@android:drawable/ic_menu_save"
+            android:onClick="SaveClick"
             android:text="Save"
-            android:textSize="15dp"
-            android:onClick="SaveClick"/>
+            android:textSize="15dp" />
 
     </LinearLayout>
 
@@ -41,7 +45,9 @@
     <SeekBar
         android:id="@+id/sbNumMiles"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:min="1"
+        android:max="20"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
