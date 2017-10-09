@@ -46,4 +46,9 @@ public class EventDetails extends Activity
     {
         finish();
     }
+
+    public void flagEvent(View view)
+    {
+        System.out.println("There was no food");
+    }
 }
