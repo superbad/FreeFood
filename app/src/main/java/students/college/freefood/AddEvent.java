@@ -48,7 +48,7 @@ import java.util.Locale;
  * Created by Robert Bradshaw on 10/7/2017.
  */
 
-public class AddEvent extends Activity
+public class AddEvent extends UserActivity
 {
     private FreeFoodEvent ffe;
     TextView tvStartDate,tvEndDate;

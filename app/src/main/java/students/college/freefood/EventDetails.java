@@ -2,34 +2,55 @@ package students.college.freefood;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 /**
  * Created by Robert Bradshaw on 10/7/2017.
  */
 
-public class EventDetails extends Activity
+public class EventDetails extends UserActivity
 {
     private int returnCode;
+    private FreeFoodEvent ffe;
+    Button likedButton;
+    Button hatedButton;
+    Button flaggedButton;
+    boolean liked;
+    boolean hated;
+    boolean flagged;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
-        System.out.println("We got here!");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_detail);
         Intent intent = getIntent();
         returnCode = intent.getIntExtra("returnCode",0);
-        FreeFoodEvent ffe = (FreeFoodEvent) intent.getExtras().getSerializable("event");
+        ffe = (FreeFoodEvent) intent.getExtras().getSerializable("event");
         returnCode = intent.getIntExtra("return",0);
-        System.out.println(ffe.getName());
 
-        updateLayout(ffe);
+        liked = m_user.getLikedEvent(ffe);
+        hated = m_user.getHatedEvent(ffe);
+        flagged = m_user.getFlaggedEvent(ffe);
+
+        likedButton = (Button)findViewById(R.id.likedButton);
+        hatedButton = (Button)findViewById(R.id.hatedButton);
+        flaggedButton = (Button)findViewById(R.id.flaggedButton);
+
+        updateLayout();
     }
 
-    public void updateLayout(FreeFoodEvent ffe)
+    public void updateLayout()
     {
         TextView eventName = (TextView)findViewById(R.id.eventTextViewName);
         TextView eventDesc = (TextView)findViewById(R.id.eventTextViewDescription);
@@ -40,6 +61,34 @@ public class EventDetails extends Activity
         eventDesc.setText(ffe.getDescription());
         eventLoc.setText(ffe.getAddress());
         eventTime.setText(ffe.getStartTime()+"\nto\n "+ffe.getEndTime());
+
+        if(liked)
+        {
+            likedButton.setBackgroundColor(Color.GREEN);
+        }
+        else
+        {
+            likedButton.setBackgroundColor(Color.LTGRAY);
+        }
+
+        if(hated)
+        {
+            hatedButton.setBackgroundColor(Color.GREEN);
+        }
+        else
+        {
+            hatedButton.setBackgroundColor(Color.LTGRAY);
+        }
+
+        if(flagged)
+        {
+            flaggedButton.setBackgroundColor(Color.GREEN);
+        }
+        else
+        {
+            flaggedButton.setBackgroundColor(Color.LTGRAY);
+        }
+
     }
 
     public void returnToLast(View view)
@@ -47,8 +96,46 @@ public class EventDetails extends Activity
         finish();
     }
 
+    public void clickedGreatEvent(View view)
+    {
+        liked = !liked;
+        if(liked)
+        {
+            likedButton.setBackgroundColor(Color.GREEN);
+        }
+        else
+        {
+            likedButton.setBackgroundColor(Color.LTGRAY);
+        }
+        m_user.setLikedEvent(ffe,liked);
+        writeUser();
+    }
+    public void clickedBadEvent(View view)
+    {
+        hated = !hated;
+        if(hated)
+        {
+            hatedButton.setBackgroundColor(Color.GREEN);
+        }
+        else
+        {
+            hatedButton.setBackgroundColor(Color.LTGRAY);
+        }
+        m_user.setHatedEvent(ffe,hated);
+        writeUser();
+    }
     public void flagEvent(View view)
     {
-        System.out.println("There was no food");
+        if(flagged)
+        {
+            flaggedButton.setBackgroundColor(Color.GREEN);
+        }
+        else
+        {
+            flaggedButton.setBackgroundColor(Color.LTGRAY);
+        }
+        flagged = !flagged;
+        m_user.setFlaggedEvent(ffe,flagged);
+        writeUser();
     }
 }

@@ -25,7 +25,7 @@ import java.nio.Buffer;
  * Created by Robert Bradshaw on 10/7/2017.
  */
 
-public class NavigationMenu extends Activity
+public class NavigationMenu extends UserActivity
 {
     private ImageView saveButton;
     private Button addEventButton;
@@ -47,7 +47,7 @@ public class NavigationMenu extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_menu);
         Intent i = getIntent();
-        radius = i.getIntExtra("radius",1);
+        radius = m_user.getRadius();
         findTheViews();
         if(i.getIntExtra("cbNone", 0) == 1){
             cbNone.setChecked(true);
@@ -67,8 +67,6 @@ public class NavigationMenu extends Activity
         if(i.getIntExtra("cbP", 0) == 1){
             cbP.setChecked(true);
         }
-        System.out.println("Im a stupid fuckw who thinks the radius is: "+radius);
-
     }
 
     public void findTheViews()
@@ -117,8 +115,42 @@ public class NavigationMenu extends Activity
 
     public void SaveClick(View view)
     {
+        m_user.setRadius(radius);
+        //initialize the new set to 0
+        for(int i = 0;i < m_user.getFilterLength(); i++)
+        {
+            m_user.setFilters(i,0);
+        }
+        //let the object know which ones were enabled
+        if(cbNone.isChecked())
+        {
+            m_user.setFilters(0,1);
+        }
+        if(cbRR.isChecked())
+        {
+            m_user.setFilters(1,1);
+        }
+        if(cbCE.isChecked())
+        {
+            m_user.setFilters(2,1);
+        }
+        if(cbHH.isChecked())
+        {
+            m_user.setFilters(3,1);
+        }
+        if(cbGL.isChecked())
+        {
+            m_user.setFilters(4,1);
+        }
+        if(cbP.isChecked())
+        {
+            m_user.setFilters(5,1);
+        }
+
+        writeUser();
+        /*
         //System.out.println("I totally saved.");
-        Intent i = new Intent(getApplicationContext(),MapsActivity.class);
+
         try
         {
             cbNone = (CheckBox)findViewById(R.id.cbNone);
@@ -165,15 +197,13 @@ public class NavigationMenu extends Activity
             else{
                 string = string + "\n0";
             }
-
-            FileOutputStream outputStream = openFileOutput("Radius.txt", Context.MODE_PRIVATE);
-            outputStream.write(string.getBytes());
-            outputStream.close();
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+        */
+        Intent i = new Intent(getApplicationContext(),MapsActivity.class);
         startActivity(i);
     }
     public void onCheckboxClicked(View view)

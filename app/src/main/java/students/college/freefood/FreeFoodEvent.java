@@ -116,4 +116,11 @@ public class FreeFoodEvent implements Serializable{
                 return R.mipmap.free;
         }
     }
+
+    public boolean equals(FreeFoodEvent other)
+    {
+        if(m_name.equals(other.m_name))
+            return true;
+        return false;
+    }
 }

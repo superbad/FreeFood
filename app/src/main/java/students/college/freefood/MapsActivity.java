@@ -3,6 +3,7 @@ package students.college.freefood;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.usage.UsageEvents;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -46,11 +47,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -81,7 +86,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     int cbP = 0;
     private LatLng mlatLng = new LatLng(35.265956, -36.862455);
     private int newtworkIssues = 0; //0 if no network issues, 1 if network issues
-
+    private User m_user;
 
 
     /**
@@ -93,11 +98,18 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        readUser();
 
 
         Intent intent = getIntent();
-        mdistance = 1;
-        try
+        mdistance = m_user.getRadius();
+        cbNone = m_user.getFilter(0);
+        cbRR = m_user.getFilter(1);
+        cbCE = m_user.getFilter(2);
+        cbHH = m_user.getFilter(3);
+        cbGL = m_user.getFilter(4);
+        cbP = m_user.getFilter(5);
+        /*try
         {
             FileReader fr = new FileReader(getFilesDir()+"/Radius.txt");
             BufferedReader reader = new BufferedReader(fr);
@@ -120,7 +132,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         catch(Exception e)
         {
             e.printStackTrace();
-        }
+        }*/
         System.out.println("THE RADIUS IS: "+mdistance);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
@@ -623,6 +635,42 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //System.out.println("I totally made a new event!");
         Intent i = new Intent(getApplicationContext(),AddEvent.class);
         startActivity(i);
+    }
+
+
+    public void readUser()
+    {
+        try
+        {
+            FileInputStream fis = new FileInputStream (new File(getFilesDir()+"userData.data"));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            m_user = (User) ois.readObject();
+            fis.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            m_user = new User();
+            System.out.println("I made a user man...");
+            writeUser();
+        }
+    }
+    public void writeUser()
+    {
+        // Write to disk with FileOutputStream
+        FileOutputStream f_out = null;
+        try
+        {
+            FileOutputStream fout = new FileOutputStream(getFilesDir()+"userData.data");
+            ObjectOutputStream oos = new ObjectOutputStream(fout);
+            oos.writeObject(m_user);
+            fout.close();
+            System.out.println("Oh hey we saved!");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
 }
