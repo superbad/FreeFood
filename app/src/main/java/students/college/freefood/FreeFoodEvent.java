@@ -3,6 +3,8 @@ package students.college.freefood;
 import android.location.Location;
 import android.util.StringBuilderPrinter;
 
+import java.io.InterruptedIOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -117,10 +119,26 @@ public class FreeFoodEvent implements Serializable{
         }
     }
 
-    public boolean equals(FreeFoodEvent other)
+    @Override
+    public boolean equals(Object other)
     {
-        if(m_name.equals(other.m_name))
-            return true;
+        if(other instanceof FreeFoodEvent)
+        {
+            if ((m_name+m_description).equals(((FreeFoodEvent)other).m_name+((FreeFoodEvent)other).m_description))
+                return true;
+        }
         return false;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        String ret = (getName()+getDescription());
+        int retur = 0;
+        for(int i = 0; i < ret.length(); i++)
+        {
+            retur += ret.charAt(i);
+        }
+        return retur;
     }
 }

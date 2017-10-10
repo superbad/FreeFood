@@ -126,6 +126,7 @@ public class EventDetails extends UserActivity
     }
     public void flagEvent(View view)
     {
+        flagged = !flagged;
         if(flagged)
         {
             flaggedButton.setBackgroundColor(Color.GREEN);
@@ -134,7 +135,6 @@ public class EventDetails extends UserActivity
         {
             flaggedButton.setBackgroundColor(Color.LTGRAY);
         }
-        flagged = !flagged;
         m_user.setFlaggedEvent(ffe,flagged);
         writeUser();
     }

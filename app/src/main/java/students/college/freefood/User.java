@@ -37,6 +37,10 @@ public class User implements Serializable
     }
     public boolean getLikedEvent(FreeFoodEvent event)
     {
+        for (int i = 0; i < eventThoughts.size(); i++)
+        {
+            System.out.println("WE DO HAVE: "+((FreeFoodEvent)eventThoughts.keySet().toArray()[i]).getName());
+        }
         if(eventThoughts.containsKey(event))
         {
             if(eventThoughts.get(event)[LIKED])
