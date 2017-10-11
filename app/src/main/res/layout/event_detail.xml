@@ -107,21 +107,11 @@
             <Button
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="Don't\nRecommend"
+                android:text="Flag This"
                 android:layout_alignBottom="@id/likedButton"
                 android:layout_alignParentRight="true"
-                android:onClick="clickedBadEvent"
-                android:id="@+id/hatedButton"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="There was no food"
-                android:layout_below="@+id/likedButton"
-                android:layout_marginTop="10dp"
-                android:id="@+id/flaggedButton"
-                android:gravity="center"
-                android:layout_centerInParent="true"
-                android:onClick="flagEvent"/>
+                android:onClick="flagEvent"
+                android:id="@+id/flaggedButton"/>
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

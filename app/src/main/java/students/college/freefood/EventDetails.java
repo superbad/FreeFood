@@ -27,7 +27,6 @@ public class EventDetails extends UserActivity
     Button hatedButton;
     Button flaggedButton;
     boolean liked;
-    boolean hated;
     boolean flagged;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -40,11 +39,9 @@ public class EventDetails extends UserActivity
         returnCode = intent.getIntExtra("return",0);
 
         liked = m_user.getLikedEvent(ffe);
-        hated = m_user.getHatedEvent(ffe);
         flagged = m_user.getFlaggedEvent(ffe);
 
         likedButton = (Button)findViewById(R.id.likedButton);
-        hatedButton = (Button)findViewById(R.id.hatedButton);
         flaggedButton = (Button)findViewById(R.id.flaggedButton);
 
         updateLayout();
@@ -69,15 +66,6 @@ public class EventDetails extends UserActivity
         else
         {
             likedButton.setBackgroundColor(Color.LTGRAY);
-        }
-
-        if(hated)
-        {
-            hatedButton.setBackgroundColor(Color.GREEN);
-        }
-        else
-        {
-            hatedButton.setBackgroundColor(Color.LTGRAY);
         }
 
         if(flagged)
@@ -110,20 +98,7 @@ public class EventDetails extends UserActivity
         m_user.setLikedEvent(ffe,liked);
         writeUser();
     }
-    public void clickedBadEvent(View view)
-    {
-        hated = !hated;
-        if(hated)
-        {
-            hatedButton.setBackgroundColor(Color.GREEN);
-        }
-        else
-        {
-            hatedButton.setBackgroundColor(Color.LTGRAY);
-        }
-        m_user.setHatedEvent(ffe,hated);
-        writeUser();
-    }
+
     public void flagEvent(View view)
     {
         flagged = !flagged;
