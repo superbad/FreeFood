@@ -26,6 +26,8 @@ public class FreeFoodEvent implements Serializable{
     private String m_endTime;
     private String m_address;
     private String m_category;
+    private int m_numLikes;
+    private int m_numFlags;
 
     FreeFoodEvent() {
         m_name = "HackUMBC";
@@ -35,10 +37,13 @@ public class FreeFoodEvent implements Serializable{
         m_lon = "-76.7";
         m_lat = "39.2";
         m_address = "1000 Hilltop Circle - ITE";
-        String m_category = "coolio";
+        m_category = "coolio";
+        m_numLikes = 0;
+        m_numFlags = 0;
+
     }
 
-    FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime, String address, String category) {
+    FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime, String address, String category, int likes, int flags) {
         m_name = name;
         m_lat = lat;
         m_lon = lon;
@@ -47,6 +52,8 @@ public class FreeFoodEvent implements Serializable{
         m_startTime = startTime;
         m_address = address;
         m_category = category;
+        m_numFlags = likes;
+        m_numLikes = flags;
     }
 
     //FreeFoodEvent() //Make this one work with json data
@@ -75,6 +82,11 @@ public class FreeFoodEvent implements Serializable{
     public void setAddress(String address){m_address = address;}
 
     public void setCategory(String cat){m_category = cat;}
+
+    public void setLikes(int likes) {m_numLikes = likes;}
+
+    public void setFlags(int flags){m_numFlags = flags;}
+
     //getters
     public String getName() {
         return m_name;
@@ -119,6 +131,8 @@ public class FreeFoodEvent implements Serializable{
         }
     }
 
+    public int getLikes(){return m_numLikes;}
+    public int getFlags(){return  m_numFlags;}
     @Override
     public boolean equals(Object other)
     {
