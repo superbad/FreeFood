@@ -24,7 +24,6 @@ public class EventDetails extends UserActivity
     private int returnCode;
     private FreeFoodEvent ffe;
     Button likedButton;
-    Button hatedButton;
     Button flaggedButton;
     boolean liked;
     boolean flagged;
@@ -38,8 +37,8 @@ public class EventDetails extends UserActivity
         ffe = (FreeFoodEvent) intent.getExtras().getSerializable("event");
         returnCode = intent.getIntExtra("return",0);
 
-        liked = m_user.getLikedEvent(ffe);
-        flagged = m_user.getFlaggedEvent(ffe);
+        liked = m_user.getLikedEvent(ffe.getName());
+        flagged = m_user.getFlaggedEvent(ffe.getName());
 
         likedButton = (Button)findViewById(R.id.likedButton);
         flaggedButton = (Button)findViewById(R.id.flaggedButton);
@@ -79,6 +78,7 @@ public class EventDetails extends UserActivity
 
     }
 
+    //buttons
     public void returnToLast(View view)
     {
         finish();
@@ -95,7 +95,7 @@ public class EventDetails extends UserActivity
         {
             likedButton.setBackgroundColor(Color.LTGRAY);
         }
-        m_user.setLikedEvent(ffe,liked);
+        m_user.setLikedEvent(ffe.getName(),liked);
         writeUser();
     }
 
@@ -110,7 +110,7 @@ public class EventDetails extends UserActivity
         {
             flaggedButton.setBackgroundColor(Color.LTGRAY);
         }
-        m_user.setFlaggedEvent(ffe,flagged);
+        m_user.setFlaggedEvent(ffe.getName(),flagged);
         writeUser();
     }
 }

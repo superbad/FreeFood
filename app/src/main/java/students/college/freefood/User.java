@@ -16,114 +16,19 @@ import java.util.HashMap;
 public class User implements Serializable
 {
     private final int LIKED = 0;
-    private final int HATED = 1;
-    private final int FLAGGED = 2;
+    private final int FLAGGED = 1;
     private int m_radius;
-    public HashMap<FreeFoodEvent,boolean[]> eventThoughts;
+    public HashMap<String,boolean[]> eventThoughts;
     private ArrayList<Integer> filters;
     User()
     {
         m_radius = 1;
-        eventThoughts = new HashMap<FreeFoodEvent,boolean[]>();
+        eventThoughts = new HashMap<String,boolean[]>();
         filters = new ArrayList<>();
         for(int i = 0; i < 6; i++)
         {
             filters.add(0);
         }
-    }
-    public int getRadius()
-    {
-        return m_radius;
-    }
-    public boolean getLikedEvent(FreeFoodEvent event)
-    {
-        for (int i = 0; i < eventThoughts.size(); i++)
-        {
-            System.out.println("WE DO HAVE: "+((FreeFoodEvent)eventThoughts.keySet().toArray()[i]).getName());
-        }
-        if(eventThoughts.containsKey(event))
-        {
-            if(eventThoughts.get(event)[LIKED])
-            {
-                return true;
-            }
-            System.out.println("THE EVENT: "+event.getName()+" DOES EXIST.");
-
-        }
-        System.out.println("THE EVENT: "+event.getName()+" DID NOT EXIST.");
-
-        return false;
-    }
-    public boolean getHatedEvent(FreeFoodEvent event)
-    {
-        if(eventThoughts.containsKey(event))
-        {
-            if(eventThoughts.get(event)[HATED])
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean getFlaggedEvent(FreeFoodEvent event)
-    {
-        if(eventThoughts.containsKey(event))
-        {
-            if(eventThoughts.get(event)[FLAGGED])
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    public void setRadius(int r)
-    {
-        m_radius = r;
-    }
-
-    public void setLikedEvent(FreeFoodEvent event, boolean thought)
-    {
-        if(eventThoughts.containsKey(event))
-        {
-            eventThoughts.get(event)[LIKED] = thought;
-            saveSpace(event);
-        }
-        else
-        {
-            boolean[] thoughts = {thought,false,false};
-            eventThoughts.put(event,thoughts);
-        }
-    }
-    public void setHatedEvent(FreeFoodEvent event, boolean thought)
-    {
-        if(eventThoughts.containsKey(event))
-        {
-            eventThoughts.get(event)[HATED] = thought;
-            saveSpace(event);
-        }
-        else
-        {
-            boolean[] thoughts = {thought,false,false};
-            eventThoughts.put(event,thoughts);
-            System.out.println(eventThoughts.containsKey(event));
-        }
-    }
-    public void setFlaggedEvent(FreeFoodEvent event, boolean thought)
-    {
-        if(eventThoughts.containsKey(event))
-        {
-            eventThoughts.get(event)[FLAGGED] = thought;
-            saveSpace(event);
-        }
-        else
-        {
-            boolean[] thoughts = {thought,false,false};
-            eventThoughts.put(event,thoughts);
-        }
-    }
-    public void setFilters(int index, int i)
-    {
-        filters.set(index,i);
     }
     public int getFilter(int index)
     {
@@ -134,11 +39,75 @@ public class User implements Serializable
         return filters.size();
     }
 
-    private void saveSpace(FreeFoodEvent event)
+
+    //getters
+    public int getRadius()
     {
-      if(!getFlaggedEvent(event) && !getLikedEvent(event) && !getHatedEvent(event))
+        return m_radius;
+    }
+    public boolean getLikedEvent(String event) {
+        if (eventThoughts.containsKey(event)) {
+            if (eventThoughts.get(event)[LIKED]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    public boolean getFlaggedEvent(String event)
+    {
+        if(eventThoughts.containsKey(event))
+        {
+            if(eventThoughts.get(event)[FLAGGED])
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //setters
+    public void setRadius(int r)
+    {
+        m_radius = r;
+    }
+
+    public void setLikedEvent(String event, boolean thought)
+    {
+        if(eventThoughts.containsKey(event))
+        {
+            eventThoughts.get(event)[LIKED] = thought;
+            saveSpace(event);
+        }
+        else
+        {
+            boolean[] thoughts = {thought,false};
+            eventThoughts.put(event,thoughts);
+        }
+    }
+    public void setFlaggedEvent(String event, boolean thought)
+    {
+        if(eventThoughts.containsKey(event))
+        {
+            eventThoughts.get(event)[FLAGGED] = thought;
+            saveSpace(event);
+        }
+        else
+        {
+            boolean[] thoughts = {thought,false};
+            eventThoughts.put(event,thoughts);
+        }
+    }
+    public void setFilters(int index, int i)
+    {
+        filters.set(index,i);
+    }
+
+    private void saveSpace(String event)
+    {
+      if(!getFlaggedEvent(event) && !getLikedEvent(event))
       {
-         // eventThoughts.remove(event);
+          eventThoughts.remove(event);
       }
     }
 
