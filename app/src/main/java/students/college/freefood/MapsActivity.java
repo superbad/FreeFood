@@ -64,8 +64,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener,
-        GoogleMap.OnInfoWindowClickListener,
-        GoogleMap.OnInfoWindowCloseListener,
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -87,6 +85,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private LatLng mlatLng = new LatLng(35.265956, -36.862455);
     private int newtworkIssues = 0; //0 if no network issues, 1 if network issues
     private User m_user;
+    private LinearLayout m_preLayoutSpace;
 
 
     /**
@@ -156,8 +155,21 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mlatLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
-        mMap.setOnInfoWindowClickListener(this);
-        mMap.setOnInfoWindowCloseListener(this);
+//        mMap.setOnInfoWindowClickListener(this);
+//        mMap.setOnInfoWindowCloseListener(this);
+        mMap.setOnMarkerClickListener(this);
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener()
+        {
+            @Override
+            public void onMapClick(LatLng latLng)
+            {
+                //Code for marker deselect goes here
+                if(m_preLayoutSpace!=null) {
+                    m_preLayoutSpace.setBackgroundColor(Color.WHITE);
+                }
+            }
+        });
 
 
         //Initialize Google Play Services
@@ -173,6 +185,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
+
+
     }
 
     /**
@@ -363,43 +377,23 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      * This function should show the user some information about the event going down at
      * the clicked location.
      */
-    @Override
-    public boolean onMarkerClick(Marker marker) {
 
-        //Intent intent;//Should link to a layout that gives info about the event
-        //getIntent().putExtra();//grab the party info from the database based on the location clicked
-        //startActivity(intent);
-        //Log.w("Click", "test");
+    @Override
+    public boolean onMarkerClick(Marker marker)
+    {
+        //Code for on marker click goes here
+        // Highlight event in details view
+        if(m_preLayoutSpace!=null) {
+            m_preLayoutSpace.setBackgroundColor(Color.WHITE);
+        }
         LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
         LinearLayout a = layoutSpace.findViewWithTag(marker);
+        m_preLayoutSpace = layoutSpace.findViewWithTag(marker);
         layoutSpace.removeView(a);
         a.setBackgroundColor(Color.LTGRAY);
         layoutSpace.addView(a, 0);
-        return false;
-
-    }
-
-    @Override
-    public void onInfoWindowClick(Marker marker) {
-//        Toast.makeText(this, "Click Info Window", Toast.LENGTH_SHORT).show();
-        LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
-        LinearLayout a = layoutSpace.findViewWithTag(marker);
-        layoutSpace.removeView(a);
-        a.setBackgroundColor(Color.LTGRAY);
-        layoutSpace.addView(a, 0);
-//        a.findViewsWithText("Details").click();
-//        for(Datapoint d : dataPointList){
-//            if(d.getName() != null && d.getName().contains(search))
-//            //something here
-//        }
-    }
-
-    @Override
-    public void onInfoWindowClose(Marker marker) {
-//        Toast.makeText(this, "Close Info Window", Toast.LENGTH_SHORT).show();
-        LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
-        LinearLayout a = layoutSpace.findViewWithTag(marker);
-        a.setBackgroundColor(Color.WHITE);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+        return true;
     }
 
 
