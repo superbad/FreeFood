@@ -424,7 +424,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mlatLng);
             markerOptions.title(ffeArray.get(i).getName());
-            if(m_user.getLikedEvent(ffeArray.get(i).getName()))
+            if(m_user.getLikedEvent(ffeArray.get(i).getHash()))
             {
                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             }
