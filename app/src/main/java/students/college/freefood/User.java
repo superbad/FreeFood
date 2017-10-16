@@ -94,7 +94,7 @@ public class User implements Serializable
         }
         else
         {
-            boolean[] thoughts = {thought,false};
+            boolean[] thoughts = {false, thought};
             eventThoughts.put(event,thoughts);
         }
     }

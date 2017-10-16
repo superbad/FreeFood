@@ -488,6 +488,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         }
     }
 
+    //a private class to get the events around you. OnPostExecute generated the ffe array and calls
+    //the generateEventList method
     private class getEvents extends AsyncTask<String, String, String> {
 
         @Override
@@ -600,8 +602,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                     ffeArray.clear();
                     for (int i = 0; i < jsonarray.length(); i++) {
                         JSONObject jsonobject = jsonarray.getJSONObject(i);
-                        //"Lon":"-76.7131987","StartTime":"2017-10-07 11:00:00","EndTime":"2017-10-07 23:59:00","Category":"registration","Image":null,"Address":""
-                        ffeArray.add(new FreeFoodEvent(jsonobject.getString("EventName"), jsonobject.getString("Description"), jsonobject.getString("Lat"), jsonobject.getString("Lon"), jsonobject.getString("StartTime"), jsonobject.getString("EndTime"), jsonobject.getString("Address"), jsonobject.getString("Category"),0,0));
+                        ffeArray.add(new FreeFoodEvent(jsonobject.getString("EventName"), jsonobject.getString("Description"), jsonobject.getString("Lat"), jsonobject.getString("Lon"), jsonobject.getString("StartTime"), jsonobject.getString("EndTime"), jsonobject.getString("Address"), jsonobject.getString("Category"),jsonobject.getInt("Likes"), jsonobject.getString("Hash")));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

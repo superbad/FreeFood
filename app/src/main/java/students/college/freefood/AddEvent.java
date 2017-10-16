@@ -227,7 +227,7 @@ public class AddEvent extends UserActivity
             }
             location = fullAddress;
         }
-        new addEvent().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
+        new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
                 "add.php?name=%22" + name + "%22&lat=" + lat + "&long=" + lng + "&description=%22" + description +
                 "%22&" + "start=%22" +startTime+ "%22&end=%22" + endTime+ "%22&category=%22"+category+"%22&" +
                 "image=%22%22&address=%22" + location + "%22");
@@ -235,58 +235,5 @@ public class AddEvent extends UserActivity
         Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
         intent.putExtra("Toast","Your event has been added!");
         startActivity(intent);
-    }
-
-    private class addEvent extends AsyncTask<String, String, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-
-
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
-
-            try {
-                URL url = new URL(params[0]);
-                System.out.println("LOOK BELOW!");
-                System.out.println(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-
-                InputStream stream = connection.getInputStream();
-
-                reader = new BufferedReader(new InputStreamReader(stream));
-
-                StringBuffer buffer = new StringBuffer();
-                String line = "";
-
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
-                    Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
-
-                }
-
-                return buffer.toString();
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if (reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
     }
 }

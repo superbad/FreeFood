@@ -37,8 +37,8 @@ public class EventDetails extends UserActivity
         ffe = (FreeFoodEvent) intent.getExtras().getSerializable("event");
         returnCode = intent.getIntExtra("return",0);
 
-        liked = m_user.getLikedEvent(ffe.getName());
-        flagged = m_user.getFlaggedEvent(ffe.getName());
+        liked = m_user.getLikedEvent(ffe.getHash());
+        flagged = m_user.getFlaggedEvent(ffe.getHash());
 
         likedButton = (Button)findViewById(R.id.likedButton);
         flaggedButton = (Button)findViewById(R.id.flaggedButton);
@@ -90,12 +90,16 @@ public class EventDetails extends UserActivity
         if(liked)
         {
             likedButton.setBackgroundColor(Color.GREEN);
+            new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
+                    "like.php?hash=" + ffe.getHash());
         }
         else
         {
             likedButton.setBackgroundColor(Color.LTGRAY);
+            new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
+                    "unlike.php?hash=" + ffe.getHash());
         }
-        m_user.setLikedEvent(ffe.getName(),liked);
+        m_user.setLikedEvent(ffe.getHash(),liked);
         writeUser();
     }
 
@@ -104,13 +108,17 @@ public class EventDetails extends UserActivity
         flagged = !flagged;
         if(flagged)
         {
-            flaggedButton.setBackgroundColor(Color.GREEN);
+            flaggedButton.setBackgroundColor(Color.RED);
+            new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
+                    "report.php?hash=" + ffe.getHash());
         }
         else
         {
             flaggedButton.setBackgroundColor(Color.LTGRAY);
+            new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
+                    "unreport.php?hash=" + ffe.getHash());
         }
-        m_user.setFlaggedEvent(ffe.getName(),flagged);
+        m_user.setFlaggedEvent(ffe.getHash(),flagged);
         writeUser();
     }
 }

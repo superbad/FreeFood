@@ -27,23 +27,22 @@ public class FreeFoodEvent implements Serializable{
     private String m_address;
     private String m_category;
     private int m_numLikes;
-    private int m_numFlags;
+    private String m_hash;
 
-    FreeFoodEvent() {
-        m_name = "HackUMBC";
-        m_description = "We made an app";
-        m_startTime = "2017-10-08 10:00:00";
-        m_endTime =m_startTime;
-        m_lon = "-76.7";
-        m_lat = "39.2";
-        m_address = "1000 Hilltop Circle - ITE";
-        m_category = "coolio";
-        m_numLikes = 0;
-        m_numFlags = 0;
+//    FreeFoodEvent() {
+//        m_name = "HackUMBC";
+//        m_description = "We made an app";
+//        m_startTime = "2017-10-08 10:00:00";
+//        m_endTime =m_startTime;
+//        m_lon = "-76.7";
+//        m_lat = "39.2";
+//        m_address = "1000 Hilltop Circle - ITE";
+//        m_category = "coolio";
+//        m_numLikes = 0;
+//
+//    }
 
-    }
-
-    FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime, String address, String category, int likes, int flags) {
+    FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime, String address, String category, int likes, String hash) {
         m_name = name;
         m_lat = lat;
         m_lon = lon;
@@ -52,8 +51,8 @@ public class FreeFoodEvent implements Serializable{
         m_startTime = startTime;
         m_address = address;
         m_category = category;
-        m_numFlags = likes;
-        m_numLikes = flags;
+        m_numLikes = likes;
+        m_hash = hash;
     }
 
     //FreeFoodEvent() //Make this one work with json data
@@ -85,7 +84,7 @@ public class FreeFoodEvent implements Serializable{
 
     public void setLikes(int likes) {m_numLikes = likes;}
 
-    public void setFlags(int flags){m_numFlags = flags;}
+    public void setHash(String m_hash){this.m_hash = m_hash;}
 
     //getters
     public String getName() {
@@ -132,27 +131,28 @@ public class FreeFoodEvent implements Serializable{
     }
 
     public int getLikes(){return m_numLikes;}
-    public int getFlags(){return  m_numFlags;}
+    public String getHash(){return m_hash;}
+
     @Override
     public boolean equals(Object other)
     {
         if(other instanceof FreeFoodEvent)
         {
-            if ((m_name+m_description).equals(((FreeFoodEvent)other).m_name+((FreeFoodEvent)other).m_description))
+            if ((m_hash).equals(((FreeFoodEvent)other).m_hash))
                 return true;
         }
         return false;
     }
 
-    @Override
-    public int hashCode()
-    {
-        String ret = (getName()+getDescription());
-        int retur = 0;
-        for(int i = 0; i < ret.length(); i++)
-        {
-            retur += ret.charAt(i);
-        }
-        return retur;
-    }
+//    @Override
+//    public int hashCode()
+//    {
+//        String ret = getHash();
+//        int retur = 0;
+//        for(int i = 0; i < ret.length(); i++)
+//        {
+//            retur += ret.charAt(i);
+//        }
+//        return retur;
+//    }
 }
