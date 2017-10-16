@@ -29,6 +29,7 @@ import java.lang.reflect.Method;
 import java.util.Calendar;
 import android.util.Log;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -232,8 +233,10 @@ public class AddEvent extends UserActivity
                 "image=%22%22&address=%22" + location + "%22");
 
         Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+        intent.putExtra("Toast","Your event has been added!");
         startActivity(intent);
     }
+
     private class addEvent extends AsyncTask<String, String, String> {
 
         @Override

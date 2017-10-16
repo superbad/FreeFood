@@ -101,6 +101,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
 
         Intent intent = getIntent();
+        //try to get a toast message from whatever sent you here
+        String message = intent.getStringExtra("Toast");
+        //if there was a message, show it to the user
+        if(!message.equals(""))
+            Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
         mdistance = m_user.getRadius();
         cbNone = m_user.getFilter(0);
         cbRR = m_user.getFilter(1);
