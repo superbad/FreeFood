@@ -38,6 +38,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -104,7 +105,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //try to get a toast message from whatever sent you here
         String message = intent.getStringExtra("Toast");
         //if there was a message, show it to the user
-        if(!message.equals(""))
+        if(message != null && !message.equals(""))
             Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT).show();
         mdistance = m_user.getRadius();
         cbNone = m_user.getFilter(0);
@@ -113,30 +114,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         cbHH = m_user.getFilter(3);
         cbGL = m_user.getFilter(4);
         cbP = m_user.getFilter(5);
-        /*try
-        {
-            FileReader fr = new FileReader(getFilesDir()+"/Radius.txt");
-            BufferedReader reader = new BufferedReader(fr);
-            String line  = reader.readLine();
-            mdistance = Integer.parseInt(line);
-            line  = reader.readLine();
-            cbNone = Integer.parseInt(line);
-            line  = reader.readLine();
-            cbRR = Integer.parseInt(line);
-            line  = reader.readLine();
-            cbCE = Integer.parseInt(line);
-            line  = reader.readLine();
-            cbHH = Integer.parseInt(line);
-            line  = reader.readLine();
-            cbGL = Integer.parseInt(line);
-            line  = reader.readLine();
-            cbP = Integer.parseInt(line);
-            reader.close();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }*/
+
         System.out.println("THE RADIUS IS: "+mdistance);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
@@ -386,6 +364,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     @Override
     public boolean onMarkerClick(Marker marker)
     {
+        System.out.println("Looking for: "+marker.toString());
         //Code for on marker click goes here
         // Highlight event in details view
         if(m_preLayoutSpace!=null) {
@@ -433,8 +412,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     public void generateEventList()
     {
         LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
-
-        layoutSpace.removeAllViews();
+        mMap.clear();
+        layoutSpace.removeAllViewsInLayout();
         for(int i = 0; i < ffeArray.size(); i++)
         {
             LinearLayout a = new LinearLayout(this);
@@ -445,7 +424,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mlatLng);
             markerOptions.title(ffeArray.get(i).getName());
-//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+            if(m_user.getLikedEvent(ffeArray.get(i).getName()))
+            {
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            }
             mCurrLocationMarker = mMap.addMarker(markerOptions);
 
             //create an image for each event
@@ -494,13 +476,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
                     //System.out.println(ffeArray.get(eventButton.getId()).getName());
                     FreeFoodEvent ffe = ffeArray.get(eventButton.getId());
                     i.putExtra("event", ffe);
-                    startActivity(i);
+                    startActivityForResult(i,0);
                 }
             });
          a.addView(eventButton);
 
             //add this layout to the full layout
             a.setTag(mCurrLocationMarker);
+            System.out.println(a.getTag().toString());
             layoutSpace.addView(a);
         }
     }
@@ -634,6 +617,40 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //System.out.println("I totally made a new event!");
         Intent i = new Intent(getApplicationContext(),AddEvent.class);
         startActivity(i);
+    }
+
+    //When the user comes back here from another page
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        //regenerate the list.
+        System.out.println("Hit!");
+        readUser();
+        String filter = "";
+        generateEventList();
+        /*if (cbNone + cbRR + cbCE +cbHH + cbGL  + cbP > 0)
+        {
+            if (cbNone == 1){
+                filter = filter + "&cbNone=1";
+            }
+            if (cbRR == 1){
+                filter = filter + "&cbRR=1";
+            }
+            if (cbCE == 1){
+                filter = filter + "&cbCE=1";
+            }
+            if (cbHH == 1){
+                filter = filter + "&cbHH=1";
+            }
+            if (cbGL == 1){
+                filter = filter + "&cbGL=1";
+            }
+            if (cbP == 1){
+                filter = filter + "&cbP=1";
+            }
+        }
+        new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
+                mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance + filter);*/
     }
 
 
