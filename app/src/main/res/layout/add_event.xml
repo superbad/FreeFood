@@ -142,20 +142,20 @@
             android:paddingTop="10dp"
             android:fontFamily="sans-serif-condensed"
             android:textSize="20dp"
-            android:text="End Date" />
+            android:text="Start Date" />
 
 
         <TextView
             android:id="@+id/buttonTime1"
             android:layout_width="match_parent"
             android:layout_height="62dp"
+            android:fontFamily="sans-serif-condensed"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            android:fontFamily="sans-serif-condensed"
-            android:textSize="20dp"
-            android:text="End Time" />
+            android:text="Start Time"
+            android:textSize="20dp" />
 
     </LinearLayout>
     <View

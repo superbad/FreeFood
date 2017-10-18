@@ -26,6 +26,7 @@ import android.widget.TextView;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import android.util.Log;
 import android.widget.TimePicker;
@@ -53,12 +54,11 @@ public class AddEvent extends UserActivity
 {
     private FreeFoodEvent ffe;
     TextView tvStartDate,tvEndDate;
-    Calendar mCurrentDate1,mCurrentDate2;
+    Calendar mCal;
 
     int startDay,startMonth,startYear,endDay,endMonth,endYear;
 
     TextView tvStartTime, tvEndTime;
-    Calendar mCurrentTime1,mCurrentTime2;
 
     int startHour,startMin, endHour, endMin;
 
@@ -74,107 +74,20 @@ public class AddEvent extends UserActivity
 
         setContentView(R.layout.add_event);
 
+        //Set Time Spinner
         Spinner spinner = (Spinner) findViewById(R.id.spCategory);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.category_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
-        tvStartDate = (TextView) findViewById(R.id.buttonDate1);
-        mCurrentDate1 = Calendar.getInstance();
-        startDay = mCurrentDate1.get(Calendar.DAY_OF_MONTH);
-        startMonth = mCurrentDate1.get(Calendar.MONTH);
-        startMonth = startMonth;
-        startYear = mCurrentDate1.get(Calendar.YEAR);
-        System.out.println((startMonth+1)+"/"+startDay +"/"+startYear);
-        tvStartDate.setText((startMonth+1)+"/"+startDay +"/"+startYear);
-        tvStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v1) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AddEvent.this,new DatePickerDialog.OnDateSetListener(){
-                    @Override
-                    public void onDateSet(DatePicker view1, int year1, int monthOfYear1, int dayOfMonth1) {
-                        monthOfYear1 = monthOfYear1 + 1;
-                        tvStartDate.setText(monthOfYear1+"/"+dayOfMonth1+"/"+year1);
-                        startDay = dayOfMonth1;
-                        startMonth = monthOfYear1;
-                        startYear = year1;
-                    }
-                }, startYear, startMonth, startDay);
-                datePickerDialog.show();
-            }
-        });
+        setUpCalendarVars();
 
+        doTheDateAndTimeStuff();
 
-
-        tvStartTime = (TextView) findViewById(R.id.buttonTime1);
-        mCurrentTime1 = Calendar.getInstance();
-        startHour = mCurrentTime1.get(Calendar.HOUR_OF_DAY);
-        startMin = mCurrentTime1.get(Calendar.MINUTE);
-        tvStartTime.setText(startHour +":"+ startMin);
-        tvStartTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v3) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(AddEvent.this,new TimePickerDialog.OnTimeSetListener(){
-                    @Override
-                    public void onTimeSet(TimePicker view1, int hour1, int min1) {
-                        tvStartTime.setText(hour1+":"+min1);
-                        startHour = hour1;
-                        startMin = min1;
-                    }
-                }, startHour, startMin, true);
-                timePickerDialog.show();
-            }
-        });
-
-        tvEndDate = (TextView) findViewById(R.id.buttonDate2);
-        mCurrentDate2 = Calendar.getInstance();
-        endDay = mCurrentDate2.get(Calendar.DAY_OF_MONTH);
-        endMonth = mCurrentDate2.get(Calendar.MONTH);
-        endYear = mCurrentDate2.get(Calendar.YEAR);
-        System.out.println((endMonth+1) +"/" + endDay+"/"+ endYear);
-        tvEndDate.setText((endMonth+1) +"/" + endDay+"/"+ endYear);
-        tvEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v2) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AddEvent.this,new DatePickerDialog.OnDateSetListener(){
-                    @Override
-                    public void onDateSet(DatePicker view2, int year2, int monthOfYear2, int dayOfMonth2) {
-                        monthOfYear2 = monthOfYear2 + 1;
-                        tvEndDate.setText(monthOfYear2+"/"+dayOfMonth2+"/"+year2);
-                        endDay = dayOfMonth2;
-                        endMonth = monthOfYear2;
-                        endYear = year2;
-                    }
-                }, endYear, endMonth, endDay);
-                datePickerDialog.show();
-            }
-        });
-
-
-        tvEndTime = (TextView) findViewById(R.id.buttonTime2);
-        mCurrentTime2 = Calendar.getInstance();
-        endHour = mCurrentTime2.get(Calendar.HOUR_OF_DAY);
-        endMin = mCurrentTime2.get(Calendar.MINUTE);
-        tvEndTime.setText(endHour +":"+ endMin);
-        tvEndTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v4) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(AddEvent.this,new TimePickerDialog.OnTimeSetListener(){
-                    @Override
-                    public void onTimeSet(TimePicker view2, int hour2, int min2) {
-                        tvEndTime.setText(hour2+":"+min2);
-                        endHour = hour2;
-                        endMin = min2;
-                    }
-                }, endHour, endMin, true);
-                timePickerDialog.show();
-            }
-        });
     }
 
     public void addThisEvent(View view)
@@ -183,8 +96,9 @@ public class AddEvent extends UserActivity
         name = ((EditText)findViewById(R.id.etName)).getText().toString();
         description = ((EditText)findViewById(R.id.etDescription)).getText().toString();
         location =  ((EditText)findViewById(R.id.etLocation)).getText().toString();
-        String startTime = startYear+"-"+startMonth+"-"+ startDay +"%20"+ startHour +":"+ startMin +":00";
-        String endTime = endYear +"-"+ endMonth +"-"+endDay+"%20"+ endHour +":"+ endMin +":00";
+
+        String startTime = startYear+"-"+(startMonth+1)+"-"+ startDay +"%20"+ startHour +":"+ startMin +":00";
+        String endTime = endYear +"-"+ (endMonth+1) +"-"+endDay+"%20"+ endHour +":"+ endMin +":00";
         category = ((Spinner)findViewById(R.id.spCategory)).getSelectedItem().toString();
 
         String response = "";
@@ -235,5 +149,123 @@ public class AddEvent extends UserActivity
         Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
         intent.putExtra("Toast","Your event has been added!");
         startActivity(intent);
+    }
+    private void setUpCalendarVars(){
+        mCal = Calendar.getInstance();
+        startDay = mCal.get(Calendar.DAY_OF_MONTH);
+        startMonth = mCal.get(Calendar.MONTH);
+        startYear = mCal.get(Calendar.YEAR);
+        startHour = mCal.get(Calendar.HOUR_OF_DAY);
+        startMin = mCal.get(Calendar.MINUTE);
+
+        endDay = mCal.get(Calendar.DAY_OF_MONTH);
+        endMonth = mCal.get(Calendar.MONTH);
+        endYear = mCal.get(Calendar.YEAR);
+        endHour = mCal.get(Calendar.HOUR_OF_DAY);
+        endMin = mCal.get(Calendar.MINUTE);
+
+        tvStartDate = (TextView) findViewById(R.id.buttonDate1);
+        tvStartTime = (TextView) findViewById(R.id.buttonTime1);
+
+        tvEndDate = (TextView) findViewById(R.id.buttonDate2);
+        tvEndTime = (TextView) findViewById(R.id.buttonTime2);
+    }
+
+    private void doTheDateAndTimeStuff() {
+        //set the text that's displayed initially
+        System.out.println((startMonth+1)+"/"+startDay +"/"+startYear);
+        tvStartDate.setText((startMonth+1)+"/"+startDay +"/"+startYear);
+        tvStartTime.setText(startHour +":"+ startMin);
+        System.out.println((endMonth+1) +"/" + endDay+"/"+ endYear);
+        tvEndDate.setText((endMonth+1) +"/" + endDay+"/"+ endYear);
+        tvEndTime.setText(endHour +":"+ endMin);
+
+        //do this when the start date is clicked
+        tvStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v1) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AddEvent.this,new DatePickerDialog.OnDateSetListener(){
+                    @Override
+                    public void onDateSet(DatePicker view1, int year1, int monthOfYear1, int dayOfMonth1) {
+                        //Change the text shown
+                        tvStartDate.setText((monthOfYear1+1)+"/"+dayOfMonth1+"/"+year1);
+                        //change the variables
+                        startDay = dayOfMonth1;
+                        startMonth = monthOfYear1;
+                        startYear = year1;
+                    }
+                }, startYear, startMonth, startDay);
+                datePickerDialog.show();
+            }
+        });
+
+        //do this when the end date is clicked
+        tvEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v2) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AddEvent.this,new DatePickerDialog.OnDateSetListener(){
+                    @Override
+                    public void onDateSet(DatePicker view2, int year2, int monthOfYear2, int dayOfMonth2) {
+                        //Change the text shown
+                        tvEndDate.setText((monthOfYear2+1)+"/"+dayOfMonth2+"/"+year2);
+                        //change the variables
+                        endDay = dayOfMonth2;
+                        endMonth = monthOfYear2;
+                        endYear = year2;
+                    }
+                }, endYear, endMonth, endDay);
+                datePickerDialog.show();
+            }
+        });
+
+        //do this when the start time is clicked
+        tvStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v3) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(AddEvent.this,new TimePickerDialog.OnTimeSetListener(){
+                    @Override
+                    public void onTimeSet(TimePicker view1, int hour1, int min1) {
+                        //change the text shown
+                        String showMin;
+                        if(min1 < 10) {
+                            showMin = "0" + Integer.toString(min1);
+                        }
+                        else{
+                            showMin = Integer.toString(min1);
+                        }
+                        tvStartTime.setText(hour1+":"+showMin);
+                        //change the variables
+                        startHour = hour1;
+                        startMin = min1;
+                    }
+                }, startHour, startMin, true);
+                timePickerDialog.show();
+            }
+        });
+
+        //do this when the end time is clicked
+        tvEndTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v4) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(AddEvent.this,new TimePickerDialog.OnTimeSetListener(){
+                    @Override
+                    public void onTimeSet(TimePicker view2, int hour2, int min2) {
+                        //change the text shown
+                        String showMin;
+                        if(min2 < 10) {
+                            showMin = "0" + Integer.toString(min2);
+                        }
+                        else{
+                            showMin = Integer.toString(min2);
+                        }
+                        tvEndTime.setText(hour2+":"+showMin);
+                        //change the variables
+                        endHour = hour2;
+                        endMin = min2;
+                    }
+                }, endHour, endMin, true);
+                timePickerDialog.show();
+            }
+        });
     }
 }
