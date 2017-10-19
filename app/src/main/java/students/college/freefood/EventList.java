@@ -4,9 +4,6 @@ package students.college.freefood;
  * Created by Robert Bradshaw on 10/7/2017.
  */
 
-import android.app.Activity;
-import android.app.usage.UsageEvents;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,10 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.EventListener;
 
 /**
  * This class will be deleted and moved later, but for now it is where I will play with

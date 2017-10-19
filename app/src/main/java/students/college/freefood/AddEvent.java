@@ -1,50 +1,28 @@
 package students.college.freefood;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
-import android.os.AsyncTask;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import android.util.Log;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.Locale;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 /**
  * Created by Robert Bradshaw on 10/7/2017.
@@ -53,19 +31,15 @@ import java.util.Locale;
 public class AddEvent extends UserActivity
 {
     private FreeFoodEvent ffe;
-    TextView tvStartDate,tvEndDate;
-    Calendar mCal;
+    private TextView tvStartDate,tvEndDate, tvStartTime, tvEndTime, tvAddress;
+    private Calendar mCal;
 
-    int startDay,startMonth,startYear,endDay,endMonth,endYear;
+    private int startDay,startMonth,startYear,endDay,endMonth,endYear;
+    private int startHour,startMin, endHour, endMin;
+    private double lat, lng;
 
-    TextView tvStartTime, tvEndTime;
-
-    int startHour,startMin, endHour, endMin;
-
-    private String name;
-    private String description;
-    private String location;
-    private String category;
+    private String name, description, location, category;
+    private static final int REQUEST_PLACE_PICKER = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -85,61 +59,49 @@ public class AddEvent extends UserActivity
         spinner.setAdapter(adapter);
 
         setUpCalendarVars();
-
-        doTheDateAndTimeStuff();
+        setUpTheListeners();
 
     }
 
     public void addThisEvent(View view)
     {
 
-        name = ((EditText)findViewById(R.id.etName)).getText().toString();
-        description = ((EditText)findViewById(R.id.etDescription)).getText().toString();
-        location =  ((EditText)findViewById(R.id.etLocation)).getText().toString();
+        EditText etName = ((EditText)findViewById(R.id.etName));
+        EditText etDescription = ((EditText)findViewById(R.id.etDescription));
+
+        name = etName.getText().toString();
+        description = etDescription.getText().toString();
+        location =  tvAddress.getText().toString();
 
         String startTime = startYear+"-"+(startMonth+1)+"-"+ startDay +"%20"+ startHour +":"+ startMin +":00";
         String endTime = endYear +"-"+ (endMonth+1) +"-"+endDay+"%20"+ endHour +":"+ endMin +":00";
         category = ((Spinner)findViewById(R.id.spCategory)).getSelectedItem().toString();
 
         String response = "";
-        double lat = 39.25;
-        double lng = -76.69;
-
-        Geocoder geocoder = new Geocoder(AddEvent.this, Locale.getDefault());
-        try {
-            List<Address> geoResults = geocoder.getFromLocationName(location, 1);
-            int counter = 0;
-            while (geoResults.size()==0 && counter< 10) {
-                geoResults = geocoder.getFromLocationName(location, 1);
-                counter++;
-            }
-            if (geoResults.size()>0) {
-                Address addr = geoResults.get(0);
-                lat = addr.getLatitude();
-                lng = addr.getLongitude();
-            }
-        } catch (Exception e) {
-            System.out.print(e.getMessage());
+        int failed = 0;
+        if(name.equals("")){
+            etName.setBackgroundColor(Color.RED);
+            failed++;
         }
-
-        if(location.equalsIgnoreCase("My Current Location")) {
-            List<Address> addresses;
-            geocoder = new Geocoder(this, Locale.getDefault());
-            String fullAddress = "";
-            try {
-                addresses = geocoder.getFromLocation(lat, lng, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-
-                String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-                String city = addresses.get(0).getLocality();
-                String state = addresses.get(0).getAdminArea();
-                String country = addresses.get(0).getCountryName();
-                String postalCode = addresses.get(0).getPostalCode();
-                String knownName = addresses.get(0).getFeatureName(); // Only if available else return NULL
-                fullAddress += address + ", " + city + ", " + state;
-            } catch (Exception e) {
-                fullAddress = "UMBC";
-            }
-            location = fullAddress;
+        else{
+            etName.setBackgroundColor(Color.WHITE);
+        }
+        if(description.equals("")){
+            etDescription.setBackgroundColor(Color.RED);
+            failed++;
+        }
+        else{
+            etDescription.setBackgroundColor(Color.WHITE);
+        }
+        if(location.equals("Choose a Location")){
+            tvAddress.setTextColor(Color.RED);
+            failed++;
+        }
+        else{
+            tvAddress.setTextColor(Color.BLACK);
+        }
+        if(failed>0){
+            return;
         }
         new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
                 "add.php?name=%22" + name + "%22&lat=" + lat + "&long=" + lng + "&description=%22" + description +
@@ -169,9 +131,11 @@ public class AddEvent extends UserActivity
 
         tvEndDate = (TextView) findViewById(R.id.buttonDate2);
         tvEndTime = (TextView) findViewById(R.id.buttonTime2);
+
+        tvAddress = (TextView) findViewById(R.id.etLocation);
     }
 
-    private void doTheDateAndTimeStuff() {
+    private void setUpTheListeners() {
         //set the text that's displayed initially
         System.out.println((startMonth+1)+"/"+startDay +"/"+startYear);
         tvStartDate.setText((startMonth+1)+"/"+startDay +"/"+startYear);
@@ -267,5 +231,54 @@ public class AddEvent extends UserActivity
                 timePickerDialog.show();
             }
         });
+
+        tvAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v4) {
+                LoadPlacePicker(REQUEST_PLACE_PICKER);
+            }
+        });
+    }
+
+    //method to create place picker
+    private void LoadPlacePicker(int PlacePickerRequest)
+    {
+        try {
+
+            PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+            Intent intent = intentBuilder.build(AddEvent.this);
+            // Start the Intent by requesting a result, identified by a request code.
+            startActivityForResult(intent, PlacePickerRequest);
+
+
+        } catch (GooglePlayServicesRepairableException e) {
+            GooglePlayServicesUtil
+                    .getErrorDialog(e.getConnectionStatusCode(), AddEvent.this, 0);
+        } catch (GooglePlayServicesNotAvailableException e) {
+            Toast.makeText(AddEvent.this, "Google Play Services is not available.",
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    //get the results of an intent. If it's placepicker, we'll handle it,
+    //otherwise we have the original activity happen
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_PLACE_PICKER) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
+                String toastMsg = String.format("Sender Place: %s", place.getName());
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                lat = place.getLatLng().latitude;
+                lng = place.getLatLng().longitude;
+                tvAddress.setText(place.getAddress());
+            }
+        }
+        else{
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+
+
     }
 }

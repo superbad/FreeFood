@@ -1,15 +1,6 @@
 package students.college.freefood;
 
-import android.location.Location;
-import android.util.StringBuilderPrinter;
-
-import java.io.InterruptedIOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.StringTokenizer;
 
 /**
  * Created by Robert Bradshaw on 10/7/2017.

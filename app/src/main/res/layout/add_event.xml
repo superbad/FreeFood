@@ -47,7 +47,10 @@
         android:textSize="20dp"
         android:id="@+id/etDescription"/>
 
-    <EditText
+    <TextView
+        style="@android:style/Widget.Button"
+        android:clickable="false"
+        android:inputType="none"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -57,7 +60,7 @@
         android:paddingRight="10dp"
         android:paddingTop="10dp"
         android:hint="Location"
-        android:text="My Current Location"
+        android:text="Choose a Location"
         android:textSize="20dp"
         android:id="@+id/etLocation"/>
 

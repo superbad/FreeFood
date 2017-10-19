@@ -1,19 +1,13 @@
 package students.college.freefood;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 /**
  * Created by Robert Bradshaw on 10/7/2017.
@@ -69,7 +63,7 @@ public class EventDetails extends UserActivity
 
         if(flagged)
         {
-            flaggedButton.setBackgroundColor(Color.GREEN);
+            flaggedButton.setBackgroundColor(Color.RED);
         }
         else
         {
