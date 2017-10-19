@@ -2,6 +2,7 @@ package students.college.freefood;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -114,5 +115,10 @@ public class EventDetails extends UserActivity
         }
         m_user.setFlaggedEvent(ffe.getHash(),flagged);
         writeUser();
+    }
+    public void clickLocation(View view){
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("https://www.google.com/maps/search/?api=1&query="+ffe.getLat()+"," + ffe.getLon()));
+        startActivity(intent);
     }
 }

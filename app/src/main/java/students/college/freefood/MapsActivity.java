@@ -367,9 +367,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         layoutSpace.removeView(a);
         a.setBackgroundColor(Color.LTGRAY);
         layoutSpace.addView(a, 0);
-
         mMap.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
-        return true;
+        return false;
     }
 
 
