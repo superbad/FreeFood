@@ -144,18 +144,20 @@ public class FreeFoodEvent implements Serializable{
         String min = tok.nextToken();
 
         String ampm = "am";
-        String newHours = "";
         if(hours > 12)
         {
             hours -= 12;
+            ampm = "pm";
+        }
+        if(hours == 12)
+        {
             ampm = "pm";
         }
         if(hours < 1)
         {
             hours = 12;
         }
-        newHours = Integer.toString(hours);
-        time = year+"-"+month+"-"+day+" "+newHours+":"+min+" "+ampm;
+        time = year+"-"+month+"-"+day+" "+hours+":"+min+" "+ampm;
         return time;
     }
 

@@ -189,13 +189,16 @@ public class AddEvent extends UserActivity
         if(startHour > 12) {
             tvStartTime.setText(startHour-12 + ":" + stringMin+" pm");
         }
-        else if(startHour > 0)
+        else if(startHour > 0 && startHour != 12)
         {
             tvStartTime.setText(startHour + ":" + stringMin+" am");
         }
         else
         {
-            tvStartTime.setText("12:"+ stringMin+" am");
+            String ampm = "am";
+            if(endHour == 12)
+                ampm = "pm";
+            tvStartTime.setText("12:"+ stringMin+" "+ampm);
         }
 
        // System.out.println((endMonth+1) +"/" + endDay+"/"+ endYear);
@@ -203,13 +206,16 @@ public class AddEvent extends UserActivity
         if(endHour > 12) {
             tvEndTime.setText(endHour-12 + ":" + endMin+" pm");
         }
-        else if(endHour > 0)
+        else if(endHour > 0 && endHour != 12)
         {
             tvEndTime.setText(endHour + ":" + endMin+" am");
         }
         else
         {
-            tvEndTime.setText("12:"+endMin+" am");
+            String ampm = "am";
+            if(endHour == 12)
+                ampm = "pm";
+            tvEndTime.setText("12:"+endMin+" "+ampm);
         }
 
         //do this when the start date is clicked
@@ -279,13 +285,16 @@ public class AddEvent extends UserActivity
                         if(startHour > 12) {
                             tvStartTime.setText(startHour-12 + ":" + showMin+" pm");
                         }
-                        else if(startHour > 0)
+                        else if(startHour > 0 && startHour != 12)
                         {
                             tvStartTime.setText(startHour + ":" + showMin+" am");
                         }
                         else
                         {
-                            tvStartTime.setText("12:"+showMin+" am");
+                            String ampm = "am";
+                            if(startHour == 12)
+                                ampm = "pm";
+                            tvStartTime.setText("12:"+showMin+" "+ampm);
                         }
                     }
                 }, startHour, startMin, true);
@@ -311,17 +320,19 @@ public class AddEvent extends UserActivity
                         //change the variables
                         endHour = hour2;
                         endMin = min2;
-
                         if(endHour > 12) {
                             tvEndTime.setText(endHour-12 + ":" + showMin+" pm");
                         }
-                        else if(endHour > 0)
+                        else if(endHour > 0 && endHour !=12)
                         {
                             tvEndTime.setText(endHour + ":" + showMin+" am");
                         }
                         else
                         {
-                            tvEndTime.setText("12:"+showMin+" am");
+                            String ampm = "am";
+                            if(endHour == 12)
+                                ampm = "pm";
+                            tvEndTime.setText("12:"+showMin+" "+ampm);
                         }
                     }
                 }, endHour, endMin, true);
