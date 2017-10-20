@@ -28,10 +28,8 @@ public class EventDetails extends UserActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_detail);
         Intent intent = getIntent();
-        returnCode = intent.getIntExtra("returnCode",0);
-        ffe = (FreeFoodEvent) intent.getExtras().getSerializable("event");
-        returnCode = intent.getIntExtra("return",0);
 
+        ffe = (FreeFoodEvent) intent.getExtras().getSerializable("event");
         liked = m_user.getLikedEvent(ffe.getHash());
         flagged = m_user.getFlaggedEvent(ffe.getHash());
 
@@ -41,6 +39,10 @@ public class EventDetails extends UserActivity
         updateLayout();
     }
 
+    /**
+     * This will take info we were passed about the event
+     * and populate the various text views with that info
+     */
     public void updateLayout()
     {
         TextView eventName = (TextView)findViewById(R.id.eventTextViewName);
@@ -74,11 +76,20 @@ public class EventDetails extends UserActivity
     }
 
     //buttons
+
+    /**
+     * returns user to the mapActivity or EventList screen, depending on where they where before
+     * @param view - the back arrow
+     */
     public void returnToLast(View view)
     {
         finish();
     }
 
+    /**
+     * Will increment the number of likes this event has in the db
+     * @param view - like button
+     */
     public void clickedGreatEvent(View view)
     {
         liked = !liked;
@@ -98,6 +109,10 @@ public class EventDetails extends UserActivity
         writeUser();
     }
 
+    /**
+     * will ask the user to confirm this choice, then it will increment the flag value in db
+     * @param view - the flag button
+     */
     public void flagEvent(View view)
     {
         flagged = !flagged;
@@ -116,6 +131,11 @@ public class EventDetails extends UserActivity
         m_user.setFlaggedEvent(ffe.getHash(),flagged);
         writeUser();
     }
+
+    /**
+     *
+     * @param view - The location icon
+     */
     public void clickLocation(View view){
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                 Uri.parse("https://www.google.com/maps/search/?api=1&query="+ffe.getLat()+"," + ffe.getLon()));

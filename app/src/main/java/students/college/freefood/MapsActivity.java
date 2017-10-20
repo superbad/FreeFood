@@ -196,7 +196,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     }
 
     /**
-     * What to do if the user suspends the app (if we want to do anything?
+     * What to do if the user suspends the app (if we want to do anything?)
      * @param i
      */
     @Override
@@ -271,7 +271,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
     }
 
-    /*
+    /**
         Asks the user if we can use their current location.
      */
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 123;
@@ -350,8 +350,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
      * handle marker click event
      * This function should show the user some information about the event going down at
      * the clicked location.
+     * @param marker - a marker icon on the google map.
+     * @return - just returns false at the end.
      */
-
     @Override
     public boolean onMarkerClick(Marker marker)
     {
@@ -361,8 +362,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         if(m_preLayoutSpace!=null) {
             m_preLayoutSpace.setBackgroundColor(Color.WHITE);
         }
+
         LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
         LinearLayout a = layoutSpace.findViewWithTag(marker);
+
         m_preLayoutSpace = layoutSpace.findViewWithTag(marker);
         layoutSpace.removeView(a);
         a.setBackgroundColor(Color.LTGRAY);
@@ -380,6 +383,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     {
     }
 
+    /**
+     * when the up arrow is clicked, show the event list.
+     * @param view - up arrow
+     */
     public void onEventsClick(View view)
     {
         Intent i = new Intent(getApplicationContext(),EventList.class);
@@ -387,31 +394,36 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         startActivity(i);
     }
 
+    /**
+     * when the hamburger is clicked, show some user options
+     * @param view - hamburger button
+     */
     public void goToOptions(View view)
     {
         Intent i = new Intent(getApplicationContext(),NavigationMenu.class);
-        i.putExtra("radius",mdistance);
-        i.putExtra("cbNone", cbNone);
-        i.putExtra("cbRR", cbRR);
-        i.putExtra("cbCE", cbCE);
-        i.putExtra("cbHH", cbHH);
-        i.putExtra("cbGL", cbGL);
-        i.putExtra("cbP", cbP);
         startActivity(i);
     }
 
+    /**
+     * pulls the events from the database, fills teh ffeArray, and creates markers for each event.
+     */
     public void generateEventList()
     {
+        //this is the encompassing layout for all of the events to go in
         LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
         mMap.clear();
         layoutSpace.removeAllViewsInLayout();
+
         for(int i = 0; i < ffeArray.size(); i++)
         {
+            //create a dummy layout to hold event info
             LinearLayout a = new LinearLayout(this);
             a.setOrientation(LinearLayout.HORIZONTAL);
             a.setMinimumHeight(200);
             a.setGravity(Gravity.CENTER);
             mlatLng = new LatLng(Double.parseDouble(ffeArray.get(i).getLat()), Double.parseDouble(ffeArray.get(i).getLon()));
+
+            //create a marker to go with this event
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(mlatLng);
             markerOptions.title(ffeArray.get(i).getName());
@@ -458,8 +470,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             final Button eventButton = new Button(this);
             eventButton.setId(i);
             eventButton.setText("Details");
-            //eventButton.setBackgroundResource(R.drawable.arrow);
 
+            //when someone clicks this details button, they go to EventDetails
             eventButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -474,18 +486,18 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
             //add this layout to the full layout
             a.setTag(mCurrLocationMarker);
-            System.out.println(a.getTag().toString());
             layoutSpace.addView(a);
         }
     }
 
-    //a private class to get the events around you. OnPostExecute generated the ffe array and calls
-    //the generateEventList method
+    /**
+     * a private class to get the events around you. OnPostExecute generated the ffe array and calls
+     * the generateEventList method
+     */
     private class getEvents extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... params) {
-
 
             HttpURLConnection connection = null;
             HttpURLConnection connection2 = null;
@@ -569,6 +581,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             return null;
         }
 
+
         protected void onPostExecute(String jsonStr)
         {
             if(newtworkIssues == 1)
@@ -604,6 +617,10 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         }
     }
 
+    /**
+     * user clicks the add button, goes to addEvent
+     * @param view - the plus button
+     */
     public void AddClick(View view)
     {
         //System.out.println("I totally made a new event!");
@@ -611,41 +628,23 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         startActivity(i);
     }
 
-    //When the user comes back here from another page
-
+    /**
+     * when the user comes back here, usually from the NavigationMenu
+     * @param requestCode - the code used to send the user out
+     * @param resultCode - the code we recieve when the user comes back
+     * @param data - data from the screen they were sent to
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         //regenerate the list.
-        System.out.println("Hit!");
         readUser();
-        String filter = "";
         generateEventList();
-        /*if (cbNone + cbRR + cbCE +cbHH + cbGL  + cbP > 0)
-        {
-            if (cbNone == 1){
-                filter = filter + "&cbNone=1";
-            }
-            if (cbRR == 1){
-                filter = filter + "&cbRR=1";
-            }
-            if (cbCE == 1){
-                filter = filter + "&cbCE=1";
-            }
-            if (cbHH == 1){
-                filter = filter + "&cbHH=1";
-            }
-            if (cbGL == 1){
-                filter = filter + "&cbGL=1";
-            }
-            if (cbP == 1){
-                filter = filter + "&cbP=1";
-            }
-        }
-        new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
-                mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance + filter);*/
     }
 
 
+    /**
+     * Reads infromation about the User object from a .data file.
+     */
     public void readUser()
     {
         try
@@ -659,21 +658,22 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         {
             e.printStackTrace();
             m_user = new User();
-            System.out.println("I made a user man...");
             writeUser();
         }
     }
+
+    /**
+     * Saves information about the User object to a .data file
+     */
     public void writeUser()
     {
         // Write to disk with FileOutputStream
-        FileOutputStream f_out = null;
         try
         {
             FileOutputStream fout = new FileOutputStream(getFilesDir()+"userData.data");
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(m_user);
             fout.close();
-            System.out.println("Oh hey we saved!");
         }
         catch (Exception e)
         {

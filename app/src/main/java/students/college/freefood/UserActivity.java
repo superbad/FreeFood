@@ -13,6 +13,10 @@ import java.io.ObjectOutputStream;
  * Created by Robert Bradshaw on 10/9/2017.
  */
 
+/**
+ * Super class of all of our non-fragment activities. It includes a User object
+ * and ways to read and write info to that User object.
+ */
 public class UserActivity extends Activity
 {
     User m_user;
@@ -25,6 +29,9 @@ public class UserActivity extends Activity
         readUser();
     }
 
+    /**
+     * reads information about the user from a .data file
+     */
     public void readUser()
     {
         try
@@ -41,10 +48,13 @@ public class UserActivity extends Activity
 
         }
     }
+
+    /**
+     * Saves information about the User object into a .data file
+     */
     public void writeUser()
     {
         // Write to disk with FileOutputStream
-        FileOutputStream f_out = null;
         try
         {
             FileOutputStream fout = new FileOutputStream(getFilesDir()+"userData.data");

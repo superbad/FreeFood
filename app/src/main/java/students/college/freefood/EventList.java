@@ -26,22 +26,22 @@ public class EventList extends UserActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_list_detail);
-        //make 5 events (for testing)
 
+        //the encompassing layout of this screen
         LinearLayout layoutSpace = (LinearLayout) findViewById(R.id.eventListLayout);
 
         layoutSpace.setDividerPadding(5);
-       // Uncomment this part when you are passing the array from MapsActivity
 
         Intent intent = getIntent();
         eventList = (ArrayList<FreeFoodEvent>)intent.getExtras().getSerializable("event");
 
-        for(int i = 0; i < eventList.size(); i++ ) {
+        for(int i = 0; i < eventList.size(); i++ )
+        {
+            //create a dummy layout that will hold info about this event
             LinearLayout a = new LinearLayout(this);
             a.setOrientation(LinearLayout.HORIZONTAL);
             a.setMinimumHeight(150);
 
-            //create an image for each event
             //create an image for each event
             ImageView imv = new ImageView(this);
             imv.setMinimumWidth(50);
@@ -74,15 +74,20 @@ public class EventList extends UserActivity
             });
             a.addView(eventButton);
 
-
             //add this layout to the full layout
             layoutSpace.addView(a);
 
+            //this bufferes each dummy layout
             TextView tv2 = new TextView(this);
             tv2.setHeight(50);
             layoutSpace.addView(tv2);
         }
     }
+
+    /**
+     * sends user to the mapActivity screen
+     * @param view - down arrow
+     */
     public void BackToMap(View view)
     {
         Intent i = new Intent(getApplicationContext(),MapsActivity.class);

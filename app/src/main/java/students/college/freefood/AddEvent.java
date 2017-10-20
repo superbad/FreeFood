@@ -41,6 +41,8 @@ public class AddEvent extends UserActivity
     private String name, description, location, category;
     private static final int REQUEST_PLACE_PICKER = 1;
 
+    private boolean saveFlag;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -50,22 +52,41 @@ public class AddEvent extends UserActivity
 
         //Set Time Spinner
         Spinner spinner = (Spinner) findViewById(R.id.spCategory);
+
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.category_array, android.R.layout.simple_spinner_item);
+
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+
+        saveFlag = false;
 
         setUpCalendarVars();
         setUpTheListeners();
 
     }
 
+    /**
+     * adds this event to our database
+     * @param view - the add event button
+     */
     public void addThisEvent(View view)
     {
-
+        //If the save button has already been hit, do not save duplicate data.
+        if(saveFlag)
+        {
+            //passive aggressively tell the user to chill.
+            Toast.makeText(this.getApplicationContext(),"Sending event to database, please wait.",Toast.LENGTH_LONG).show();
+            return;
+        }
+        else
+        {
+            saveFlag = true;
+        }
         EditText etName = ((EditText)findViewById(R.id.etName));
         EditText etDescription = ((EditText)findViewById(R.id.etDescription));
 
@@ -112,6 +133,10 @@ public class AddEvent extends UserActivity
         intent.putExtra("Toast","Your event has been added!");
         startActivity(intent);
     }
+
+    /**
+     * this function sets all of our private variables
+     */
     private void setUpCalendarVars(){
         mCal = Calendar.getInstance();
         startDay = mCal.get(Calendar.DAY_OF_MONTH);
@@ -135,21 +160,43 @@ public class AddEvent extends UserActivity
         tvAddress = (TextView) findViewById(R.id.etLocation);
     }
 
-    private void setUpTheListeners() {
+    /**
+     * gives each view on the screen a listener to update them.
+     */
+    private void setUpTheListeners()
+    {
         //set the text that's displayed initially
-        System.out.println((startMonth+1)+"/"+startDay +"/"+startYear);
+       // System.out.println((startMonth+1)+"/"+startDay +"/"+startYear);
         tvStartDate.setText((startMonth+1)+"/"+startDay +"/"+startYear);
-        tvStartTime.setText(startHour +":"+ startMin);
-        System.out.println((endMonth+1) +"/" + endDay+"/"+ endYear);
+        if(startHour <= 12) {
+            tvStartTime.setText(startHour + ":" + startMin);
+        }
+        else
+        {
+            tvStartDate.setText(startHour-12 + ":" + startMin);
+        }
+       // System.out.println((endMonth+1) +"/" + endDay+"/"+ endYear);
         tvEndDate.setText((endMonth+1) +"/" + endDay+"/"+ endYear);
-        tvEndTime.setText(endHour +":"+ endMin);
+        if(startHour <= 12) {
+            tvEndTime.setText(endHour + ":" + endMin);
+        }
+        else
+        {
+            tvEndTime.setText(endHour-12 + ":" + endMin);
+        }
 
         //do this when the start date is clicked
         tvStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v1) {
+            /**
+             * View v1 - start date
+             */
+            public void onClick(View v1)
+            {
+                //create a date picker
                 DatePickerDialog datePickerDialog = new DatePickerDialog(AddEvent.this,new DatePickerDialog.OnDateSetListener(){
                     @Override
+                    //once the user sets the date, apply that to our existing variables
                     public void onDateSet(DatePicker view1, int year1, int monthOfYear1, int dayOfMonth1) {
                         //Change the text shown
                         tvStartDate.setText((monthOfYear1+1)+"/"+dayOfMonth1+"/"+year1);
@@ -197,7 +244,12 @@ public class AddEvent extends UserActivity
                         else{
                             showMin = Integer.toString(min1);
                         }
-                        tvStartTime.setText(hour1+":"+showMin);
+                        if(hour1 <= 12) {
+                            tvStartTime.setText(hour1 + ":" + showMin);
+                        }
+                        else {
+                            tvStartTime.setText(hour1 - 12 + ":" + showMin);
+                        }
                         //change the variables
                         startHour = hour1;
                         startMin = min1;
@@ -222,7 +274,13 @@ public class AddEvent extends UserActivity
                         else{
                             showMin = Integer.toString(min2);
                         }
-                        tvEndTime.setText(hour2+":"+showMin);
+                        if(hour2 <= 12) {
+                            tvEndTime.setText(hour2 + ":" + showMin);
+                        }
+                        else
+                        {
+                            tvEndTime.setText(hour2-12 + ":" + showMin);
+                        }
                         //change the variables
                         endHour = hour2;
                         endMin = min2;
@@ -240,18 +298,24 @@ public class AddEvent extends UserActivity
         });
     }
 
-    //method to create place picker
+    /**
+     * This method loads a placepicker, which allows the users to select - either
+     * on a map, or with a search bar - where their event will be.
+     * @param PlacePickerRequest -
+     */
     private void LoadPlacePicker(int PlacePickerRequest)
     {
         try {
-
+            //try to go to the place picker screen
             PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
             Intent intent = intentBuilder.build(AddEvent.this);
             // Start the Intent by requesting a result, identified by a request code.
             startActivityForResult(intent, PlacePickerRequest);
 
 
-        } catch (GooglePlayServicesRepairableException e) {
+        }
+        //these both catch some google related errors we cannot control.
+        catch (GooglePlayServicesRepairableException e) {
             GooglePlayServicesUtil
                     .getErrorDialog(e.getConnectionStatusCode(), AddEvent.this, 0);
         } catch (GooglePlayServicesNotAvailableException e) {
@@ -261,8 +325,13 @@ public class AddEvent extends UserActivity
         }
     }
 
-    //get the results of an intent. If it's placepicker, we'll handle it,
-    //otherwise we have the original activity happen
+    /**
+     * get the results of an intent. If it's placepicker, we'll handle it,
+     * otherwise we have the original activity happen
+     * @param requestCode - where this screen sent the user
+     * @param resultCode - the result after the user returns from requestCode
+     * @param data - some data that is returned from that place
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_PLACE_PICKER) {

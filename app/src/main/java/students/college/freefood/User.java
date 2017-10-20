@@ -16,6 +16,7 @@ public class User implements Serializable
     private int m_radius;
     public HashMap<String,boolean[]> eventThoughts;
     private ArrayList<Integer> filters;
+
     User()
     {
         m_radius = 1;
@@ -26,6 +27,8 @@ public class User implements Serializable
             filters.add(0);
         }
     }
+
+    //getters
     public int getFilter(int index)
     {
         return filters.get(index);
@@ -34,9 +37,6 @@ public class User implements Serializable
     {
         return filters.size();
     }
-
-
-    //getters
     public int getRadius()
     {
         return m_radius;
@@ -99,6 +99,10 @@ public class User implements Serializable
         filters.set(index,i);
     }
 
+    /**
+     * Deletes the given event from the user's saved data if the info is no longer relevant
+     * @param event - the hash of an ffe
+     */
     private void saveSpace(String event)
     {
       if(!getFlaggedEvent(event) && !getLikedEvent(event))

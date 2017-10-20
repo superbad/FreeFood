@@ -30,34 +30,37 @@ public class NavigationMenu extends UserActivity
 
     private int radius;
     private final int MAX_MILES = 20;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_menu);
-        Intent i = getIntent();
         radius = m_user.getRadius();
         findTheViews();
-        if(i.getIntExtra("cbNone", 0) == 1){
+        if(m_user.getFilter(0) == 1){
             cbNone.setChecked(true);
         }
-        if(i.getIntExtra("cbRR", 0) == 1){
+        if(m_user.getFilter(1) == 1){
             cbRR.setChecked(true);
         }
-        if(i.getIntExtra("cbCE", 0) == 1){
+        if(m_user.getFilter(2)  == 1){
             cbCE.setChecked(true);
         }
-        if(i.getIntExtra("cbHH", 0) == 1){
+        if(m_user.getFilter(3)  == 1){
             cbHH.setChecked(true);
         }
-        if(i.getIntExtra("cbGL", 0) == 1){
+        if(m_user.getFilter(4)  == 1){
             cbGL.setChecked(true);
         }
-        if(i.getIntExtra("cbP", 0) == 1){
+        if(m_user.getFilter(5)  == 1){
             cbP.setChecked(true);
         }
     }
 
+    /**
+     * set variables for each of the different views on our screen
+     */
     public void findTheViews()
     {
         saveButton = (ImageView)findViewById(R.id.bSave);
@@ -102,6 +105,11 @@ public class NavigationMenu extends UserActivity
         cbP = (CheckBox)findViewById(R.id.cbPizza);
     }
 
+    /**
+     * Write the updated information from this screen to the user object
+     * Send the user back to MapsActivity
+     * @param view - save icon
+     */
     public void SaveClick(View view)
     {
         m_user.setRadius(radius);
@@ -110,6 +118,7 @@ public class NavigationMenu extends UserActivity
         {
             m_user.setFilters(i,0);
         }
+
         //let the object know which ones were enabled
         if(cbNone.isChecked())
         {
@@ -137,61 +146,7 @@ public class NavigationMenu extends UserActivity
         }
 
         writeUser();
-        /*
-        //System.out.println("I totally saved.");
 
-        try
-        {
-            cbNone = (CheckBox)findViewById(R.id.cbNone);
-            cbRR = (CheckBox)findViewById(R.id.cbRR);
-            cbCE = (CheckBox)findViewById(R.id.cbCampus);
-            cbGL = (CheckBox)findViewById(R.id.cbGreek);
-            cbHH = (CheckBox)findViewById(R.id.cbHappy);
-            cbP = (CheckBox)findViewById(R.id.cbPizza);
-
-            String string = Integer.toString(radius);
-            if(cbNone.isChecked()){
-                string = string + "\n1";
-            }
-            else{
-                string = string + "\n0";
-            }
-            if(cbRR.isChecked()){
-                string = string + "\n1";
-            }
-            else{
-                string = string + "\n0";
-            }
-            if(cbCE.isChecked()){
-                string = string + "\n1";
-            }
-            else{
-                string = string + "\n0";
-            }
-            if(cbHH.isChecked()){
-                string = string + "\n1";
-            }
-            else{
-                string = string + "\n0";
-            }
-            if(cbGL.isChecked()){
-                string = string + "\n1";
-            }
-            else{
-                string = string + "\n0";
-            }
-            if(cbP.isChecked()){
-                string = string + "\n1";
-            }
-            else{
-                string = string + "\n0";
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        */
         Intent i = new Intent(getApplicationContext(),MapsActivity.class);
         startActivity(i);
     }

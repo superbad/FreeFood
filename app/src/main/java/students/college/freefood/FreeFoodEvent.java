@@ -20,19 +20,6 @@ public class FreeFoodEvent implements Serializable{
     private int m_numLikes;
     private String m_hash;
 
-//    FreeFoodEvent() {
-//        m_name = "HackUMBC";
-//        m_description = "We made an app";
-//        m_startTime = "2017-10-08 10:00:00";
-//        m_endTime =m_startTime;
-//        m_lon = "-76.7";
-//        m_lat = "39.2";
-//        m_address = "1000 Hilltop Circle - ITE";
-//        m_category = "coolio";
-//        m_numLikes = 0;
-//
-//    }
-
     FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime, String address, String category, int likes, String hash) {
         m_name = name;
         m_lat = lat;
@@ -124,6 +111,11 @@ public class FreeFoodEvent implements Serializable{
     public int getLikes(){return m_numLikes;}
     public String getHash(){return m_hash;}
 
+    /**
+     * checks if this ffe is equal to another ffe, based on their hash
+     * @param other - another object
+     * @return - returns true if this shares its hash with another object
+     */
     @Override
     public boolean equals(Object other)
     {
@@ -135,15 +127,4 @@ public class FreeFoodEvent implements Serializable{
         return false;
     }
 
-//    @Override
-//    public int hashCode()
-//    {
-//        String ret = getHash();
-//        int retur = 0;
-//        for(int i = 0; i < ret.length(); i++)
-//        {
-//            retur += ret.charAt(i);
-//        }
-//        return retur;
-//    }
 }
