@@ -411,6 +411,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     {
         //this is the encompassing layout for all of the events to go in
         LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
+        layoutSpace.setBackgroundColor(Color.WHITE);
         mMap.clear();
         layoutSpace.removeAllViewsInLayout();
 
@@ -419,6 +420,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             //create a dummy layout to hold event info
             LinearLayout a = new LinearLayout(this);
             a.setOrientation(LinearLayout.HORIZONTAL);
+            a.setBackgroundColor(Color.WHITE);
             a.setMinimumHeight(200);
             a.setGravity(Gravity.CENTER);
             mlatLng = new LatLng(Double.parseDouble(ffeArray.get(i).getLat()), Double.parseDouble(ffeArray.get(i).getLon()));
@@ -436,8 +438,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             //create an image for each event
             ImageView imv = new ImageView(this);
             imv.setMinimumWidth(50);
-            imv.setMinimumHeight(50);
-            imv.setMaxHeight(50);
+            imv.setMinimumHeight(75);
+            imv.setMaxHeight(75);
             imv.setImageResource(ffeArray.get(i).getCategoryInt());
             imv.setId(i);
             imv.setOnClickListener(new View.OnClickListener() {
@@ -452,9 +454,25 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             // the name of the event (as a text view)
             TextView tv = new TextView(this);
             tv.setText(ffeArray.get(i).getName());
-            Log.d("i: "+ i, " array: "+ ffeArray.get(i).toString());
-            tv.setWidth(600);
-            tv.setHeight(50);
+            //if there are likes, there is less room for the name
+            if(ffeArray.get(i).getLikes() > 0)
+            {
+                tv.setWidth(300);
+                //shorten the string if it doesnt fit
+                if(tv.getText().length() > 15)
+                {
+                    tv.setText(tv.getText().toString().substring(0,12)+"...");
+                }
+            }
+            else
+            {
+                tv.setWidth(600);
+                if(tv.getText().length() > 30)
+                {
+                    tv.setText(tv.getText().toString().substring(0,25)+"...");
+                }
+            }
+            tv.setHeight(75);
             tv.setId(i);
             tv.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -465,6 +483,16 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             });
             a.addView(tv);
 
+
+            //if there are likes, show them
+            if(ffeArray.get(i).getLikes() > 0)
+            {
+                TextView t = new TextView(this);
+                t.setText("Likes: "+ffeArray.get(i).getLikes());
+                t.setHeight(75);
+                t.setWidth(300);
+                a.addView(t);
+            }
 
             //add a button here to get more details
             final Button eventButton = new Button(this);
@@ -490,132 +518,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         }
     }
 
-    /**
-     * a private class to get the events around you. OnPostExecute generated the ffe array and calls
-     * the generateEventList method
-     */
-    private class getEvents extends AsyncTask<String, String, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            HttpURLConnection connection = null;
-            HttpURLConnection connection2 = null;
-            BufferedReader reader = null;
-
-            try {
-                URL url = new URL(params[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setConnectTimeout(3000); //set timeout to 3 seconds
-                connection.connect();
-
-
-                InputStream stream = connection.getInputStream();
-
-                reader = new BufferedReader(new InputStreamReader(stream));
-
-                StringBuffer buffer = new StringBuffer();
-                String line = "";
-
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
-                    //Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
-
-                }
-
-                return buffer.toString();
-
-
-            } catch (java.net.SocketTimeoutException | UnknownHostException e) {
-                connection.disconnect();
-                try {
-                    URL url = new URL(params[0]);
-                    connection2 = (HttpURLConnection) url.openConnection();
-                    connection2.setConnectTimeout(3000); //set timeout to 3 seconds
-                    connection2.connect();
-
-                    InputStream stream = connection.getInputStream();
-                    reader = new BufferedReader(new InputStreamReader(stream));
-                    StringBuffer buffer = new StringBuffer();
-                    String line = "";
-                    while ((line = reader.readLine()) != null) {
-                        buffer.append(line + "\n");
-                        //Log.d("Response2: ", "> " + line);   //here youll get whole response
-                    }
-                }
-                catch (java.net.SocketTimeoutException | UnknownHostException e2) {
-                    e2.printStackTrace();
-                    newtworkIssues=1;
-                } catch (MalformedURLException e2) {
-                    e2.printStackTrace();
-                }catch (IOException e2) {
-                    e.printStackTrace();
-                } finally {
-                    if (connection2 != null) {
-                        connection.disconnect();
-                    }
-                    try {
-                        if (reader != null) {
-                            reader.close();
-                        }
-                    } catch (IOException e2) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if (reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-
-        protected void onPostExecute(String jsonStr)
-        {
-            if(newtworkIssues == 1)
-            {
-                //System.out.println("The Internet Failed!");
-                AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
-                builder.setMessage(R.string.failed)
-                        .setPositiveButton(R.string.tryAgain, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // FIRE ZE MISSILES!
-                            }
-                        });
-                // Create the AlertDialog object and return it
-                builder.create();
-                builder.show();
-
-            }
-            else {
-                //System.out.println("NETWORK SUCCESS");
-                try {
-                    JSONArray jsonarray = new JSONArray(jsonStr);
-                    ffeArray.clear();
-                    for (int i = 0; i < jsonarray.length(); i++) {
-                        JSONObject jsonobject = jsonarray.getJSONObject(i);
-                        ffeArray.add(new FreeFoodEvent(jsonobject.getString("EventName"), jsonobject.getString("Description"), jsonobject.getString("Lat"), jsonobject.getString("Lon"), jsonobject.getString("StartTime"), jsonobject.getString("EndTime"), jsonobject.getString("Address"), jsonobject.getString("Category"),jsonobject.getInt("Likes"), jsonobject.getString("Hash")));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                //Log.d("freeFoodEvents: ", "> " + ffeArray.toString());
-                generateEventList();
-            }
-        }
-    }
 
     /**
      * user clicks the add button, goes to addEvent
@@ -638,7 +540,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     {
         //regenerate the list.
         readUser();
-        generateEventList();
+        onLocationChanged(mLastLocation);
+        //generateEventList();
     }
 
 
@@ -681,4 +584,127 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         }
     }
 
+
+/**
+     * a private class to get the events around you. OnPostExecute generated the ffe array and calls
+     * the generateEventList method
+     */
+    private class getEvents extends AsyncTask<String, String, String> {
+
+    @Override
+    protected String doInBackground(String... params) {
+
+        HttpURLConnection connection = null;
+        HttpURLConnection connection2 = null;
+        BufferedReader reader = null;
+
+        try {
+            URL url = new URL(params[0]);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(3000); //set timeout to 3 seconds
+            connection.connect();
+
+
+            InputStream stream = connection.getInputStream();
+
+            reader = new BufferedReader(new InputStreamReader(stream));
+
+            StringBuffer buffer = new StringBuffer();
+            String line = "";
+
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line + "\n");
+                //Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
+
+            }
+
+            return buffer.toString();
+
+
+        } catch (java.net.SocketTimeoutException | UnknownHostException e) {
+            connection.disconnect();
+            try {
+                URL url = new URL(params[0]);
+                connection2 = (HttpURLConnection) url.openConnection();
+                connection2.setConnectTimeout(3000); //set timeout to 3 seconds
+                connection2.connect();
+
+                InputStream stream = connection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(stream));
+                StringBuffer buffer = new StringBuffer();
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line + "\n");
+                    //Log.d("Response2: ", "> " + line);   //here youll get whole response
+                }
+            } catch (java.net.SocketTimeoutException | UnknownHostException e2) {
+                e2.printStackTrace();
+                newtworkIssues = 1;
+            } catch (MalformedURLException e2) {
+                e2.printStackTrace();
+            } catch (IOException e2) {
+                e.printStackTrace();
+            } finally {
+                if (connection2 != null) {
+                    connection.disconnect();
+                }
+                try {
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } catch (IOException e2) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+
+    protected void onPostExecute(String jsonStr) {
+        if (newtworkIssues == 1) {
+            //System.out.println("The Internet Failed!");
+            AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+            builder.setMessage(R.string.failed)
+                    .setPositiveButton(R.string.tryAgain, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // FIRE ZE MISSILES!
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            builder.create();
+            builder.show();
+
+        } else {
+            //System.out.println("NETWORK SUCCESS");
+            try {
+                JSONArray jsonarray = new JSONArray(jsonStr);
+                ffeArray.clear();
+                for (int i = 0; i < jsonarray.length(); i++) {
+                    JSONObject jsonobject = jsonarray.getJSONObject(i);
+                    ffeArray.add(new FreeFoodEvent(jsonobject.getString("EventName"), jsonobject.getString("Description"), jsonobject.getString("Lat"), jsonobject.getString("Lon"), jsonobject.getString("StartTime"), jsonobject.getString("EndTime"), jsonobject.getString("Address"), jsonobject.getString("Category"), jsonobject.getInt("Likes"), jsonobject.getString("Hash")));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            //Log.d("freeFoodEvents: ", "> " + ffeArray.toString());
+            generateEventList();
+        }
+    }
+    }
 }

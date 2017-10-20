@@ -5,6 +5,7 @@ package students.college.freefood;
  */
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -45,17 +48,47 @@ public class EventList extends UserActivity
             //create an image for each event
             ImageView imv = new ImageView(this);
             imv.setMinimumWidth(50);
-            imv.setMinimumHeight(50);
-            imv.setMaxHeight(50);
+            imv.setMinimumHeight(75);
+            imv.setMaxHeight(75);
             imv.setImageResource(eventList.get(i).getCategoryInt());
             a.addView(imv);
 
             // the name of the event (as a text view)
             TextView tv = new TextView(this);
             tv.setText(eventList.get(i).getName());
-            tv.setWidth(600);
-            tv.setHeight(50);
+
+
+            //check if we are showing likes
+            if(eventList.get(i).getLikes() > 0)
+            {
+                tv.setWidth(300);
+                //Depending on likes, we have room for 11 character names
+                if(tv.getText().length() > 15)
+                {
+                    tv.setText(tv.getText().toString().substring(0,12)+"...");
+                }
+            }
+            else
+            {
+                tv.setWidth(600);
+                //Depending on likes, we have room for 11 character names
+                if(tv.getText().length() > 30)
+                {
+                    tv.setText(tv.getText().toString().substring(0,25)+"...");
+                }
+            }
+            tv.setHeight(75);
             a.addView(tv);
+
+            //if it had likes
+            if(eventList.get(i).getLikes() > 0) {
+                // how many likes it has
+                TextView numLikes = new TextView(this);
+                numLikes.setText("Likes:" + eventList.get(i).getLikes());
+                numLikes.setWidth(300);
+                numLikes.setHeight(75);
+                a.addView(numLikes);
+            }
 
             //add a button here to get more details
             final Button eventButton = new Button(this);
@@ -79,7 +112,7 @@ public class EventList extends UserActivity
 
             //this bufferes each dummy layout
             TextView tv2 = new TextView(this);
-            tv2.setHeight(50);
+            tv2.setHeight(75);
             layoutSpace.addView(tv2);
         }
     }

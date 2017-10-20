@@ -1,6 +1,8 @@
 package students.college.freefood;
 
+import java.io.InterruptedIOException;
 import java.io.Serializable;
+import java.util.StringTokenizer;
 
 /**
  * Created by Robert Bradshaw on 10/7/2017.
@@ -17,20 +19,25 @@ public class FreeFoodEvent implements Serializable{
     private String m_endTime;
     private String m_address;
     private String m_category;
-    private int m_numLikes;
     private String m_hash;
+
+    private int m_numLikes;
+
 
     FreeFoodEvent(String name, String descritpion, String lat, String lon, String startTime, String endTime, String address, String category, int likes, String hash) {
         m_name = name;
         m_lat = lat;
         m_lon = lon;
         m_description = descritpion;
-        m_endTime = endTime;
-        m_startTime = startTime;
+       // m_endTime = endTime;
+        //m_startTime = startTime;
         m_address = address;
         m_category = category;
         m_numLikes = likes;
         m_hash = hash;
+
+        m_startTime =  convertTime(startTime);
+        m_endTime = convertTime(endTime);
     }
 
     //FreeFoodEvent() //Make this one work with json data
@@ -125,6 +132,31 @@ public class FreeFoodEvent implements Serializable{
                 return true;
         }
         return false;
+    }
+
+    private String convertTime(String time)
+    {
+        StringTokenizer tok = new StringTokenizer(time,"- :");
+        String year = tok.nextToken();//year
+        String month = tok.nextToken();//month
+        String day = tok.nextToken();//day
+        int hours = Integer.parseInt(tok.nextToken());
+        String min = tok.nextToken();
+
+        String ampm = "am";
+        String newHours = "";
+        if(hours > 12)
+        {
+            hours -= 12;
+            ampm = "pm";
+        }
+        if(hours < 1)
+        {
+            hours = 12;
+        }
+        newHours = Integer.toString(hours);
+        time = year+"-"+month+"-"+day+" "+newHours+":"+min+" "+ampm;
+        return time;
     }
 
 }

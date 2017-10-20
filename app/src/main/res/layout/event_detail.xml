@@ -111,7 +111,7 @@
                 android:text="Flag This"
                 android:layout_alignBottom="@id/likedButton"
                 android:layout_alignParentRight="true"
-                android:onClick="flagEvent"
+                android:onClick="clickedFlagEvent"
                 android:id="@+id/flaggedButton"/>
         </RelativeLayout>
     </LinearLayout>
