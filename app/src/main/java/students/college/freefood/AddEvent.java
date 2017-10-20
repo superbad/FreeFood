@@ -41,7 +41,10 @@ public class AddEvent extends UserActivity
     private String name, description, location, category;
     private static final int REQUEST_PLACE_PICKER = 1;
 
-    private boolean saveFlag;
+    private boolean saveFlag; //true when they hit the save button, and could actually save
+    private boolean canBeSaved; //true if they didnt mess up entering info
+
+    private boolean clickedPlacePicker;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -64,6 +67,8 @@ public class AddEvent extends UserActivity
         spinner.setAdapter(adapter);
 
         saveFlag = false;
+        canBeSaved = false;
+        clickedPlacePicker = false;
 
         setUpCalendarVars();
         setUpTheListeners();
@@ -83,10 +88,7 @@ public class AddEvent extends UserActivity
             Toast.makeText(this.getApplicationContext(),"Sending event to database, please wait.",Toast.LENGTH_LONG).show();
             return;
         }
-        else
-        {
-            saveFlag = true;
-        }
+
         EditText etName = ((EditText)findViewById(R.id.etName));
         EditText etDescription = ((EditText)findViewById(R.id.etDescription));
 
@@ -122,13 +124,22 @@ public class AddEvent extends UserActivity
             tvAddress.setTextColor(Color.BLACK);
         }
         if(failed>0){
+            canBeSaved = false;
+            Toast.makeText(getApplicationContext(), "Missing some information!", Toast.LENGTH_SHORT).show();
             return;
         }
+        canBeSaved = true;
         new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
                 "add.php?name=%22" + name + "%22&lat=" + lat + "&long=" + lng + "&description=%22" + description +
                 "%22&" + "start=%22" +startTime+ "%22&end=%22" + endTime+ "%22&category=%22"+category+"%22&" +
                 "image=%22%22&address=%22" + location + "%22");
 
+        //this is done in case the ADD EVENT button doesnt automatically send them back
+        //we tell the app that they hit add, so they cannot add the same event again
+        if(canBeSaved)
+        {
+            saveFlag = true;
+        }
         Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
         intent.putExtra("Toast","Your event has been added!");
         startActivity(intent);
@@ -168,21 +179,37 @@ public class AddEvent extends UserActivity
         //set the text that's displayed initially
        // System.out.println((startMonth+1)+"/"+startDay +"/"+startYear);
         tvStartDate.setText((startMonth+1)+"/"+startDay +"/"+startYear);
-        if(startHour <= 12) {
-            tvStartTime.setText(startHour + ":" + startMin);
+
+        String stringMin = Integer.toString(startMin);
+        if(stringMin.length() < 2)
+        {
+            stringMin = "0"+stringMin;
+        }
+
+        if(startHour > 12) {
+            tvStartTime.setText(startHour-12 + ":" + stringMin+" pm");
+        }
+        else if(startHour > 0)
+        {
+            tvStartTime.setText(startHour + ":" + stringMin+" am");
         }
         else
         {
-            tvStartDate.setText(startHour-12 + ":" + startMin);
+            tvStartTime.setText("12:"+ stringMin+" am");
         }
+
        // System.out.println((endMonth+1) +"/" + endDay+"/"+ endYear);
         tvEndDate.setText((endMonth+1) +"/" + endDay+"/"+ endYear);
-        if(startHour <= 12) {
-            tvEndTime.setText(endHour + ":" + endMin);
+        if(endHour > 12) {
+            tvEndTime.setText(endHour-12 + ":" + endMin+" pm");
+        }
+        else if(endHour > 0)
+        {
+            tvEndTime.setText(endHour + ":" + endMin+" am");
         }
         else
         {
-            tvEndTime.setText(endHour-12 + ":" + endMin);
+            tvEndTime.setText("12:"+endMin+" am");
         }
 
         //do this when the start date is clicked
@@ -244,15 +271,22 @@ public class AddEvent extends UserActivity
                         else{
                             showMin = Integer.toString(min1);
                         }
-                        if(hour1 <= 12) {
-                            tvStartTime.setText(hour1 + ":" + showMin);
-                        }
-                        else {
-                            tvStartTime.setText(hour1 - 12 + ":" + showMin);
-                        }
+
                         //change the variables
                         startHour = hour1;
                         startMin = min1;
+
+                        if(startHour > 12) {
+                            tvStartTime.setText(startHour-12 + ":" + showMin+" pm");
+                        }
+                        else if(startHour > 0)
+                        {
+                            tvStartTime.setText(startHour + ":" + showMin+" am");
+                        }
+                        else
+                        {
+                            tvStartTime.setText("12:"+showMin+" am");
+                        }
                     }
                 }, startHour, startMin, true);
                 timePickerDialog.show();
@@ -274,16 +308,21 @@ public class AddEvent extends UserActivity
                         else{
                             showMin = Integer.toString(min2);
                         }
-                        if(hour2 <= 12) {
-                            tvEndTime.setText(hour2 + ":" + showMin);
-                        }
-                        else
-                        {
-                            tvEndTime.setText(hour2-12 + ":" + showMin);
-                        }
                         //change the variables
                         endHour = hour2;
                         endMin = min2;
+
+                        if(endHour > 12) {
+                            tvEndTime.setText(endHour-12 + ":" + showMin+" pm");
+                        }
+                        else if(endHour > 0)
+                        {
+                            tvEndTime.setText(endHour + ":" + showMin+" am");
+                        }
+                        else
+                        {
+                            tvEndTime.setText("12:"+showMin+" am");
+                        }
                     }
                 }, endHour, endMin, true);
                 timePickerDialog.show();
@@ -305,7 +344,12 @@ public class AddEvent extends UserActivity
      */
     private void LoadPlacePicker(int PlacePickerRequest)
     {
+        //dont let the user spam click this, it will cause a bunch of place pickers to open in succession
+        if(clickedPlacePicker)
+            return;
+
         try {
+            clickedPlacePicker = true;
             //try to go to the place picker screen
             PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
             Intent intent = intentBuilder.build(AddEvent.this);
@@ -342,6 +386,7 @@ public class AddEvent extends UserActivity
                 lat = place.getLatLng().latitude;
                 lng = place.getLatLng().longitude;
                 tvAddress.setText(place.getAddress());
+                clickedPlacePicker = false;
             }
         }
         else{
