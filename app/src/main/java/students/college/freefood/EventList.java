@@ -4,8 +4,11 @@ package students.college.freefood;
  * Created by Robert Bradshaw on 10/7/2017.
  */
 
+import android.app.backup.FullBackupDataOutput;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -24,20 +27,39 @@ import java.util.ArrayList;
  */
 public class EventList extends UserActivity
 {
+    private Button likeButton,allButton;
+    private ArrayList<FreeFoodEvent> fullList;
     private ArrayList<FreeFoodEvent> eventList;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_list_detail);
+        likeButton = findViewById(R.id.likeFilter);
+        allButton = findViewById(R.id.allFilter);
 
+        Intent intent = getIntent();
+        fullList = (ArrayList<FreeFoodEvent>)intent.getExtras().getSerializable("event");
+        eventList = new ArrayList<>();
+
+        for(int i = 0; i < fullList.size(); i++)
+        {
+            eventList.add(fullList.get(i));
+        }
+
+        buildList();
+
+
+
+    }
+
+    public void buildList()
+    {
         //the encompassing layout of this screen
         LinearLayout layoutSpace = (LinearLayout) findViewById(R.id.eventListLayout);
 
         layoutSpace.setDividerPadding(5);
 
-        Intent intent = getIntent();
-        eventList = (ArrayList<FreeFoodEvent>)intent.getExtras().getSerializable("event");
-
+        layoutSpace.removeAllViews();
         for(int i = 0; i < eventList.size(); i++ )
         {
             //create a dummy layout that will hold info about this event
@@ -102,7 +124,7 @@ public class EventList extends UserActivity
                     System.out.println(eventList.get(eventButton.getId()).getName());
                     FreeFoodEvent ffe = eventList.get(eventButton.getId());
                     i.putExtra("event", ffe);
-                    startActivity(i);
+                    startActivityForResult(i,view.getId());
                 }
             });
             a.addView(eventButton);
@@ -116,7 +138,6 @@ public class EventList extends UserActivity
             layoutSpace.addView(tv2);
         }
     }
-
     /**
      * sends user to the mapActivity screen
      * @param view - down arrow
@@ -125,5 +146,50 @@ public class EventList extends UserActivity
     {
         Intent i = new Intent(getApplicationContext(),MapsActivity.class);
         startActivity(i);
+    }
+
+    /**
+     * filters the events to show liked events, new events, or all of the events
+     * @param view - one of the three buttons
+     */
+    public void filterList(View view)
+    {
+
+        likeButton.setBackgroundColor(Color.GRAY);
+        allButton.setBackgroundColor(Color.GRAY);
+        view.setBackgroundColor(Color.GREEN);
+
+        eventList.clear();
+        if(((Button)view).getText().equals("ALL"))
+        {
+            for(int i = 0; i < fullList.size(); i++)
+            {
+                eventList.add(fullList.get(i));
+            }
+        }
+        else if(((Button)view).getText().equals("LIKED"))
+        {
+            for(int i = 0; i < fullList.size(); i++)
+            {
+                if(m_user.hasEvent(fullList.get(i).getHash()) && m_user.getLikedEvent(fullList.get(i).getHash()))
+                {
+                    eventList.add(fullList.get(i));
+                }
+            }
+        }
+
+        buildList();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        /**
+        System.out.println(requestCode);
+        System.out.println(resultCode);
+        System.out.println(data.getIntExtra("Likes",0));
+         */
+        Intent p = new Intent(getApplicationContext(), MapsActivity.class);
+        startActivity(p);
     }
 }

@@ -14,7 +14,7 @@ public class User implements Serializable
     private final int LIKED = 0;
     private final int FLAGGED = 1;
     private int m_radius;
-    public HashMap<String,boolean[]> eventThoughts;
+    private HashMap<String,boolean[]> eventThoughts;
     private ArrayList<Integer> filters;
 
     User()
@@ -99,6 +99,14 @@ public class User implements Serializable
         filters.set(index,i);
     }
 
+    public boolean hasEvent(String eventHash)
+    {
+        if(eventThoughts.containsKey(eventHash))
+        {
+            return true;
+        }
+        return false;
+    }
     /**
      * Deletes the given event from the user's saved data if the info is no longer relevant
      * @param event - the hash of an ffe

@@ -85,6 +85,8 @@ public class EventDetails extends UserActivity
      */
     public void returnToLast(View view)
     {
+        int likes = ffe.getLikes();
+        setResult(RESULT_OK, new Intent().putExtra("Likes",likes));
         finish();
     }
 
@@ -97,16 +99,19 @@ public class EventDetails extends UserActivity
         liked = !liked;
         if(liked)
         {
+            ffe.setLikes(ffe.getLikes()+1);
             likedButton.setBackgroundColor(Color.GREEN);
             new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
                     "like.php?hash=" + ffe.getHash());
         }
         else
         {
+            ffe.setLikes(ffe.getLikes()-1);
             likedButton.setBackgroundColor(Color.LTGRAY);
             new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
                     "unlike.php?hash=" + ffe.getHash());
         }
+
         m_user.setLikedEvent(ffe.getHash(),liked);
         writeUser();
     }

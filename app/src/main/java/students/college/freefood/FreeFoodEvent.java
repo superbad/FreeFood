@@ -134,6 +134,11 @@ public class FreeFoodEvent implements Serializable{
         return false;
     }
 
+    /**
+     * Takes a given time string and converts the hours to 12 times, with am and pm at end
+     * @param time - a military time
+     * @return - a normal am/pm time
+     */
     private String convertTime(String time)
     {
         StringTokenizer tok = new StringTokenizer(time,"- :");
