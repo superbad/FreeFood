@@ -30,28 +30,29 @@ public class EventList extends UserActivity
     private Button likeButton,allButton;
     private ArrayList<FreeFoodEvent> fullList;
     private ArrayList<FreeFoodEvent> eventList;
+    private int filterSelected; //0 if all, 1 if like (Could be more later)
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_list_detail);
         likeButton = findViewById(R.id.likeFilter);
         allButton = findViewById(R.id.allFilter);
-
+        filterSelected = 0;
         Intent intent = getIntent();
         fullList = (ArrayList<FreeFoodEvent>)intent.getExtras().getSerializable("event");
         eventList = new ArrayList<>();
 
-        for(int i = 0; i < fullList.size(); i++)
-        {
-            eventList.add(fullList.get(i));
-        }
-
+        buildAll();
         buildList();
 
 
 
     }
 
+    /**
+     * Builds the event list out of the full list of events
+     */
     public void buildList()
     {
         //the encompassing layout of this screen
@@ -162,34 +163,68 @@ public class EventList extends UserActivity
         eventList.clear();
         if(((Button)view).getText().equals("ALL"))
         {
-            for(int i = 0; i < fullList.size(); i++)
-            {
-                eventList.add(fullList.get(i));
-            }
+          buildAll();
         }
         else if(((Button)view).getText().equals("LIKED"))
         {
-            for(int i = 0; i < fullList.size(); i++)
-            {
-                if(m_user.hasEvent(fullList.get(i).getHash()) && m_user.getLikedEvent(fullList.get(i).getHash()))
-                {
-                    eventList.add(fullList.get(i));
-                }
-            }
+           buildLikes();
         }
 
         buildList();
     }
 
+    /**
+     * Build the event list with all events
+     */
+    private void buildAll()
+    {
+        for(int i = 0; i < fullList.size(); i++)
+        {
+            eventList.add(fullList.get(i));
+        }
+    }
+
+    /**
+     * Build the event list, only keep events the user liked
+     */
+    public void buildLikes()
+    {
+        for(int i = 0; i < fullList.size(); i++)
+        {
+            if(m_user.hasEvent(fullList.get(i).getHash()) && m_user.getLikedEvent(fullList.get(i).getHash()))
+            {
+                eventList.add(fullList.get(i));
+            }
+        }
+    }
+
+    /**
+     * when we get back here from EventDetails, there is some work needed to update the like values
+     * @param requestCode - the code sent to event details (the button id that sent us there)
+     * @param resultCode - just checks that everythign went ok in event details
+     * @param data - data taht event details sends back (number of likes)
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        /**
-        System.out.println(requestCode);
-        System.out.println(resultCode);
-        System.out.println(data.getIntExtra("Likes",0));
-         */
-        Intent p = new Intent(getApplicationContext(), MapsActivity.class);
-        startActivity(p);
+        //get updated like data for filtering
+        readUser();
+
+        //update like here, without having to query
+        fullList.get(requestCode).setLikes(data.getIntExtra("Likes",fullList.get(requestCode).getLikes()));
+        eventList.clear();
+
+        //show the user what they wanted to filter
+        if(filterSelected == 0)
+        {
+            buildAll();
+        }
+        else
+        {
+            buildLikes();
+        }
+
+        //rebuild the event list
+        buildList();
     }
 }

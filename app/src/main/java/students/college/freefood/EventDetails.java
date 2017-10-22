@@ -85,15 +85,23 @@ public class EventDetails extends UserActivity
      */
     public void returnToLast(View view)
     {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
         int likes = ffe.getLikes();
-        setResult(RESULT_OK, new Intent().putExtra("Likes",likes));
+        Intent i = new Intent(getApplicationContext(),EventList.class);
+        i.putExtra("Likes",likes);
+        setResult(0,i);
         finish();
     }
 
-    /**
-     * Will increment the number of likes this event has in the db
-     * @param view - like button
-     */
+        /**
+         * Will increment the number of likes this event has in the db
+         * @param view - like button
+         */
     public void clickedGreatEvent(View view)
     {
         liked = !liked;
