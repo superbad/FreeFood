@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 
 /**
  * Created by Robert Bradshaw on 10/7/2017.
@@ -24,6 +28,7 @@ public class EventDetails extends UserActivity
     Button flaggedButton;
     boolean liked;
     boolean flagged;
+    private AdView mAdView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
@@ -37,6 +42,14 @@ public class EventDetails extends UserActivity
 
         likedButton = (Button)findViewById(R.id.likedButton);
         flaggedButton = (Button)findViewById(R.id.flaggedButton);
+
+        MobileAds.initialize(this, "ca-app-pub-6153564065949295~3246609206");
+        mAdView = (AdView) findViewById(R.id.ad_view);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("246CAC462C6CC8310A2951206014F34F")
+                .build();
+        // Start loading the ad in the background.
+        mAdView.loadAd(adRequest);
 
         updateLayout();
     }

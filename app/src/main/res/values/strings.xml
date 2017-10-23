@@ -4,6 +4,11 @@
     <string name="failed">Network Failure</string>
     <string name="tryAgain">Lol keep going anyways</string>
     <string name="cancel">Cancel</string>
+    <string name="banner_ad_unit_id">ca-app-pub-6153564065949295/2416743263</string>
+    <string name="banner_ad_unit_list_id">ca-app-pub-6153564065949295/4159471283</string>
+    <string name="banner_ad_unit_settings_id">ca-app-pub-6153564065949295/2503732549</string>
+    <string name="banner_ad_unit_details_id">ca-app-pub-6153564065949295/2516051272</string>
+    <string name="banner_ad_unit_add_id">ca-app-pub-6153564065949295/3138991513</string>
     <string-array name="category_array">
         <item>None</item>
         <item>Registration Required</item>

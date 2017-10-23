@@ -10,6 +10,10 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 /**
  * Created by Robert Bradshaw on 10/7/2017.
  */
@@ -30,6 +34,7 @@ public class NavigationMenu extends UserActivity
 
     private int radius;
     private final int MAX_MILES = 20;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -56,6 +61,14 @@ public class NavigationMenu extends UserActivity
         if(m_user.getFilter(5)  == 1){
             cbP.setChecked(true);
         }
+
+        MobileAds.initialize(this, "ca-app-pub-6153564065949295~3246609206");
+        mAdView = (AdView) findViewById(R.id.ad_view);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("246CAC462C6CC8310A2951206014F34F")
+                .build();
+        // Start loading the ad in the background.
+        mAdView.loadAd(adRequest);
     }
 
     /**

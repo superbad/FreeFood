@@ -18,6 +18,9 @@ import java.util.Calendar;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -45,6 +48,7 @@ public class AddEvent extends UserActivity
     private boolean canBeSaved; //true if they didnt mess up entering info
 
     private boolean clickedPlacePicker;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -69,6 +73,14 @@ public class AddEvent extends UserActivity
         saveFlag = false;
         canBeSaved = false;
         clickedPlacePicker = false;
+
+        MobileAds.initialize(this, "ca-app-pub-6153564065949295~3246609206");
+        mAdView = (AdView) findViewById(R.id.ad_view);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("246CAC462C6CC8310A2951206014F34F")
+                .build();
+        // Start loading the ad in the background.
+        mAdView.loadAd(adRequest);
 
         setUpCalendarVars();
         setUpTheListeners();

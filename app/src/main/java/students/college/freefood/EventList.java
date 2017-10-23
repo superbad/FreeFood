@@ -17,6 +17,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -31,6 +35,7 @@ public class EventList extends UserActivity
     private ArrayList<FreeFoodEvent> fullList;
     private ArrayList<FreeFoodEvent> eventList;
     private int filterSelected; //0 if all, 1 if like (Could be more later)
+    private AdView mAdView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +47,14 @@ public class EventList extends UserActivity
         Intent intent = getIntent();
         fullList = (ArrayList<FreeFoodEvent>)intent.getExtras().getSerializable("event");
         eventList = new ArrayList<>();
+
+        MobileAds.initialize(this, "ca-app-pub-6153564065949295~3246609206");
+        mAdView = (AdView) findViewById(R.id.ad_view);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("246CAC462C6CC8310A2951206014F34F")
+                .build();
+        // Start loading the ad in the background.
+        mAdView.loadAd(adRequest);
 
         buildAll();
         buildList();

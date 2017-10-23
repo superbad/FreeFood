@@ -22,6 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -56,6 +59,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnInfoWindowClickListener,
+//        GoogleMap.OnInfoWindowCloseListener,
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -78,6 +83,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private int newtworkIssues = 0; //0 if no network issues, 1 if network issues
     private User m_user;
     private LinearLayout m_preLayoutSpace;
+    private AdView mAdView;
 
 
     /**
@@ -90,7 +96,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         setContentView(R.layout.activity_maps);
 
         readUser();
-
 
         Intent intent = getIntent();
         //try to get a toast message from whatever sent you here
@@ -117,6 +122,15 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         mapFragment.getMapAsync(this);
 
         keyPrivateVariablesToLayout();
+        MobileAds.initialize(this, "ca-app-pub-6153564065949295~3246609206");
+        mAdView = (AdView) findViewById(R.id.ad_view);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("246CAC462C6CC8310A2951206014F34F")
+                .build();
+
+        // Start loading the ad in the background.
+        mAdView.loadAd(adRequest);
+
     }
 
     /**
@@ -129,7 +143,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 //        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mlatLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
-//        mMap.setOnInfoWindowClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
 //        mMap.setOnInfoWindowCloseListener(this);
         mMap.setOnMarkerClickListener(this);
 
@@ -374,6 +388,19 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         return false;
     }
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        LinearLayout layoutSpace = (LinearLayout)findViewById(R.id.mainEventListLayout);
+        LinearLayout a = layoutSpace.findViewWithTag(marker);
+//        layoutSpace.removeView(a);
+//        a.setBackgroundColor(Color.LTGRAY);
+//        layoutSpace.addView(a, 0);
+//        a.findViewsWithText("Details")[0].click();
+        Button b = a.findViewWithTag("Details");
+        b.performClick();
+    }
+
+
 
     /**
      * This is a quick function for initializing the variables of this class to the
@@ -497,6 +524,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             //add a button here to get more details
             final Button eventButton = new Button(this);
             eventButton.setId(i);
+            eventButton.setTag("Details");
             eventButton.setText("Details");
 
             //when someone clicks this details button, they go to EventDetails
