@@ -93,6 +93,7 @@ public class AddEvent extends UserActivity
      */
     public void addThisEvent(View view)
     {
+        view.setEnabled(false);
         //If the save button has already been hit, do not save duplicate data.
         if(saveFlag)
         {

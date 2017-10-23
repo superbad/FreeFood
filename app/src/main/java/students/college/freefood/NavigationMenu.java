@@ -125,6 +125,7 @@ public class NavigationMenu extends UserActivity
      */
     public void SaveClick(View view)
     {
+        view.setEnabled(false);
         m_user.setRadius(radius);
         //initialize the new set to 0
         for(int i = 0;i < m_user.getFilterLength(); i++)
