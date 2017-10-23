@@ -65,7 +65,7 @@ public class NavigationMenu extends UserActivity
         MobileAds.initialize(this, "ca-app-pub-6153564065949295~3246609206");
         mAdView = (AdView) findViewById(R.id.ad_view);
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("246CAC462C6CC8310A2951206014F34F")
+                .addTestDevice("57BAA04D839C980E2F9720252A22323C")
                 .build();
         // Start loading the ad in the background.
         mAdView.loadAd(adRequest);

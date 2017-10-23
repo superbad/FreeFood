@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -26,6 +27,9 @@ public class EventDetails extends UserActivity
     private FreeFoodEvent ffe;
     Button likedButton;
     Button flaggedButton;
+    ImageView categoryIcon;
+    TextView categoryText;
+
     boolean liked;
     boolean flagged;
     private AdView mAdView;
@@ -42,6 +46,12 @@ public class EventDetails extends UserActivity
 
         likedButton = (Button)findViewById(R.id.likedButton);
         flaggedButton = (Button)findViewById(R.id.flaggedButton);
+
+        categoryIcon = (ImageView)findViewById(R.id.eventTypeIcon);
+        categoryText = (TextView)findViewById(R.id.eventTypeText);
+
+        categoryIcon.setImageResource(ffe.getCategoryInt());
+        categoryText.setText("    "+ffe.getCategory());
 
         MobileAds.initialize(this, "ca-app-pub-6153564065949295~3246609206");
         mAdView = (AdView) findViewById(R.id.ad_view);
