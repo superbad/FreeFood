@@ -10,7 +10,7 @@
     <string name="banner_ad_unit_details_id">ca-app-pub-6153564065949295/2516051272</string>
     <string name="banner_ad_unit_add_id">ca-app-pub-6153564065949295/3138991513</string>
     <string-array name="category_array">
-        <item>None</item>
+        <item>Everyone</item>
         <item>Registration Required</item>
         <item>Campus Event</item>
         <item>Happy Hour</item>
