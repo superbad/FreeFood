@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -93,7 +95,6 @@ public class AddEvent extends UserActivity
      */
     public void addThisEvent(View view)
     {
-        view.setEnabled(false);
         //If the save button has already been hit, do not save duplicate data.
         if(saveFlag)
         {
@@ -139,6 +140,20 @@ public class AddEvent extends UserActivity
         if(failed>0){
             canBeSaved = false;
             Toast.makeText(getApplicationContext(), "Missing some information!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(!valiDate())
+        {
+            canBeSaved = false;
+            Toast.makeText(getApplicationContext(),"Invalid end date!",Toast.LENGTH_SHORT).show();
+            tvEndDate.setTextColor(Color.RED);
+            return;
+        }
+        if(!valiTime())
+        {
+            canBeSaved = false;
+            Toast.makeText(getApplicationContext(),"Invalid end time!",Toast.LENGTH_SHORT).show();
+            tvEndTime.setTextColor(Color.RED);
             return;
         }
         canBeSaved = true;
@@ -215,20 +230,25 @@ public class AddEvent extends UserActivity
         }
 
        // System.out.println((endMonth+1) +"/" + endDay+"/"+ endYear);
+        stringMin = Integer.toString(endMin);
+        if(stringMin.length() < 2)
+        {
+            stringMin = "0"+stringMin;
+        }
         tvEndDate.setText((endMonth+1) +"/" + endDay+"/"+ endYear);
         if(endHour > 12) {
-            tvEndTime.setText(endHour-12 + ":" + endMin+" pm");
+            tvEndTime.setText(endHour-12 + ":" + stringMin +" pm");
         }
         else if(endHour > 0 && endHour != 12)
         {
-            tvEndTime.setText(endHour + ":" + endMin+" am");
+            tvEndTime.setText(endHour + ":" + stringMin +" am");
         }
         else
         {
             String ampm = "am";
             if(endHour == 12)
                 ampm = "pm";
-            tvEndTime.setText("12:"+endMin+" "+ampm);
+            tvEndTime.setText("12:"+stringMin+" "+ampm);
         }
 
         //do this when the start date is clicked
@@ -252,6 +272,7 @@ public class AddEvent extends UserActivity
                         startYear = year1;
                     }
                 }, startYear, startMonth, startDay);
+                tvStartDate.setTextColor(Color.BLACK);
                 datePickerDialog.show();
             }
         });
@@ -416,7 +437,66 @@ public class AddEvent extends UserActivity
         else{
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
 
+    /**
+     *
+     * @return - returns false if date is invalid
+     */
+    private boolean valiDate()
+    {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = df.format(Calendar.getInstance().getTime());
+        //System.out.println(currentDate);
+        int currentYear = Integer.parseInt(currentDate.substring(0,4));
+        int currentMonth = Integer.parseInt(currentDate.substring(5,7));
+        int currentDay = Integer.parseInt(currentDate.substring(8,10));
+        //System.out.println("End: "+endYear+"-"+endMonth+"-"+endDay);
+        if(currentYear > endYear)
+        {
+            return false;
+        }
+        else if(currentMonth > (endMonth+1))
+        {
+            return false;
+        }
+        else if(currentDay > endDay)
+        {
+            return false;
+        }
+        return true;
+    }
 
+    /**
+     * @return - false if the time is invalid
+     */
+    private boolean valiTime()
+    {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = df.format(Calendar.getInstance().getTime());
+
+        int currentYear = Integer.parseInt(currentDate.substring(0,4));
+        int currentMonth = Integer.parseInt(currentDate.substring(5,7));
+        int currentDay = Integer.parseInt(currentDate.substring(8,10));
+
+        //the endTime only matters if the event ends on the current day
+        if(currentYear == endYear && currentMonth == (endMonth+1) && currentDay == endDay)
+        {
+            DateFormat df1 = new SimpleDateFormat("HH:mm");
+            String currentTime = df1.format(Calendar.getInstance().getTime());
+            int currentHour = Integer.parseInt(currentTime.substring(0,2));
+            int currentMin = Integer.parseInt(currentTime.substring(3,5));
+
+            //System.out.println(currentTime);
+            if(currentHour > endHour)
+            {
+                return false;
+            }
+            else if(currentMin > endMin)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
