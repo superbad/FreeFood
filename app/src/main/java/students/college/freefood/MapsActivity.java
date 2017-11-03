@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
@@ -174,7 +175,29 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             mMap.setMyLocationEnabled(true);
         }
 
+        final LocationManager manager = (LocationManager) getSystemService( getApplicationContext().LOCATION_SERVICE );
 
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            buildAlertMessageNoGps();
+        }
+
+    }
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 
     /**
