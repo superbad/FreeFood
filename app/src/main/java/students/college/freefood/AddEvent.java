@@ -431,7 +431,7 @@ public class AddEvent extends UserActivity
         if (requestCode == REQUEST_PLACE_PICKER) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
-                String toastMsg = String.format("Sender Place: %s", place.getName());
+                String toastMsg = String.format("Location: %s", place.getName());
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
                 lat = place.getLatLng().latitude;
                 lng = place.getLatLng().longitude;
