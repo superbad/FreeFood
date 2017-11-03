@@ -99,7 +99,7 @@ public class EventList extends UserActivity
             {
                 tv.setWidth(300);
                 //Depending on likes, we have room for 11 character names
-                if(tv.getText().length() > 15)
+                if(tv.getText().length() >= 15)
                 {
                     tv.setText(tv.getText().toString().substring(0,12)+"...");
                 }
@@ -108,7 +108,7 @@ public class EventList extends UserActivity
             {
                 tv.setWidth(600);
                 //Depending on likes, we have room for 11 character names
-                if(tv.getText().length() > 30)
+                if(tv.getText().length() >= 30)
                 {
                     tv.setText(tv.getText().toString().substring(0,25)+"...");
                 }

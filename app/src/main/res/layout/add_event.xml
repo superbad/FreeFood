@@ -34,6 +34,7 @@
         android:paddingTop="10dp"
         android:textSize="20dp"
         android:hint="Name"
+        android:maxLength="30"
         android:id="@+id/etName"/>
 
     <EditText
@@ -47,6 +48,7 @@
         android:paddingTop="10dp"
         android:hint="Description"
         android:textSize="20dp"
+        android:maxLength="140"
         android:id="@+id/etDescription"/>
 
     <TextView

@@ -509,7 +509,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             {
                 tv.setWidth(300);
                 //shorten the string if it doesnt fit
-                if(tv.getText().length() > 15)
+                if(tv.getText().length() >= 15)
                 {
                     tv.setText(tv.getText().toString().substring(0,12)+"...");
                 }
@@ -517,7 +517,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             else
             {
                 tv.setWidth(600);
-                if(tv.getText().length() > 30)
+                if(tv.getText().length() >= 30)
                 {
                     tv.setText(tv.getText().toString().substring(0,25)+"...");
                 }

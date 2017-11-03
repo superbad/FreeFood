@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -153,11 +154,12 @@ public class EventDetails extends UserActivity
      */
     public void clickedFlagEvent(View view)
     {
-        if(!flagged) {
-            new AlertDialog.Builder(this)
+        if(!flagged)
+        {
+         /*   new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Flagging Event")
-                    .setMessage("Are you sure you want to flag this event?")
+                    .setMessage("An event with enough flags is deleted.\nAre you sure you wish to flag this event?")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -167,6 +169,22 @@ public class EventDetails extends UserActivity
                     })
                     .setNegativeButton("No", null)
                     .show();
+           */
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Flagging Event");
+            builder.setMessage("An event with enough\nflags is deleted.\n\nAre you sure you wish\nto flag this event?");
+            builder.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    flagEvent();
+                }
+
+            });
+            builder.setNegativeButton("No",null);
+            AlertDialog dialog = builder.show();
+            TextView messageText = (TextView)dialog.findViewById(android.R.id.message);
+            messageText.setGravity(Gravity.CENTER);
+            dialog.show();
         }
         else
         {
