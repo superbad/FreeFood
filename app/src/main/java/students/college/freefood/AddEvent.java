@@ -137,11 +137,15 @@ public class AddEvent extends UserActivity
         else{
             tvAddress.setTextColor(Color.BLACK);
         }
+
+        //validate the name/location/description
         if(failed>0){
             canBeSaved = false;
             Toast.makeText(getApplicationContext(), "Missing some information!", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        //validate the enddate
         if(!valiDate())
         {
             canBeSaved = false;
@@ -149,6 +153,7 @@ public class AddEvent extends UserActivity
             tvEndDate.setTextColor(Color.RED);
             return;
         }
+        //validate the endtime
         if(!valiTime())
         {
             canBeSaved = false;
@@ -224,7 +229,7 @@ public class AddEvent extends UserActivity
         else
         {
             String ampm = "am";
-            if(endHour == 12)
+            if(startHour == 12)
                 ampm = "pm";
             tvStartTime.setText("12:"+ stringMin+" "+ampm);
         }
@@ -487,12 +492,14 @@ public class AddEvent extends UserActivity
             int currentHour = Integer.parseInt(currentTime.substring(0,2));
             int currentMin = Integer.parseInt(currentTime.substring(3,5));
 
+            System.out.println("WE HAVE: CURRENT = "+currentHour+":"+currentMin+"\n but we want that less tahn\n"+endHour+":"+endMin);
+
             //System.out.println(currentTime);
             if(currentHour > endHour)
             {
                 return false;
             }
-            else if(currentMin > endMin)
+            else if(currentHour == endHour && currentMin > endMin)
             {
                 return false;
             }
