@@ -133,14 +133,14 @@ public class EventDetails extends UserActivity
         {
             ffe.setLikes(ffe.getLikes()+1);
             likedButton.setBackgroundColor(Color.GREEN);
-            new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
+            new API.hitPage().execute(getApplicationContext().getString(R.string.ip) +
                     "like.php?hash=" + ffe.getHash());
         }
         else
         {
             ffe.setLikes(ffe.getLikes()-1);
             likedButton.setBackgroundColor(Color.LTGRAY);
-            new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
+            new API.hitPage().execute(getApplicationContext().getString(R.string.ip) +
                     "unlike.php?hash=" + ffe.getHash());
         }
 
@@ -210,13 +210,13 @@ public class EventDetails extends UserActivity
         if(flagged)
         {
             flaggedButton.setBackgroundColor(Color.RED);
-            new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
+            new API.hitPage().execute(getApplicationContext().getString(R.string.ip) +
                     "report.php?hash=" + ffe.getHash());
         }
         else
         {
             flaggedButton.setBackgroundColor(Color.LTGRAY);
-            new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
+            new API.hitPage().execute(getApplicationContext().getString(R.string.ip) +
                     "unreport.php?hash=" + ffe.getHash());
         }
         m_user.setFlaggedEvent(ffe.getHash(),flagged);

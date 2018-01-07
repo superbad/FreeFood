@@ -278,7 +278,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             }
 
         }
-        new getEvents().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/get.php?lat=" +
+        new getEvents().execute(getApplicationContext().getString(R.string.ip) + "get.php?lat=" +
                 mlatLng.latitude + "&long=" + mlatLng.longitude + "&distance=" + mdistance + filter);
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mlatLng));

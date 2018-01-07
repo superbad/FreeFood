@@ -162,7 +162,11 @@ public class AddEvent extends UserActivity
             return;
         }
         canBeSaved = true;
-        new API.hitPage().execute("http://ec2-54-226-112-134.compute-1.amazonaws.com/" +
+        System.out.println(getApplicationContext().getString(R.string.ip) +
+                "add.php?name=%22" + name + "%22&lat=" + lat + "&long=" + lng + "&description=%22" + description +
+                "%22&" + "start=%22" +startTime+ "%22&end=%22" + endTime+ "%22&category=%22"+category+"%22&" +
+                "image=%22%22&address=%22" + location + "%22");
+        new API.hitPage().execute(getApplicationContext().getString(R.string.ip) +
                 "add.php?name=%22" + name + "%22&lat=" + lat + "&long=" + lng + "&description=%22" + description +
                 "%22&" + "start=%22" +startTime+ "%22&end=%22" + endTime+ "%22&category=%22"+category+"%22&" +
                 "image=%22%22&address=%22" + location + "%22");
