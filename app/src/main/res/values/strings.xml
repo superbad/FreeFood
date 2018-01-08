@@ -2,7 +2,7 @@
     <string name="app_name">FreeFood</string>
     <string name="title_activity_maps">FreeFood</string>
     <string name="failed">Network Failure</string>
-    <string name="tryAgain">Lol keep going anyways</string>
+    <string name="tryAgain">Continue</string>
     <string name="cancel">Cancel</string>
     <string name="banner_ad_unit_id">ca-app-pub-6153564065949295/2416743263</string>
     <string name="banner_ad_unit_list_id">ca-app-pub-6153564065949295/4159471283</string>
